@@ -41,6 +41,7 @@ import {
   saveInvoiceSettings,
   listCustomerOrders,
   listOrderItems,
+  listProjectOrderItems,
 } from "@/features/finance/finance-repository";
 import type { CustomerOrder, InvoiceSettings } from "@/features/finance/finance-repository";
 
@@ -123,25 +124,33 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
   }, [projectId]);
 
   useEffect(() => {
+    if (!projectId) {
+      setItems([]);
+      return;
+    }
+    if (documentType === "nota") {
+      listProjectOrderItems(Number(projectId)).then(setItems).catch(console.error);
+      return;
+    }
     if (!orderId) {
       setItems([]);
       return;
     }
     listOrderItems(Number(orderId)).then(setItems).catch(console.error);
-  }, [orderId]);
+  }, [documentType, orderId, projectId]);
 
   const generate = async () => {
-    if (!selectedProject || !orderId) {
+    if (!selectedProject || (documentType === "invoice" && !orderId)) {
       setFeedback(
         projects.length
-          ? "Pilih project dan pesanan terlebih dahulu."
+          ? documentType === "invoice" ? "Pilih project dan pesanan terlebih dahulu." : "Pilih project terlebih dahulu."
           : "Belum ada project. Tambahkan project terlebih dahulu.",
       );
       return;
     }
     const number = await generateInvoice(
       selectedProject.id,
-      Number(orderId),
+      documentType === "invoice" ? Number(orderId) : null,
       documentType,
       settings.invoice_prefix,
       items,
@@ -243,7 +252,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
           <CardHeader>
             <CardTitle>Buat Invoice</CardTitle>
             <CardDescription>
-              Pilih project dan pesanan untuk membuat satu invoice atau nota.
+              Pilih project. Invoice dibuat per pesanan, sedangkan Nota berisi seluruh pesanan project.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
@@ -265,21 +274,22 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <Select value={orderId} onValueChange={setOrderId} disabled={!projectId}>
-              <SelectTrigger>
-                <SelectValue placeholder="Pilih pesanan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {orders.map((order) => (
-                    <SelectItem key={order.id} value={String(order.id)}>
-                      {order.customer_name} · {rupiah(order.total_amount)}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-<Button
+            {documentType === "invoice" && (
+              <Select value={orderId} onValueChange={setOrderId} disabled={!projectId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih pesanan" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {orders.map((order) => (
+                      <SelectItem key={order.id} value={String(order.id)}>
+                        {order.customer_name} · {rupiah(order.total_amount)}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}<Button
               onClick={() =>
                 generate()
                   .then(() => setFeedback("Invoice berhasil dibuat."))
@@ -291,7 +301,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
               <FileText data-icon="inline-start" />
               Generate {documentType === "invoice" ? "Invoice" : "Nota"}
             </Button>
-            {selectedProject && orderId && (
+            {selectedProject && (
               <p className="text-sm text-muted-foreground">
                 {items.length} item pesanan Â· {rupiah(total)}
               </p>
