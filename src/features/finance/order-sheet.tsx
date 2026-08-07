@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import {
   listCustomerOrders,
   saveCustomerOrder,
   saveOrderItem,
+  syncOrderIncome,
 } from "@/features/finance/finance-repository";
 import type { CustomerOrder } from "@/features/finance/finance-repository";
 
@@ -64,6 +65,12 @@ export function OrderSheet({
       name.trim(),
       Number(quantity),
       Number(price),
+    );
+    await syncOrderIncome(
+      Number(projectId),
+      Number(orderId),
+      name.trim(),
+      Number(quantity) * Number(price),
     );
     setName("");
     setQuantity("1");

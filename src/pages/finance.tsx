@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ReceiptText, WalletCards } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,6 +19,7 @@ import {
 import {
   listExpenseTransactions,
   listIncomeTransactions,
+  syncExistingOrderIncomes,
 } from "@/features/finance/finance-repository";
 import type { IncomeTransaction } from "@/features/finance/finance-repository";
 import { listProjects } from "@/features/project/project-repository";
@@ -109,11 +110,11 @@ export default function FinancePage() {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    Promise.all([
+    syncExistingOrderIncomes().then(() => Promise.all([
       listProjects(),
       listIncomeTransactions(),
       listExpenseTransactions(),
-    ])
+    ]))
       .then(([projectRows, incomeRows, expenseRows]) => {
         setProjects(projectRows);
         setIncomes(incomeRows);

@@ -245,6 +245,38 @@ export async function saveOrderItem(orderId: number, description: string, quanti
   );
 }
 
+export async function syncOrderIncome(
+  projectId: number,
+  orderId: number,
+  orderName: string,
+  amount: number,
+) {
+  const database = await db();
+  const result = await database.execute(
+    "UPDATE transactions SET installment_name = $1, amount = $2, notes = $3 WHERE order_id = $4 AND type = 'income'",
+    ["Pesanan", amount, `Pesanan: ${orderName}`, orderId],
+  );
+
+  if (result.rowsAffected > 0) return;
+
+  await database.execute(
+    "INSERT INTO transactions (project_id, order_id, type, installment_name, amount, transaction_date, notes) VALUES ($1, $2, 'income', $3, $4, date('now'), $5)",
+    [projectId, orderId, "Pesanan", amount, `Pesanan: ${orderName}`],
+  );
+}
+export async function syncExistingOrderIncomes() {
+  const rows = await (await db()).select<
+    { project_id: number; order_id: number; order_name: string; amount: number }[]
+  >(
+    "SELECT customer_orders.project_id, customer_orders.id AS order_id, customer_orders.customer_name AS order_name, COALESCE(SUM(order_items.quantity * order_items.unit_price), 0) AS amount FROM customer_orders LEFT JOIN order_items ON order_items.order_id = customer_orders.id GROUP BY customer_orders.id",
+  );
+
+  await Promise.all(
+    rows.map((order) =>
+      syncOrderIncome(order.project_id, order.order_id, order.order_name, order.amount),
+    ),
+  );
+}
 export async function updateCustomerOrder(
   orderId: number,
   itemId: number | null,
@@ -265,10 +297,22 @@ export async function updateCustomerOrder(
   } else {
     await saveOrderItem(orderId, name, quantity, amount);
   }
+  const items = await listOrderItems(orderId);
+  const order = await database.select<{ project_id: number }[]>(
+    "SELECT project_id FROM customer_orders WHERE id = $1",
+    [orderId],
+  );
+  await syncOrderIncome(
+    order[0].project_id,
+    orderId,
+    name,
+    items.reduce((total, item) => total + item.quantity * item.unit_price, 0),
+  );
 }
 
 export async function deleteCustomerOrder(id: number) {
   const database = await db();
+  await database.execute("DELETE FROM transactions WHERE order_id = $1 AND type = 'income'", [id]);
   await database.execute("DELETE FROM order_items WHERE order_id = $1", [id]);
   await database.execute("DELETE FROM customer_orders WHERE id = $1", [id]);
 }
