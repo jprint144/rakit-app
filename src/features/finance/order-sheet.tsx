@@ -13,6 +13,9 @@ import {
 } from "@/features/finance/finance-repository";
 import type { CustomerOrder } from "@/features/finance/finance-repository";
 
+const formatNumberInput = (value: string) =>
+  value ? new Intl.NumberFormat("id-ID").format(Number(value)) : "";
+
 const rupiah = (value: number) =>
   new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -101,7 +104,7 @@ export function OrderSheet({
           <Input
             inputMode="numeric"
             placeholder="Harga satuan"
-            value={price}
+            value={formatNumberInput(price)}
             onChange={(event) => setPrice(event.target.value.replace(/\D/g, ""))}
           />
           <Button
