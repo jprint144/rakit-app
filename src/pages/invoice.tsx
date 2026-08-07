@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { open, save } from "@tauri-apps/plugin-dialog";
 import { appLocalDataDir } from "@tauri-apps/api/path";
@@ -39,9 +39,10 @@ import {
   loadInvoiceSettings,
   recordInvoiceExport,
   saveInvoiceSettings,
-  listProjectOrderItems,
+  listCustomerOrders,
+  listOrderItems,
 } from "@/features/finance/finance-repository";
-import type { InvoiceSettings } from "@/features/finance/finance-repository";
+import type { CustomerOrder, InvoiceSettings } from "@/features/finance/finance-repository";
 
 type InvoiceItem = {
   id: number;
@@ -80,6 +81,8 @@ export default function InvoicePage() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectId, setProjectId] = useState("");
+  const [orders, setOrders] = useState<CustomerOrder[]>([]);
+  const [orderId, setOrderId] = useState("");
 const [documentType, setDocumentType] = useState<"invoice" | "nota">("invoice");
   const [items, setItems] = useState<InvoiceItem[]>([]);
   const [invoiceNumber, setInvoiceNumber] = useState("");
@@ -107,22 +110,38 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
     listProjects().then(setProjects).catch(console.error);
   }, []);
 
-  useEffect(() => { setInvoiceNumber(""); setItems([]); }, [projectId]);
+  useEffect(() => {
+    setInvoiceNumber("");
+    setOrderId("");
+    setOrders([]);
+    setItems([]);
+  }, [projectId]);
 
-  useEffect(() => { if (!projectId) { setItems([]); return; } listProjectOrderItems(Number(projectId)).then(setItems).catch(console.error); }, [projectId]);
+  useEffect(() => {
+    if (!projectId) return;
+    listCustomerOrders(Number(projectId)).then(setOrders).catch(console.error);
+  }, [projectId]);
+
+  useEffect(() => {
+    if (!orderId) {
+      setItems([]);
+      return;
+    }
+    listOrderItems(Number(orderId)).then(setItems).catch(console.error);
+  }, [orderId]);
 
   const generate = async () => {
-    if (!selectedProject) {
+    if (!selectedProject || !orderId) {
       setFeedback(
         projects.length
-          ? "Pilih project terlebih dahulu."
+          ? "Pilih project dan pesanan terlebih dahulu."
           : "Belum ada project. Tambahkan project terlebih dahulu.",
       );
       return;
     }
     const number = await generateInvoice(
       selectedProject.id,
-      null,
+      Number(orderId),
       documentType,
       settings.invoice_prefix,
       items,
@@ -224,7 +243,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
           <CardHeader>
             <CardTitle>Buat Invoice</CardTitle>
             <CardDescription>
-              Pilih project, lalu buat satu invoice dari pemasukan yang tercatat.
+              Pilih project dan pesanan untuk membuat satu invoice atau nota.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
@@ -246,6 +265,20 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
                 </SelectGroup>
               </SelectContent>
             </Select>
+            <Select value={orderId} onValueChange={setOrderId} disabled={!projectId}>
+              <SelectTrigger>
+                <SelectValue placeholder="Pilih pesanan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {orders.map((order) => (
+                    <SelectItem key={order.id} value={String(order.id)}>
+                      {order.customer_name} · {rupiah(order.total_amount)}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 <Button
               onClick={() =>
                 generate()
@@ -258,9 +291,9 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
               <FileText data-icon="inline-start" />
               Generate {documentType === "invoice" ? "Invoice" : "Nota"}
             </Button>
-            {selectedProject && (
+            {selectedProject && orderId && (
               <p className="text-sm text-muted-foreground">
-                {items.length} item pesanan · {rupiah(total)}
+                {items.length} item pesanan Â· {rupiah(total)}
               </p>
             )}
             {feedback && (
@@ -397,7 +430,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
                     Preview invoice akan muncul di sini
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Data project dan pemasukan akan terisi otomatis.
+                    Data project dan item pesanan akan terisi otomatis.
                   </p>
                 </div>
               )}
