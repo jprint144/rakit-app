@@ -1,0 +1,32 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "enables the default permissions",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "sql:default",
+    "sql:allow-execute",
+    "fs:default",
+    "fs:allow-mkdir",
+    "fs:allow-remove",
+    "fs:allow-write-file",
+    {
+      "identifier": "fs:scope",
+      "allow": [
+        "D:/#0 JOBS/RAKIT-V2.0.0",
+        "D:/#0 JOBS/RAKIT-V2.0.0/**/*",
+        "$APPLOCALDATA/**/*"
+      ]
+    },
+    "opener:default",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    {
+      "identifier": "opener:allow-open-path",
+      "allow": [{ "path": "D:/#0 JOBS/RAKIT-V2.0.0/**/*" }]
+    }
+  ]
+}

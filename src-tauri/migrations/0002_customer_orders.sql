@@ -1,0 +1,23 @@
+﻿CREATE TABLE IF NOT EXISTS customer_orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  project_id INTEGER NOT NULL,
+  customer_name TEXT NOT NULL,
+  customer_whatsapp TEXT,
+  status TEXT NOT NULL DEFAULT 'draft',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL,
+  description TEXT NOT NULL,
+  quantity INTEGER NOT NULL DEFAULT 1,
+  unit_price INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES customer_orders(id) ON DELETE CASCADE
+);
+
+ALTER TABLE invoices ADD COLUMN order_id INTEGER REFERENCES customer_orders(id);
+ALTER TABLE invoices ADD COLUMN document_type TEXT NOT NULL DEFAULT 'invoice';

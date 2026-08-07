@@ -1,0 +1,388 @@
+[
+    {
+        "id":  "fondasi-setup-tauri",
+        "priority":  1,
+        "area":  "fondasi",
+        "title":  "Setup project Tauri + React + Vite + TypeScript",
+        "user_visible_behavior":  "Aplikasi desktop kosong bisa dibuka lewat `npm run tauri dev`, muncul window native, tanpa error di console.",
+        "status":  "passing",
+        "verification":  [
+                             "Jalankan perintah dev, pastikan window Tauri terbuka",
+                             "Cek tidak ada error di terminal maupun devtools",
+                             "Build production sekali (`tauri build`) untuk pastikan konfigurasi dasar valid"
+                         ],
+        "evidence":  "npm run tauri dev membuka window native; npm run tauri build sukses menghasilkan app.exe, MSI, dan NSIS pada 2026-08-05.",
+        "notes":  "SUB-LANGKAH SELESAI (dikerjakan di sandbox Linux tanpa GUI, belum pernah dites \u0027tauri dev\u0027 beneran karena butuh Windows+WebView2): (1) scaffold Vite+React+TS via `npm create vite`, (2) `npx tauri init` sukses generate src-tauri (Cargo.toml, main.rs, lib.rs, tauri.conf.json, capabilities/default.json), (3) tauri.conf.json diedit: identifier jadi com.rakit.app, window 1440x900 minWidth 1024 minHeight 700, (4) vite.config.ts diedit: port fix 1420 strictPort, alias @ -\u003e src, ignore watch src-tauri. SUB-LANGKAH BELUM: install SQLite plugin ke Cargo.toml (itu masuk task fondasi-setup-sqlite terpisah), belum pernah dites jalan `npm run tauri dev` / `cargo build` beneran karena sandbox tempat ngoding gak punya Rust GUI deps (webkit2gtk dll) dan bukan Windows. WAJIB jadi langkah pertama di sesi lanjutan: jalankan `npm install` lalu coba `npm run tauri dev` di mesin Windows asli, baru tandai passing kalau window beneran kebuka."
+    },
+    {
+        "id":  "fondasi-setup-shadcn-shell",
+        "priority":  2,
+        "area":  "fondasi",
+        "title":  "Setup shadcn/ui + App Shell dari block sidebar-07",
+        "user_visible_behavior":  "Buka app, muncul sidebar dengan 7 menu: Dashboard, Project, Finance, Idea, Reference, Archive, Settings. Klik tiap menu pindah halaman (boleh masih halaman kosong).",
+        "status":  "passing",
+        "verification":  [
+                             "Jalankan `npx shadcn@latest init` lalu `add sidebar-07`",
+                             "Ganti label menu default jadi 7 menu Rakit",
+                             "Klik satu-satu semua menu, pastikan routing pindah tanpa error"
+                         ],
+        "evidence":  "Sidebar 7 menu dan routing placeholder diverifikasi secara visual pada 2026-08-05.",
+        "notes":  "PENTING: registry resmi ui.shadcn.com KEMUNGKINAN diblokir kalau jaringan environment kerja dibatasi (kejadian di sandbox sebelumnya) - solusinya sukses: ambil source asli langsung dari raw.githubusercontent.com/shadcn-ui/ui/main/apps/v4/registry/new-york-v4/... (masih source resmi, bukan tulisan ulang). Kalau `npx shadcn@latest add` gagal dengan error \u0027not authorized\u0027, pakai cara itu sebagai fallback, bukan nulis komponen dari nol. SUB-LANGKAH SELESAI: components.json dibuat manual, index.css sudah ada full token shadcn (light+dark) + token tambahan --success/--warning buat status pembayaran, lib/utils.ts (cn helper) dibuat, komponen ui/ ditarik (sidebar, button, separator, breadcrumb, sheet, tooltip, skeleton, input, avatar, dropdown-menu, collapsible), hooks/use-mobile.ts ditarik, nav-main.tsx CUSTOM sudah ditulis (menu flat 7 item pakai react-router Link + useLocation buat active state - BUKAN app-sidebar.tsx asli shadcn yang formatnya team-switcher+nested nav, sengaja disederhanakan karena Rakit gak butuh multi-team/multi-user). SUB-LANGKAH BELUM: (a) app-sidebar.tsx versi Rakit belum ditulis (perlu import NavMain custom + branding \u0027Rakit\u0027 di header, TANPA TeamSwitcher/NavUser/NavProjects dari versi asli karena belum ada login/multi-project-favorit), (b) App.tsx belum di-wire ke SidebarProvider+AppSidebar+SidebarInset+routes React Router, (c) 7 halaman placeholder (Dashboard/Project/Finance/Idea/Reference/Archive/Settings) belum dibuat sama sekali, (d) react-router-dom sudah terinstall (v7.18.2, sengaja pilih versi terbaru - audit npm sempat nunjuk 2 high severity vuln tapi semuanya soal SSR/RSC/server-actions yang gak dipakai di SPA client-only Tauri ini, aman diabaikan), (e) belum pernah `npm run build` buat verifikasi TypeScript-nya valid semua."
+    },
+    {
+        "id":  "fondasi-setup-sqlite",
+        "priority":  3,
+        "area":  "fondasi",
+        "title":  "Setup SQLite (Tauri SQL plugin) + schema awal",
+        "user_visible_behavior":  "Tidak ada UI baru, tapi app bisa baca/tulis ke database SQLite lokal tanpa error saat start.",
+        "status":  "passing",
+        "verification":  [
+                             "Install \u0026 konfigurasi tauri-plugin-sql",
+                             "Buat file schema/migration awal untuk tabel: project, transaksi, invoice, idea, reference, settings",
+                             "Jalankan query test sederhana (insert + select) dari kode, pastikan berhasil"
+                         ],
+        "evidence":  "2026-08-05: migration SQLite berhasil dimuat saat tauri dev, query SELECT 1 dari React tidak lagi menghasilkan error. npm run build dan cargo check lolos.",
+        "notes":  "Ikuti Data Model di PRD section 5. Field baru di masa depan wajib nullable/default sesuai aturan migrasi."
+    },
+    {
+        "id":  "project-crud-dasar",
+        "priority":  4,
+        "area":  "project",
+        "title":  "CRUD Project dasar",
+        "user_visible_behavior":  "User bisa tambah, lihat, edit, dan hapus project lewat form sederhana.",
+        "status":  "passing",
+        "verification":  [
+                             "Tambah project baru, cek muncul di database",
+                             "Edit field project, cek perubahan tersimpan",
+                             "Hapus project, cek hilang dari daftar"
+                         ],
+        "evidence":  "2026-08-05: user mengonfirmasi UI CRUD Project sudah berjalan; npm run build lolos. SQLite execute permission ditambahkan untuk operasi simpan/edit/hapus.",
+        "notes":  "Field: nama, klien, no WA, brief, status kanban, status pembayaran, deadline. Lihat PRD section 4 - Project."
+    },
+    {
+        "id":  "project-folder-otomatis",
+        "priority":  5,
+        "area":  "project",
+        "title":  "Buat folder project otomatis dengan kode folder",
+        "user_visible_behavior":  "Saat klik \u0027Tambah Project\u0027, otomatis dibuatkan folder baru di dalam folder utama dengan nama format RKT-001-namaklien-tanggal.",
+        "status":  "passing",
+        "verification":  [
+                             "Tambah project baru, cek folder fisik benar-benar dibuat di folder utama",
+                             "Cek format nama folder sesuai RKT-XXX-namaklien-tanggal",
+                             "Tambah project kedua, cek nomor urut naik otomatis (RKT-002, dst)"
+                         ],
+        "evidence":  "2026-08-05: user menambahkan project melalui aplikasi dan mengonfirmasi folder fisik muncul di D:\\#0 JOBS\\RAKIT-V2.0.0 dengan format yang diharapkan.",
+        "notes":  "Folder utama diambil dari Settings. Kalau Settings belum diisi saat fase ini dikerjakan, pakai default path sementara dan catat sebagai TODO."
+    },
+    {
+        "id":  "project-buka-folder-lokal",
+        "priority":  6,
+        "area":  "project",
+        "title":  "Tombol buka folder lokal project",
+        "user_visible_behavior":  "Di halaman detail project, ada tombol yang langsung membuka folder project di file explorer Windows.",
+        "status":  "passing",
+        "verification":  [
+                             "Klik tombol buka folder, pastikan file explorer terbuka tepat di folder project yang benar"
+                         ],
+        "evidence":  "2026-08-06: user mengonfirmasi ikon folder pada baris Project berhasil membuka folder project yang tepat di File Explorer.",
+        "notes":  "Pakai Tauri API untuk akses file system, bukan workaround manual."
+    },
+    {
+        "id":  "project-view-list-table",
+        "priority":  7,
+        "area":  "project",
+        "title":  "Tampilan List dan Table untuk Project",
+        "user_visible_behavior":  "User bisa lihat semua project dalam bentuk daftar (List) atau tabel dengan kolom-kolom (Table), dan berpindah antar keduanya.",
+        "status":  "passing",
+        "verification":  [
+                             "Buka tampilan List, cek semua project muncul dengan info dasar",
+                             "Ganti ke tampilan Table, cek data sama dan lengkap per kolom",
+                             "Edit satu project, cek perubahan langsung kelihatan di kedua tampilan"
+                         ],
+        "evidence":  "2026-08-06: user mengonfirmasi perpindahan mode List/Table dan data Project aman.",
+        "notes":  "Bagian dari PRD section 4 - Project, AC pertama (4 mode tampilan)."
+    },
+    {
+        "id":  "project-view-kanban",
+        "priority":  8,
+        "area":  "project",
+        "title":  "Tampilan Kanban dengan drag-and-drop",
+        "user_visible_behavior":  "Project ditampilkan sebagai kartu dalam kolom Brief, Konsep, Revisi, Finalisasi, Selesai. User bisa drag kartu antar kolom untuk update status.",
+        "status":  "passing",
+        "verification":  [
+                             "Buka tampilan Kanban, cek project muncul di kolom sesuai status masing-masing",
+                             "Drag satu kartu ke kolom lain, cek status project ter-update di database",
+                             "Refresh app, cek posisi kartu tetap sesuai status terakhir"
+                         ],
+        "evidence":  "2026-08-06: user mengonfirmasi drag kartu antar kolom dan persistensi status Kanban berjalan aman.",
+        "notes":  "Pakai dnd-kit sesuai PRD section 6. Kolom fix: Brief -\u003e Konsep -\u003e Revisi -\u003e Finalisasi -\u003e Selesai."
+    },
+    {
+        "id":  "project-view-kalender",
+        "priority":  9,
+        "area":  "project",
+        "title":  "Tampilan Kalender berdasarkan deadline",
+        "user_visible_behavior":  "Project muncul di tanggal deadline masing-masing dalam tampilan kalender bulanan.",
+        "status":  "passing",
+        "verification":  [
+                             "Buka tampilan Kalender, cek project muncul di tanggal deadline yang benar",
+                             "Klik project di kalender, cek terbuka detail project yang sesuai"
+                         ],
+        "evidence":  "2026-08-06: user confirmed the calendar is correct after local-date selection fix; npm run build passed.",
+        "notes":  ""
+    },
+    {
+        "id":  "project-status-pembayaran-wa",
+        "priority":  10,
+        "area":  "project",
+        "title":  "Status pembayaran dan klik langsung WhatsApp",
+        "user_visible_behavior":  "Tiap project punya badge status pembayaran (Belum Lunas/DP/Lunas), dan nomor WA klien bisa diklik untuk langsung buka chat WhatsApp.",
+        "status":  "passing",
+        "verification":  [
+                             "Ubah status pembayaran project, cek badge berubah di semua tampilan",
+                             "Klik nomor WA di detail project, cek terbuka WhatsApp (web/app) dengan nomor yang benar"
+                         ],
+        "evidence":  "2026-08-06: payment state, overdue marker, and WhatsApp actions were added across Project views; npm run build passed.",
+        "notes":  "Due date lewat juga wajib ditandai visual beda (ikon, bukan cuma warna) - AC dari PRD section 4."
+    },
+    {
+        "id":  "finance-pemasukan-termin",
+        "priority":  11,
+        "area":  "finance",
+        "title":  "Catat pemasukan per termin",
+        "user_visible_behavior":  "User bisa tambah beberapa pemasukan untuk satu project (misal DP, pelunasan) dengan nominal dan tanggal masing-masing.",
+        "status":  "passing",
+        "verification":  [
+                             "Tambah 2+ termin pemasukan untuk satu project, cek semua tersimpan terpisah",
+                             "Cek total pemasukan project terhitung benar dari penjumlahan semua termin"
+                         ],
+        "evidence":  "2026-08-06: DP and Lunas inputs are linked directly from Project Finance action; transaction history, total, and delete confirmation are implemented; npm run build passed.",
+        "notes":  ""
+    },
+    {
+        "id":  "finance-pengeluaran",
+        "priority":  12,
+        "area":  "finance",
+        "title":  "Catat pengeluaran per project",
+        "user_visible_behavior":  "User bisa tambah pengeluaran untuk project tertentu dengan nominal, tanggal, catatan.",
+        "status":  "passing",
+        "verification":  [
+                             "Tambah pengeluaran, cek tersimpan dan muncul di daftar transaksi project"
+                         ],
+        "evidence":  "2026-08-06: expenses are recorded from the connected Project, shown in a matching table, and included in Finance summary; npm run build passed.",
+        "notes":  ""
+    },
+    {
+        "id":  "finance-untung-rugi-otomatis",
+        "priority":  13,
+        "area":  "finance",
+        "title":  "Kalkulasi untung/rugi otomatis",
+        "user_visible_behavior":  "Ringkasan untung/rugi per project langsung ter-update begitu ada transaksi baru, tanpa tombol hitung ulang.",
+        "status":  "passing",
+        "verification":  [
+                             "Tambah pemasukan baru, cek ringkasan untung/rugi langsung berubah tanpa aksi tambahan",
+                             "Tambah pengeluaran baru, cek ringkasan ikut ter-update"
+                         ],
+        "evidence":  "2026-08-06: Finance calculates Omset, Pengeluaran, Margin and per-project margin live from transactions; npm run build passed.",
+        "notes":  ""
+    },
+    {
+        "id":  "invoice-pengaturan",
+        "priority":  14,
+        "area":  "finance",
+        "title":  "Pengaturan invoice \u0026 nota (logo, nama agency, format nomor)",
+        "user_visible_behavior":  "Sebelum bikin invoice pertama, user isi logo agency, nama agency, dan format penomoran lewat halaman pengaturan di Finance.",
+        "status":  "passing",
+        "verification":  [
+                             "Isi pengaturan invoice, cek tersimpan dan muncul lagi saat halaman dibuka ulang",
+                             "Upload logo, cek tersimpan dan tampil di preview"
+                         ],
+        "evidence":  "2026-08-06: Invoice menu stores agency name, prefix, and selected logo path; npm run build passed.",
+        "notes":  "PRD section 4 - Finance menyebut pengaturan ini wajib ada sebelum generate dokumen."
+    },
+    {
+        "id":  "invoice-generate-export",
+        "priority":  15,
+        "area":  "finance",
+        "title":  "Generate invoice \u0026 nota dari data transaksi + export",
+        "user_visible_behavior":  "User klik generate, invoice/nota otomatis terisi dari data transaksi project (tanpa input ulang), bisa di-export ke PNG, JPG, atau PDF.",
+        "status":  "in_progress",
+        "verification":  [
+                             "Generate invoice dari project dengan transaksi terisi, cek semua data transaksi masuk otomatis",
+                             "Export ke PNG, cek file valid dan sesuai tampilan",
+                             "Export ke PDF, cek file valid dan bisa dibuka",
+                             "Cek penomoran otomatis sesuai format dari Settings"
+                         ],
+        "evidence":  "2026-08-07: invoice generated from project income; user confirmed PDF export succeeds, logo is included, and its size was adjusted. npm run build passed.",
+        "notes":  "Reworked scope 2026-08-07: Invoice must use billable order items, not payment transactions. One project can have multiple customer orders; each order has its own Invoice and Nota. Payments remain separate."
+    },
+    {
+        "id":  "idea-crud",
+        "priority":  16,
+        "area":  "idea",
+        "title":  "CRUD Idea (teks, dokumen, gambar, link)",
+        "user_visible_behavior":  "User bisa tambah ide dalam 4 bentuk konten: teks, dokumen, gambar, atau link, lalu lihat/edit/hapus lagi.",
+        "status":  "not_started",
+        "verification":  [
+                             "Tambah satu ide tiap tipe konten, cek semua tersimpan dengan benar",
+                             "Edit dan hapus ide, cek perubahan sesuai"
+                         ],
+        "evidence":  "",
+        "notes":  ""
+    },
+    {
+        "id":  "idea-kategori",
+        "priority":  17,
+        "area":  "idea",
+        "title":  "Kategori Idea (preset + custom)",
+        "user_visible_behavior":  "Tiap ide masuk satu kategori. User bisa pilih dari kategori preset atau tambah kategori baru sendiri.",
+        "status":  "not_started",
+        "verification":  [
+                             "Tambah ide dengan kategori preset, cek tersimpan benar",
+                             "Tambah kategori baru lewat Settings, cek muncul sebagai pilihan saat tambah ide"
+                         ],
+        "evidence":  "",
+        "notes":  "Satu ide hanya boleh masuk satu kategori, sesuai PRD."
+    },
+    {
+        "id":  "reference-browser-inapp",
+        "priority":  18,
+        "area":  "reference",
+        "title":  "Browser in-app untuk reference",
+        "user_visible_behavior":  "User bisa buka website beneran di dalam app (bukan cuma daftar link), tanpa perlu buka Chrome.",
+        "status":  "not_started",
+        "verification":  [
+                             "Buka salah satu link reference, cek website beneran ter-render di dalam app",
+                             "Navigasi di dalam webview (klik link lain, scroll) berjalan normal"
+                         ],
+        "evidence":  "",
+        "notes":  "Pakai webview native Tauri, bukan iframe web."
+    },
+    {
+        "id":  "reference-kategori-link",
+        "priority":  19,
+        "area":  "reference",
+        "title":  "Kategori dan manajemen link Reference",
+        "user_visible_behavior":  "User bisa tambah link referensi manual, dikelompokkan per kategori.",
+        "status":  "not_started",
+        "verification":  [
+                             "Tambah link baru dengan kategori, cek tersimpan dan muncul di grup kategori yang benar",
+                             "Hapus link, cek hilang dari daftar"
+                         ],
+        "evidence":  "",
+        "notes":  ""
+    },
+    {
+        "id":  "archive-pindah-project",
+        "priority":  20,
+        "area":  "archive",
+        "title":  "Pindahkan project selesai ke Archive",
+        "user_visible_behavior":  "Project berstatus Selesai bisa diarsipkan lewat satu aksi, lalu hilang dari daftar Project utama dan muncul di halaman Archive.",
+        "status":  "not_started",
+        "verification":  [
+                             "Arsipkan satu project, cek hilang dari daftar Project utama",
+                             "Cek project tersebut muncul di halaman Archive",
+                             "Buka detail project yang diarsipkan, cek datanya masih lengkap"
+                         ],
+        "evidence":  "",
+        "notes":  ""
+    },
+    {
+        "id":  "archive-pindah-folder-fisik",
+        "priority":  21,
+        "area":  "archive",
+        "title":  "Pindahkan folder fisik project ke sub-folder Arsip",
+        "user_visible_behavior":  "Saat project diarsipkan, folder fisiknya otomatis pindah dari folder utama ke sub-folder Arsip di dalamnya.",
+        "status":  "not_started",
+        "verification":  [
+                             "Arsipkan project, cek folder fisik benar-benar pindah lokasi (bukan disalin/duplikat)",
+                             "Cek tombol buka folder di project yang sudah diarsipkan tetap mengarah ke lokasi baru yang benar"
+                         ],
+        "evidence":  "",
+        "notes":  ""
+    },
+    {
+        "id":  "dashboard-widget-ringkasan",
+        "priority":  22,
+        "area":  "dashboard",
+        "title":  "Widget ringkasan Dashboard",
+        "user_visible_behavior":  "Dashboard menampilkan ringkasan semua project: status per tahap, klien, project overdue, dan gambaran keuangan.",
+        "status":  "not_started",
+        "verification":  [
+                             "Cek widget overview menampilkan jumlah/status project yang sesuai data asli",
+                             "Cek widget overdue hanya menampilkan project yang deadline-nya lewat",
+                             "Ubah data project/transaksi, cek Dashboard ter-update sesuai"
+                         ],
+        "evidence":  "",
+        "notes":  "Dikerjakan paling akhir karena narik data dari semua modul lain yang sudah jadi."
+    },
+    {
+        "id":  "settings-folder-utama",
+        "priority":  23,
+        "area":  "settings",
+        "title":  "Pengaturan folder utama",
+        "user_visible_behavior":  "User bisa lihat dan ganti lokasi folder utama tempat semua folder project dibuat.",
+        "status":  "not_started",
+        "verification":  [
+                             "Ganti folder utama lewat Settings, cek project baru selanjutnya dibuat di lokasi baru",
+                             "Cek project lama tidak ikut pindah otomatis (biar gak merusak referensi yang sudah ada)"
+                         ],
+        "evidence":  "",
+        "notes":  ""
+    },
+    {
+        "id":  "settings-identitas-agency",
+        "priority":  24,
+        "area":  "settings",
+        "title":  "Pengaturan identitas agency",
+        "user_visible_behavior":  "User bisa atur nama dan logo agency yang dipakai di invoice/nota (kalau belum sempat diisi di fase Finance).",
+        "status":  "not_started",
+        "verification":  [
+                             "Ganti nama/logo agency, cek invoice baru menampilkan identitas terbaru"
+                         ],
+        "evidence":  "",
+        "notes":  "Kemungkinan overlap dengan invoice-pengaturan (fase 4) - cek dulu apakah sudah tercover di sana sebelum mulai fitur ini."
+    },
+    {
+        "id":  "settings-kategori-custom",
+        "priority":  25,
+        "area":  "settings",
+        "title":  "Kelola kategori custom Idea \u0026 Reference",
+        "user_visible_behavior":  "User bisa tambah, edit, hapus kategori custom untuk Idea dan Reference dari satu tempat terpusat.",
+        "status":  "not_started",
+        "verification":  [
+                             "Tambah kategori baru, cek muncul di pilihan Idea dan/atau Reference",
+                             "Hapus kategori, cek item yang pakai kategori itu tidak error (fallback ke kategori default atau ditandai perlu diganti)"
+                         ],
+        "evidence":  "",
+        "notes":  ""
+    },
+    {
+        "id":  "settings-tema-dark-light",
+        "priority":  26,
+        "area":  "settings",
+        "title":  "Toggle tema dark/light",
+        "user_visible_behavior":  "User bisa ganti tema aplikasi antara mode terang dan gelap, pilihan tetap tersimpan setelah app ditutup-buka lagi.",
+        "status":  "not_started",
+        "verification":  [
+                             "Ganti ke dark mode, cek semua halaman ikut berubah (bukan cuma sebagian)",
+                             "Tutup dan buka lagi app, cek tema terakhir tetap kepakai"
+                         ],
+        "evidence":  "",
+        "notes":  ""
+    },
+    {
+        "id":  "settings-backup-export-import",
+        "priority":  27,
+        "area":  "settings",
+        "title":  "Export dan import backup data",
+        "user_visible_behavior":  "User bisa export seluruh data ke file backup, dan import lagi dari file itu untuk restore data.",
+        "status":  "not_started",
+        "verification":  [
+                             "Export data, cek file backup ter-generate dan berisi semua data (project, transaksi, idea, reference, settings)",
+                             "Import dari file backup ke kondisi kosong/baru, cek semua data kembali utuh"
+                         ],
+        "evidence":  "",
+        "notes":  "Fitur ini penting karena app belum punya cloud sync - satu-satunya proteksi data. PRD section 7."
+    }
+]

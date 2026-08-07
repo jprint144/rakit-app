@@ -1,0 +1,65 @@
+{
+    "$schema":  "../node_modules/@tauri-apps/cli/config.schema.json",
+    "productName":  "Rakit",
+    "version":  "0.1.0",
+    "identifier":  "com.rakit.app",
+    "build":  {
+                  "frontendDist":  "../dist",
+                  "devUrl":  "http://localhost:1420",
+                  "beforeDevCommand":  "npm run dev",
+                  "beforeBuildCommand":  "npm run build"
+              },
+    "app":  {
+                "windows":  [
+                                {
+                                    "title":  "Rakit",
+                                    "width":  1440,
+                                    "height":  900,
+                                    "minWidth":  1024,
+                                    "minHeight":  700,
+                                    "resizable":  true,
+                                    "fullscreen":  false
+                                }
+                            ],
+                "security":  {
+                                 "csp":  null,
+                                 "assetProtocol":  {
+                                                       "enable":  true,
+                                                       "scope":  [
+                                                                     "$PICTURE/**/*",
+                                                                     "$DESKTOP/**/*",
+                                                                     "$DOCUMENT/**/*",
+                                                                     "$DOWNLOAD/**/*",
+                                                                     "$APPLOCALDATA/**/*",
+                                                                     "D:/#0 JOBS/RAKIT-V2.0.0/**/*"
+                                                                 ]
+                                                   }
+                             }
+            },
+    "bundle":  {
+                   "active":  true,
+                   "targets":  "all",
+                   "icon":  [
+                                "icons/32x32.png",
+                                "icons/128x128.png",
+                                "icons/128x128@2x.png",
+                                "icons/icon.icns",
+                                "icons/icon.ico"
+                            ],
+                   "android":  {
+                                   "debugApplicationIdSuffix":  ".debug"
+                               },
+                   "createUpdaterArtifacts":  true
+               },
+    "plugins":  {
+                    "updater":  {
+                                    "pubkey":  "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU2NkU0QjI1RjFFMThEOEMKUldTTWplSHhKVXR1NXRBdE45dmtwVjlrT0hUSko0NDVTN0p6R0N6NTFPOHo5cHJOaVdzY1gzTk8K",
+                                    "endpoints":  [
+                                                      "https://github.com/jprint144/rakit-app/releases/latest/download/latest.json"
+                                                  ],
+                                    "windows":  {
+                                                    "installMode":  "passive"
+                                                }
+                                }
+                }
+}
