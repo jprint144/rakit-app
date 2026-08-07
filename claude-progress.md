@@ -298,3 +298,11 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Verification run:** `npm run build` lulus setelah perbaikan (3136 modul). Peringatan ukuran bundle Vite tetap ada tanpa error.
 - **Known risks:** Alur baru belum diuji manual dalam aplikasi Tauri. Nota masih menggunakan nilai item pesanan sebagai total dokumen; jika Nota harus merepresentasikan satu pembayaran tertentu (bukan total pesanan), itu perlu diputuskan/ditambahkan pada iterasi berikutnya.
 - **Next best action:** Di runtime Tauri: buat pesanan → catat DP/pelunasan dengan pesanan itu → pastikan riwayat menampilkan pesanan → generate Invoice/Nota dari pesanan tersebut → uji ekspor PDF/PNG/JPG.
+### Sesi 12 — Sinkronisasi Pesanan ke Pemasukan + rilis updater (2026-08-07)
+
+- **Goal:** Nominal setiap pesanan harus langsung tercatat di Riwayat Pemasukan, lalu disalurkan ke aplikasi terpasang lewat updater.
+- **Completed:** Menambahkan transaksi pemasukan bertaut `order_id` saat pesanan dibuat, memperbarui nominalnya jika pesanan diedit, dan menghapusnya ketika pesanan dihapus. Pesanan lama ikut tersinkron saat halaman Keuangan dibuka. Rilis publik `v0.1.2` dibuat, installer NSIS ditandatangani, serta `latest.json` publik diperbarui.
+- **Verification run:** `npm run build` lulus; `cargo check --manifest-path src-tauri/Cargo.toml` lulus; installer EXE dan MSI 0.1.2 berhasil dibuat; URL manifest publik mengembalikan versi 0.1.2.
+- **Commits:** `96bfb27 fix: sync order amounts to income history`.
+- **Known risks:** Verifikasi UI akhir menunggu user: buka Keuangan setelah update dan pastikan pesanan lama maupun baru tampil satu kali di Riwayat Pemasukan.
+- **Next best action:** User memasang update 0.1.2 dan menguji satu pesanan baru serta satu pesanan lama pada halaman Keuangan.
