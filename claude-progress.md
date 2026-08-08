@@ -329,6 +329,6 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 - **Goal:** Mengubah Invoice dan Nota agar memuat seluruh pesanan dari satu project tanpa pemilihan pesanan individual.
 - **Completed:** Pemilih pesanan dihapus. Saat Project dipilih, seluruh `order_items` dari semua pesanan dalam project dimuat ke preview, dihitung sebagai satu total, dan disimpan pada invoice baru dengan `order_id` kosong. Dokumen tidak bisa dibuat untuk project tanpa pesanan. Mengganti tipe Invoice/Nota juga mengosongkan preview lama agar label dokumen tidak tertukar.
-- **Verification run:** `npm run build` lulus (3139 modul); peringatan ukuran bundle utama di atas 500 kB tetap ada tanpa error.
+- **Verification run:** `npm run build` lulus (3139 modul); `npm run tauri build -- --no-sign` lulus dan menghasilkan installer NSIS serta MSI 0.1.3. Peringatan ukuran bundle utama di atas 500 kB tetap ada tanpa error.
 - **Known risks:** Perubahan belum diuji manual di aplikasi Tauri dengan project yang memiliki lebih dari satu pesanan.
-- **Next best action:** Pilih project dengan minimal dua pesanan, lalu generate Invoice dan Nota untuk memastikan seluruh item serta total tampil pada keduanya.
+- **Next best action:** Pasang installer NSIS 0.1.3 terbaru, pilih project dengan minimal dua pesanan, lalu generate Invoice dan Nota untuk memastikan seluruh item serta total tampil pada keduanya.
