@@ -324,3 +324,11 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Verification run:** Build frontend memproses 3139 modul tanpa error; cargo check selesai untuk `app v0.1.3`.
 - **Known risks:** Kunci `TAURI_SIGNING_PRIVATE_KEY` tidak tersedia di environment, sehingga file signature `.sig` untuk installer 0.1.3 belum dibuat. GitHub CLI juga tidak dapat membuat release karena token akun `jprint144` sudah tidak valid. Update belum dapat dipublikasikan ke updater sampai dua akses ini dipulihkan.
 - **Next best action:** Sediakan kunci signing updater yang sama seperti rilis sebelumnya dan autentikasi ulang GitHub CLI, kemudian build ulang, unggah installer/signature/latest.json, dan publish release `v0.1.3`.
+
+### Sesi 30 - Invoice dan Nota gabungan per project (2026-08-08)
+
+- **Goal:** Mengubah Invoice dan Nota agar memuat seluruh pesanan dari satu project tanpa pemilihan pesanan individual.
+- **Completed:** Pemilih pesanan dihapus. Saat Project dipilih, seluruh `order_items` dari semua pesanan dalam project dimuat ke preview, dihitung sebagai satu total, dan disimpan pada invoice baru dengan `order_id` kosong. Dokumen tidak bisa dibuat untuk project tanpa pesanan. Mengganti tipe Invoice/Nota juga mengosongkan preview lama agar label dokumen tidak tertukar.
+- **Verification run:** `npm run build` lulus (3139 modul); peringatan ukuran bundle utama di atas 500 kB tetap ada tanpa error.
+- **Known risks:** Perubahan belum diuji manual di aplikasi Tauri dengan project yang memiliki lebih dari satu pesanan.
+- **Next best action:** Pilih project dengan minimal dua pesanan, lalu generate Invoice dan Nota untuk memastikan seluruh item serta total tampil pada keduanya.

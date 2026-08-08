@@ -214,7 +214,7 @@
                              "Cek penomoran otomatis sesuai format dari Settings"
                          ],
         "evidence":  "2026-08-07: invoice generated from project income; user confirmed PDF export succeeds, logo is included, and its size was adjusted. npm run build passed.",
-        "notes":  "Reworked scope 2026-08-07: Invoice must use billable order items, not payment transactions. One project can have multiple customer orders; each order has its own Invoice and Nota. Payments remain separate."
+        "notes":  "Reworked scope 2026-08-08: Invoice and Nota use all billable order items from the selected project, not payment transactions. One project can have multiple customer orders collected into one document. Payments remain separate."
     },
     {
         "id":  "idea-crud",

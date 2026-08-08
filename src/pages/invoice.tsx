@@ -39,11 +39,9 @@ import {
   loadInvoiceSettings,
   recordInvoiceExport,
   saveInvoiceSettings,
-  listCustomerOrders,
-  listOrderItems,
   listProjectOrderItems,
 } from "@/features/finance/finance-repository";
-import type { CustomerOrder, InvoiceSettings } from "@/features/finance/finance-repository";
+import type { InvoiceSettings } from "@/features/finance/finance-repository";
 
 type InvoiceItem = {
   id: number;
@@ -82,8 +80,6 @@ export default function InvoicePage() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectId, setProjectId] = useState("");
-  const [orders, setOrders] = useState<CustomerOrder[]>([]);
-  const [orderId, setOrderId] = useState("");
 const [documentType, setDocumentType] = useState<"invoice" | "nota">("invoice");
   const [items, setItems] = useState<InvoiceItem[]>([]);
   const [invoiceNumber, setInvoiceNumber] = useState("");
@@ -113,14 +109,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
 
   useEffect(() => {
     setInvoiceNumber("");
-    setOrderId("");
-    setOrders([]);
     setItems([]);
-  }, [projectId]);
-
-  useEffect(() => {
-    if (!projectId) return;
-    listCustomerOrders(Number(projectId)).then(setOrders).catch(console.error);
   }, [projectId]);
 
   useEffect(() => {
@@ -128,34 +117,31 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
       setItems([]);
       return;
     }
-    if (documentType === "nota") {
-      listProjectOrderItems(Number(projectId)).then(setItems).catch(console.error);
-      return;
-    }
-    if (!orderId) {
-      setItems([]);
-      return;
-    }
-    listOrderItems(Number(orderId)).then(setItems).catch(console.error);
-  }, [documentType, orderId, projectId]);
+    listProjectOrderItems(Number(projectId)).then(setItems).catch(console.error);
+  }, [projectId]);
 
   const generate = async () => {
-    if (!selectedProject || (documentType === "invoice" && !orderId)) {
+    if (!selectedProject) {
       setFeedback(
         projects.length
-          ? documentType === "invoice" ? "Pilih project dan pesanan terlebih dahulu." : "Pilih project terlebih dahulu."
+          ? "Pilih project terlebih dahulu."
           : "Belum ada project. Tambahkan project terlebih dahulu.",
       );
-      return;
+      return false;
+    }
+    if (!items.length) {
+      setFeedback("Project ini belum memiliki pesanan.");
+      return false;
     }
     const number = await generateInvoice(
       selectedProject.id,
-      documentType === "invoice" ? Number(orderId) : null,
+      null,
       documentType,
       settings.invoice_prefix,
       items,
     );
     setInvoiceNumber(number);
+    return true;
   };
 
   const createCanvas = async () => {
@@ -250,13 +236,20 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
       <div className="grid items-start gap-4 xl:grid-cols-[minmax(18rem,0.7fr)_minmax(0,1.3fr)]">
         <Card>
           <CardHeader>
-            <CardTitle>Buat Invoice</CardTitle>
+            <CardTitle>Buat {documentType === "invoice" ? "Invoice" : "Nota"}</CardTitle>
             <CardDescription>
-              Pilih project. Invoice dibuat per pesanan, sedangkan Nota berisi seluruh pesanan project.
+              Pilih project. Semua pesanan project akan masuk ke dokumen.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
-            <Select value={documentType} onValueChange={(value) => setDocumentType(value as "invoice" | "nota")}>
+            <Select
+              value={documentType}
+              onValueChange={(value) => {
+                setDocumentType(value as "invoice" | "nota");
+                setInvoiceNumber("");
+                setFeedback("");
+              }}
+            >
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="invoice">Invoice</SelectItem><SelectItem value="nota">Nota</SelectItem></SelectContent>
             </Select>
@@ -274,25 +267,14 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
                 </SelectGroup>
               </SelectContent>
             </Select>
-            {documentType === "invoice" && (
-              <Select value={orderId} onValueChange={setOrderId} disabled={!projectId}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih pesanan" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {orders.map((order) => (
-                      <SelectItem key={order.id} value={String(order.id)}>
-                        {order.customer_name} · {rupiah(order.total_amount)}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            )}<Button
+            <Button
               onClick={() =>
                 generate()
-                  .then(() => setFeedback("Invoice berhasil dibuat."))
+                  .then((generated) => {
+                    if (generated) {
+                      setFeedback(`${documentType === "invoice" ? "Invoice" : "Nota"} berhasil dibuat.`);
+                    }
+                  })
                   .catch((error) =>
                     setFeedback(error instanceof Error ? error.message : "Invoice gagal dibuat."),
                   )
@@ -318,7 +300,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
               <CardTitle>Preview PDF</CardTitle>
               <CardDescription>
                 {invoiceNumber
-                  ? `Invoice ${invoiceNumber} siap diunduh.`
+                  ? `${documentType === "invoice" ? "Invoice" : "Nota"} ${invoiceNumber} siap diunduh.`
                   : `Pilih project lalu klik Generate ${documentType === "invoice" ? "Invoice" : "Nota"} untuk menampilkan dokumen.`}
               </CardDescription>
             </CardHeader>
