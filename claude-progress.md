@@ -332,3 +332,12 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Verification run:** `npm run build` lulus (3139 modul); `npm run tauri build -- --no-sign` lulus dan menghasilkan installer NSIS serta MSI 0.1.3. Peringatan ukuran bundle utama di atas 500 kB tetap ada tanpa error.
 - **Known risks:** Perubahan belum diuji manual di aplikasi Tauri dengan project yang memiliki lebih dari satu pesanan.
 - **Next best action:** Pasang installer NSIS 0.1.3 terbaru, pilih project dengan minimal dua pesanan, lalu generate Invoice dan Nota untuk memastikan seluruh item serta total tampil pada keduanya.
+
+### Sesi 31 - Pengeluaran dan margin riil owner (2026-08-08)
+
+- **Goal:** Menjadikan pengeluaran project sebagai tahap penutup setelah Invoice dan Nota selesai, sekaligus menampilkan omset, pengeluaran, dan margin riil.
+- **Completed:** Halaman Finance kini menyediakan tombol **Input Pengeluaran** dengan popup. Project yang bisa dipilih harus memiliki pesanan serta kedua dokumen Invoice dan Nota. Popup menampilkan jumlah pesanan, omset, dan margin saat ini sebelum nominal, tanggal, serta catatan biaya disimpan. Tabel hasil riil per project dan tiga kartu ringkasan menghitung omset dari transaksi pesanan, total pengeluaran, dan margin secara langsung.
+- **Verification run:** `npm run build` lulus di lingkungan Windows penuh (3141 modul). Sandbox biasa memblokir binary native Tailwind/Vite dengan `spawn EPERM`.
+- **Commits:** Menunggu commit.
+- **Known risks:** Perlu verifikasi manual: buat Invoice dan Nota untuk satu project berpesanan, pastikan project menjadi pilihan popup, lalu simpan pengeluaran dan cek tiga nilai ringkasan serta baris project berubah tanpa refresh manual.
+- **Next best action:** Uji alur owner di aplikasi Tauri; setelah aman, commit dan buat rilis versi baru melalui tag GitHub.

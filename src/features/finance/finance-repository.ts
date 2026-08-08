@@ -22,6 +22,17 @@ export type IncomeInput = {
   notes: string;
 };
 
+export type ProjectFinancialSummary = {
+  project_id: number;
+  project_code: string;
+  project_name: string;
+  order_count: number;
+  income_amount: number;
+  expense_amount: number;
+  has_invoice: number;
+  has_nota: number;
+};
+
 async function db() {
   return Database.load(DATABASE_URL);
 }
@@ -83,6 +94,24 @@ export async function listExpenseTransactions() {
     `SELECT transactions.id, transactions.project_id, transactions.order_id, projects.code AS project_code, projects.name AS project_name, transactions.installment_name, transactions.amount, transactions.transaction_date, transactions.notes
      FROM transactions INNER JOIN projects ON projects.id = transactions.project_id
      WHERE transactions.type = 'expense' ORDER BY transactions.transaction_date DESC, transactions.id DESC`,
+  );
+}
+
+export async function listProjectFinancialSummaries() {
+  return await (await db()).select<ProjectFinancialSummary[]>(
+    `SELECT
+       projects.id AS project_id,
+       projects.code AS project_code,
+       projects.name AS project_name,
+       (SELECT COUNT(*) FROM customer_orders WHERE customer_orders.project_id = projects.id) AS order_count,
+       COALESCE((SELECT SUM(amount) FROM transactions WHERE transactions.project_id = projects.id AND type = 'income'), 0) AS income_amount,
+       COALESCE((SELECT SUM(amount) FROM transactions WHERE transactions.project_id = projects.id AND type = 'expense'), 0) AS expense_amount,
+       EXISTS(SELECT 1 FROM invoices WHERE invoices.project_id = projects.id AND document_type = 'invoice') AS has_invoice,
+       EXISTS(SELECT 1 FROM invoices WHERE invoices.project_id = projects.id AND document_type = 'nota') AS has_nota
+     FROM projects
+     WHERE projects.archived = 0
+       AND EXISTS(SELECT 1 FROM customer_orders WHERE customer_orders.project_id = projects.id)
+     ORDER BY projects.id DESC`,
   );
 }
 

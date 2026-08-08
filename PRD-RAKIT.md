@@ -55,7 +55,9 @@ Sebagai desainer, mau catat pemasukan per termin dan pengeluaran tiap project bi
 
 - **AC:** Pemasukan dicatat per termin (DP, pelunasan, dst) dengan nominal dan tanggal masing-masing.
 - **AC:** Pengeluaran dicatat per project dengan nominal, tanggal, catatan.
+- **AC:** Owner mencatat pengeluaran dari popup Finance setelah Invoice dan Nota project dibuat. Popup hanya menampilkan project yang memiliki pesanan serta kedua dokumen tersebut.
 - **AC:** Ringkasan untung/rugi kehitung otomatis begitu ada transaksi baru â€” gak perlu tombol "hitung ulang".
+- **AC:** Finance menampilkan hasil riil per project: omset dari seluruh pesanan, total pengeluaran, dan margin (omset dikurangi pengeluaran).
 - **AC:** Ada halaman pengaturan invoice/nota (logo agency, nama agency, format penomoran) sebelum generate dokumen pertama.
 - **AC:** Invoice & nota di-generate otomatis dari data transaksi yang sudah ada (gak input ulang manual), bisa di-export ke **PNG, JPG, atau PDF**.
 
