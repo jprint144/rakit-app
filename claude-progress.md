@@ -338,6 +338,13 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Menjadikan pengeluaran project sebagai tahap penutup setelah Invoice dan Nota selesai, sekaligus menampilkan omset, pengeluaran, dan margin riil.
 - **Completed:** Halaman Finance kini menyediakan tombol **Input Pengeluaran** dengan popup. Project yang bisa dipilih harus memiliki pesanan serta kedua dokumen Invoice dan Nota. Popup menampilkan jumlah pesanan, omset, dan margin saat ini sebelum nominal, tanggal, serta catatan biaya disimpan. Tabel hasil riil per project dan tiga kartu ringkasan menghitung omset dari transaksi pesanan, total pengeluaran, dan margin secara langsung.
 - **Verification run:** `npm run build` lulus di lingkungan Windows penuh (3141 modul). Sandbox biasa memblokir binary native Tailwind/Vite dengan `spawn EPERM`.
-- **Commits:** Menunggu commit.
+- **Commits:** `ac58050 feat: add owner expense and margin workflow`.
 - **Known risks:** Perlu verifikasi manual: buat Invoice dan Nota untuk satu project berpesanan, pastikan project menjadi pilihan popup, lalu simpan pengeluaran dan cek tiga nilai ringkasan serta baris project berubah tanpa refresh manual.
-- **Next best action:** Uji alur owner di aplikasi Tauri; setelah aman, commit dan buat rilis versi baru melalui tag GitHub.
+- **Next best action:** Uji alur owner di aplikasi Tauri dan rilis versi baru melalui tag GitHub.
+
+### Sesi 32 - Persiapan rilis updater 0.1.5 (2026-08-08)
+
+- **Goal:** Memperbaiki tag updater `v0.1.4` yang dibuat sebelum versi aplikasi dinaikkan, agar client bisa menerima fitur pengeluaran baru.
+- **Completed:** Versi diselaraskan menjadi `0.1.5` pada package, konfigurasi Tauri, dan Cargo. `npm run build` lulus (3141 modul), dan `cargo check --manifest-path src-tauri/Cargo.toml` lulus untuk `app v0.1.5`.
+- **Known risks:** Rilis baru bergantung pada GitHub Actions serta secrets signing updater yang sudah dikonfigurasi di repository.
+- **Next best action:** Push tag `v0.1.5`, cek workflow Release Rakit berhasil, kemudian buka aplikasi 0.1.3 untuk memastikan dialog Update tersedia.
