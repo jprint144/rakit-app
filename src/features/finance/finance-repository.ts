@@ -312,6 +312,8 @@ export async function updateCustomerOrder(
 
 export async function deleteCustomerOrder(id: number) {
   const database = await db();
+  // Keep generated invoices as historical records; their item snapshots remain in items_json.
+  await database.execute("UPDATE invoices SET order_id = NULL WHERE order_id = $1", [id]);
   await database.execute("DELETE FROM transactions WHERE order_id = $1 AND type = 'income'", [id]);
   await database.execute("DELETE FROM order_items WHERE order_id = $1", [id]);
   await database.execute("DELETE FROM customer_orders WHERE id = $1", [id]);

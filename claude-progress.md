@@ -13,6 +13,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
 - **Highest priority unfinished feature:** `invoice-generate-export` (priority 15, `in_progress`). Finance dan Invoice telah disinkronkan pada level kode; verifikasi manual runtime masih diperlukan.
 - **Current blocker:** Tidak ada blocker teknis.
+- **Catatan verifikasi sesi terbaru:** `npm run build` lulus pada 2026-08-08 di lingkungan Windows penuh (3139 modul). Sandbox biasa tetap dapat memblokir binary native Tailwind dengan `spawn EPERM`.
 
 **Environment dev:**
 
@@ -306,3 +307,20 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Commits:** `96bfb27 fix: sync order amounts to income history`.
 - **Known risks:** Verifikasi UI akhir menunggu user: buka Keuangan setelah update dan pastikan pesanan lama maupun baru tampil satu kali di Riwayat Pemasukan.
 - **Next best action:** User memasang update 0.1.2 dan menguji satu pesanan baru serta satu pesanan lama pada halaman Keuangan.
+
+### Sesi 28 - Perbaikan hapus pesanan terkait invoice (2026-08-08)
+
+- **Goal:** Memperbaiki pesanan pada popup Tambah Pesanan yang tidak dapat dihapus.
+- **Completed:** Sebelum menghapus pesanan, relasi `invoices.order_id` kini dilepas (`NULL`). Snapshot item pada invoice tetap tersimpan di `items_json`, sehingga riwayat dokumen tidak hilang tetapi foreign key tidak lagi memblokir penghapusan pesanan. Popup juga menampilkan hasil sukses atau gagal, menggantikan kegagalan yang sebelumnya hanya masuk console.
+- **Verification run:** `npm install`, `npx tsc -b`, dan `npm run build` lulus. Build produksi memproses 3139 modul; hanya ada peringatan bundle utama di atas 500 kB.
+- **Commits:** Belum ada commit baru.
+- **Known risks:** Perlu satu uji manual di aplikasi Tauri pada pesanan yang pernah dibuatkan invoice/nota untuk mengonfirmasi item hilang dari daftar dan dokumen lamanya tetap ada.
+- **Next best action:** Uji hapus `Spanduk 3x1 Meter` dari popup Tambah Pesanan.
+
+### Sesi 29 - Persiapan updater 0.1.3 (2026-08-08)
+
+- **Goal:** Menyiapkan update aplikasi berisi perbaikan penghapusan pesanan.
+- **Completed:** Versi `0.1.3` telah diselaraskan di package, konfigurasi Tauri, dan Cargo. `npm run build` serta `cargo check --manifest-path src-tauri/Cargo.toml` lulus. Installer lokal `Rakit_0.1.3_x64-setup.exe` berhasil dibuat.
+- **Verification run:** Build frontend memproses 3139 modul tanpa error; cargo check selesai untuk `app v0.1.3`.
+- **Known risks:** Kunci `TAURI_SIGNING_PRIVATE_KEY` tidak tersedia di environment, sehingga file signature `.sig` untuk installer 0.1.3 belum dibuat. GitHub CLI juga tidak dapat membuat release karena token akun `jprint144` sudah tidak valid. Update belum dapat dipublikasikan ke updater sampai dua akses ini dipulihkan.
+- **Next best action:** Sediakan kunci signing updater yang sama seperti rilis sebelumnya dan autentikasi ulang GitHub CLI, kemudian build ulang, unggah installer/signature/latest.json, dan publish release `v0.1.3`.

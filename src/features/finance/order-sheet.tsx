@@ -40,6 +40,7 @@ export function OrderSheet({
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("1");
   const [price, setPrice] = useState("");
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     if (!open) return;
@@ -47,6 +48,7 @@ export function OrderSheet({
     setName("");
     setQuantity("1");
     setPrice("");
+    setFeedback("");
   }, [open, initialProjectId, projects]);
 
   useEffect(() => {
@@ -76,6 +78,13 @@ export function OrderSheet({
     setQuantity("1");
     setPrice("");
     setOrders(await listCustomerOrders(Number(projectId)));
+    setFeedback("Pesanan tersimpan.");
+  };
+
+  const removeOrder = async (order: CustomerOrder) => {
+    await deleteCustomerOrder(order.id);
+    setOrders(await listCustomerOrders(Number(projectId)));
+    setFeedback(`Pesanan ${order.customer_name} dihapus.`);
   };
 
   return (
@@ -115,7 +124,12 @@ export function OrderSheet({
             onChange={(event) => setPrice(event.target.value.replace(/\D/g, ""))}
           />
           <Button
-            onClick={() => save().catch(console.error)}
+            onClick={() =>
+              save().catch((error: unknown) => {
+                console.error(error);
+                setFeedback("Pesanan gagal disimpan. Coba lagi.");
+              })
+            }
             disabled={!projectId || !name.trim() || !price}
           >
             <Plus data-icon="inline-start" />
@@ -138,10 +152,10 @@ export function OrderSheet({
                   size="icon"
                   aria-label={`Hapus pesanan ${order.customer_name}`}
                   onClick={() =>
-                    deleteCustomerOrder(order.id)
-                      .then(() => listCustomerOrders(Number(projectId)))
-                      .then(setOrders)
-                      .catch(console.error)
+                    removeOrder(order).catch((error: unknown) => {
+                      console.error(error);
+                      setFeedback("Pesanan gagal dihapus. Coba lagi.");
+                    })
                   }
                 >
                   <Trash2 />
@@ -149,6 +163,11 @@ export function OrderSheet({
               </div>
             ))}
           </div>
+          {feedback && (
+            <p aria-live="polite" className="text-sm text-muted-foreground">
+              {feedback}
+            </p>
+          )}
         </div>
       </SheetContent>
     </Sheet>
