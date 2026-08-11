@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { saveExpenseTransaction } from "@/features/finance/finance-repository";
 import type { ProjectFinancialSummary } from "@/features/finance/finance-repository";
@@ -84,62 +84,72 @@ export function ExpenseDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Catat Pengeluaran Project</DialogTitle>
-          <DialogDescription>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="right" className="w-full px-6 py-6 sm:max-w-md">
+        <SheetHeader className="px-0 pt-0">
+          <SheetTitle>Catat Pengeluaran Project</SheetTitle>
+          <SheetDescription>
             Pilih project yang pesanan, Invoice, dan Notanya telah selesai untuk mencatat biaya riil.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
         {eligibleProjects.length === 0 ? (
-          <p className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+          <div className="flex flex-1 flex-col justify-between gap-6 py-6">
+            <p className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
             Belum ada project dengan pesanan serta Invoice dan Nota. Buat kedua dokumen tersebut terlebih dahulu.
-          </p>
+            </p>
+          </div>
         ) : (
-          <div className="grid gap-4">
-            <div className="grid gap-2">
+          <div className="flex flex-1 flex-col gap-5 overflow-y-auto py-6">
+            <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="expense-project">Project</label>
               <Select value={projectId} onValueChange={setProjectId}>
-                <SelectTrigger id="expense-project"><SelectValue placeholder="Pilih project" /></SelectTrigger>
+                <SelectTrigger id="expense-project" className="w-full"><SelectValue placeholder="Pilih project" /></SelectTrigger>
                 <SelectContent>
+                  <SelectGroup>
                   {eligibleProjects.map((project) => (
                     <SelectItem key={project.project_id} value={String(project.project_id)}>
                       {project.project_code} — {project.project_name}
                     </SelectItem>
                   ))}
+                  </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
             {selectedProject && (
               <div className="grid grid-cols-3 gap-3 rounded-md border bg-muted/40 p-3 text-sm">
-                <div><p className="text-muted-foreground">Pesanan</p><p className="mt-1 font-medium">{selectedProject.order_count}</p></div>
-                <div><p className="text-muted-foreground">Omset</p><p className="mt-1 font-medium">{rupiah(selectedProject.income_amount)}</p></div>
-                <div><p className="text-muted-foreground">Margin saat ini</p><p className="mt-1 font-medium">{rupiah(selectedProject.income_amount - selectedProject.expense_amount)}</p></div>
+                <div className="flex flex-col gap-1"><p className="text-xs text-muted-foreground">Pesanan</p><p className="font-medium">{selectedProject.order_count}</p></div>
+                <div className="flex flex-col gap-1"><p className="text-xs text-muted-foreground">Omset</p><p className="font-medium">{rupiah(selectedProject.income_amount)}</p></div>
+                <div className="flex flex-col gap-1"><p className="text-xs text-muted-foreground">Margin</p><p className="font-medium">{rupiah(selectedProject.income_amount - selectedProject.expense_amount)}</p></div>
               </div>
             )}
-            <div className="grid gap-2">
+            <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="expense-amount">Nominal pengeluaran</label>
               <Input id="expense-amount" inputMode="numeric" placeholder="Contoh: 150.000" value={amount ? new Intl.NumberFormat("id-ID").format(Number(amount)) : ""} onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))} />
             </div>
-            <div className="grid gap-2">
+            <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="expense-date">Tanggal</label>
               <Input id="expense-date" type="date" value={transactionDate} onChange={(event) => setTransactionDate(event.target.value)} />
             </div>
-            <div className="grid gap-2">
+            <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="expense-notes">Catatan</label>
-              <Textarea id="expense-notes" placeholder="Contoh: biaya cetak, vendor, atau transport" value={notes} onChange={(event) => setNotes(event.target.value)} />
+              <Textarea id="expense-notes" rows={4} placeholder="Contoh: biaya cetak, vendor, atau transport" value={notes} onChange={(event) => setNotes(event.target.value)} />
             </div>
-            {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
+            {error && <p role="alert" className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
           </div>
         )}
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Batal</Button>
-          <Button onClick={() => void save()} disabled={!projectId || !amount || !transactionDate || saving}>
-            {saving ? "Menyimpan..." : "Simpan Pengeluaran"}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        <SheetFooter className="px-0 pb-0 pt-1">
+          {eligibleProjects.length === 0 ? (
+            <Button variant="outline" onClick={() => onOpenChange(false)}>Tutup</Button>
+          ) : (
+            <>
+              <Button variant="outline" onClick={() => onOpenChange(false)}>Batal</Button>
+              <Button onClick={() => void save()} disabled={!projectId || !amount || !transactionDate || saving}>
+                {saving ? "Menyimpan..." : "Simpan Pengeluaran"}
+              </Button>
+            </>
+          )}
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }

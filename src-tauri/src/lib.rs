@@ -22,6 +22,14 @@ pub fn run() {
             sql: include_str!("../migrations/0003_transactions_order.sql"),
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 4,
+            description: "add_multi_content_to_ideas",
+            sql: include_str!("../migrations/0004_idea_multi_content.sql"),
+            kind: MigrationKind::Up,
+        },
+        Migration { version: 5, description: "add_title_to_ideas", sql: include_str!("../migrations/0005_idea_title.sql"), kind: MigrationKind::Up },
+        Migration { version: 6, description: "add_reference_sort_order", sql: include_str!("../migrations/0006_reference_sort_order.sql"), kind: MigrationKind::Up },
     ];
 
     tauri::Builder::default()

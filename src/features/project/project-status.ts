@@ -1,5 +1,13 @@
 import type { Project } from "@/features/project/project-repository";
 
+export const projectStatusLabels: Record<string, string> = {
+  brief: "Brief",
+  concept: "Konsep",
+  revision: "Revisi",
+  finalization: "Finalisasi",
+  done: "Selesai",
+};
+
 export const paymentStatusLabels: Record<string, string> = {
   unpaid: "Belum Lunas",
   deposit: "DP",

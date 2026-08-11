@@ -7,10 +7,19 @@
   ],
   "permissions": [
     "core:default",
+    "core:webview:allow-create-webview-window",
+    "core:webview:allow-create-webview",
+    "core:webview:allow-webview-close",
+    "core:webview:allow-webview-hide",
+    "core:webview:allow-webview-show",
+    "core:webview:allow-set-webview-focus",
+    "core:webview:allow-set-webview-position",
+    "core:webview:allow-set-webview-size",
     "sql:default",
     "sql:allow-execute",
     "fs:default",
     "fs:allow-mkdir",
+    "fs:allow-rename",
     "fs:allow-remove",
     "fs:allow-write-file",
     {
@@ -18,6 +27,7 @@
       "allow": [
         "D:/#0 JOBS/RAKIT-V2.0.0",
         "D:/#0 JOBS/RAKIT-V2.0.0/**/*",
+        "D:/**/*",
         "$APPLOCALDATA/**/*"
       ]
     },
@@ -26,7 +36,16 @@
     "dialog:allow-save",
     {
       "identifier": "opener:allow-open-path",
-      "allow": [{ "path": "D:/#0 JOBS/RAKIT-V2.0.0/**/*" }]
+      "allow": [
+        { "path": "D:/#0 JOBS/RAKIT-V2.0.0/**/*" },
+        { "path": "D:/#0 JOBS/RAKIT-V2.0.0/**/*", "app": "notepad" },
+        { "path": "D:/**/*" },
+        { "path": "$PICTURE/**/*" },
+        { "path": "$DESKTOP/**/*" },
+        { "path": "$DOCUMENT/**/*" },
+        { "path": "$DOWNLOAD/**/*" }
+        ,{ "path": "$APPLOCALDATA/**/*" }
+      ]
     }
   ]
 }

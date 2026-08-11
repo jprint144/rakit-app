@@ -44,6 +44,7 @@ Sebagai desainer, mau lacak semua project dengan fleksibel â€” kadang mau l
 - **AC:** Project bisa ditampilkan dalam 4 mode â€” List, Table, Kanban, Kalender â€” data tetap sinkron di semua mode, ganti tampilan tanpa loading yang kelihatan.
 - **AC:** Kolom Kanban: **Brief â†’ Konsep â†’ Revisi â†’ Finalisasi â†’ Selesai**.
 - **AC:** Tiap project punya: nama, klien, nomor WhatsApp klien (klik langsung buka chat WA), status kanban, status pembayaran (**Belum Lunas / DP / Lunas**), deadline, brief/deskripsi.
+- **AC:** Tiap project memiliki tombol **Brief** yang langsung membuka file `brief.txt` tetap di folder project dengan aplikasi Notepad Windows. Setiap project selalu memakai file yang sama saat dibuka ulang; file dibuat saat pertama kali dibuka. Brief lama yang tersimpan di aplikasi dipindahkan sebagai teks ke file tersebut tanpa menghapusnya.
 - **AC:** Klik "Tambah Project" otomatis bikin folder baru di dalam folder utama, dengan kode folder format `RKT-001-namaklien-tanggal` (nomor urut naik otomatis).
 - **AC:** Dari halaman Project Detail, ada tombol buka folder lokal project langsung ke file explorer OS.
 - **AC:** Due date yang lewat ditandai visual beda (bukan cuma warna, ada ikon) di semua tampilan.
@@ -60,12 +61,17 @@ Sebagai desainer, mau catat pemasukan per termin dan pengeluaran tiap project bi
 - **AC:** Finance menampilkan hasil riil per project: omset dari seluruh pesanan, total pengeluaran, dan margin (omset dikurangi pengeluaran).
 - **AC:** Ada halaman pengaturan invoice/nota (logo agency, nama agency, format penomoran) sebelum generate dokumen pertama.
 - **AC:** Invoice & nota di-generate otomatis dari data transaksi yang sudah ada (gak input ulang manual), bisa di-export ke **PNG, JPG, atau PDF**.
+- **AC:** Template Invoice/Nota tampil profesional saat preview maupun export: logo agency mempertahankan rasio asli, informasi dokumen mudah dipindai, tabel item dan total tegas, serta blok penutup dapat menampilkan gambar tanda tangan yang menimpa nama penandatangan.
+- **AC:** Invoice dan Nota memiliki tujuan yang berbeda secara jelas: Invoice adalah tagihan dan menampilkan rekening tujuan pembayaran serta total tagihan; Nota adalah bukti pelunasan, hanya dapat dibuat untuk project berstatus Lunas, bernomor `NOTA-…`, menampilkan status LUNAS dan total diterima, serta tidak menampilkan rekening tujuan pembayaran.
+- **AC:** Setiap project memiliki satu pasangan nomor dokumen yang permanen: Invoice pertama menetapkan nomor `INV-XXX` (atau prefix Invoice dari Settings), Nota memakai urutan `XXX` yang sama dengan prefix `NOTA-XXX`. Generate ulang dokumen pada project yang sama memuat nomor yang telah ada dan tidak membuat nomor baru.
+- **AC:** Pengaturan Invoice/Nota dapat menyimpan satu atau beberapa rekening pembayaran (nama bank, nomor rekening, dan atas nama). Semua rekening tersimpan sinkron dan tampil pada blok pembayaran dokumen dengan susunan ringkas.
+- **AC:** Pengaturan Invoice/Nota dapat mengunggah gambar tanda tangan. Gambar tersebut disalin ke penyimpanan aplikasi dan dipakai konsisten pada preview serta ekspor; tanda tangan bawaan dipakai bila pengguna belum mengunggah pengganti.
 
 ### Idea
 
 Sebagai desainer, mau simpan ide kapan pun kepikiran, dalam bentuk apa pun, tanpa ribet mikir taruh di mana.
 
-- **AC:** Idea bisa berupa teks, dokumen, gambar, atau link.
+- **AC:** Satu Idea dapat memuat kombinasi teks, dokumen, gambar, dan link sekaligus. Setiap bagian bersifat opsional, tetapi minimal satu bagian harus diisi.
 - **AC:** Tiap ide masuk satu kategori (kategori awal preset, user bisa tambah kategori baru sendiri lewat Settings).
 
 ### Reference
@@ -98,8 +104,8 @@ Gambaran awal, detail kolom lengkap disusun saat implementasi schema:
 - **Project** â€” kode (`RKT-001-namaklien-tanggal`), nama, klien, nomor WA, brief, status kanban, status pembayaran, deadline, tanggal mulai, path folder lokal, archived flag.
 - **Transaksi Keuangan** â€” relasi ke Project, tipe (pemasukan/pengeluaran), termin (kalau pemasukan), nominal, tanggal, catatan.
 - **Invoice/Nota** â€” relasi ke Project, nomor (auto sesuai format Settings), tanggal, item (dari data transaksi), format export terakhir.
-- **Idea** â€” tipe konten (teks/dokumen/gambar/link), kategori, isi/path file, tanggal dibuat.
-- **Reference** â€” url, judul, kategori, tanggal ditambah.
+- **Idea** â€” judul, kategori, teks opsional, path dokumen opsional, path gambar opsional, link opsional, tanggal dibuat. Teks Idea dibuka dalam file `text.txt` permanen per Idea melalui Notepad; teks lama dipindahkan saat file pertama kali dibuka.
+- **Reference** â€” url, judul, kategori, tanggal ditambah, urutan tampilan manual.
 - **Settings** â€” path folder utama, nama & logo agency, format penomoran invoice/nota, daftar kategori custom (Idea/Reference), tema aktif.
 
 ## 6. Technical Stack

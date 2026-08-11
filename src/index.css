@@ -1,3 +1,7 @@
+@import "@fontsource/figtree/400.css";
+@import "@fontsource/figtree/500.css";
+@import "@fontsource/figtree/600.css";
+@import "@fontsource/figtree/700.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -42,6 +46,10 @@
   --success-foreground: oklch(0.985 0 0);
   --warning: oklch(0.75 0.16 75);
   --warning-foreground: oklch(0.145 0 0);
+  --invoice-accent: oklch(0.86 0.08 240);
+  --invoice-accent-strong: oklch(0.5 0.19 280);
+  --invoice-ink: oklch(0.2 0.08 270);
+  --invoice-canvas: oklch(0.985 0.01 250);
 }
 
 .dark {
@@ -81,6 +89,10 @@
   --success-foreground: oklch(0.145 0 0);
   --warning: oklch(0.8 0.16 75);
   --warning-foreground: oklch(0.145 0 0);
+  --invoice-accent: oklch(0.86 0.08 240);
+  --invoice-accent-strong: oklch(0.5 0.19 280);
+  --invoice-ink: oklch(0.2 0.08 270);
+  --invoice-canvas: oklch(0.985 0.01 250);
 }
 
 @theme inline {
@@ -119,6 +131,10 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-invoice-accent: var(--invoice-accent);
+  --color-invoice-accent-strong: var(--invoice-accent-strong);
+  --color-invoice-ink: var(--invoice-ink);
+  --color-invoice-canvas: var(--invoice-canvas);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -132,4 +148,32 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.font-invoice {
+  font-family: "Figtree", sans-serif;
+}
+
+.invoice-document {
+  --background: rgb(255, 255, 255);
+  --foreground: rgb(24, 24, 27);
+  --card: rgb(255, 255, 255);
+  --card-foreground: rgb(24, 24, 27);
+  --popover: rgb(255, 255, 255);
+  --popover-foreground: rgb(24, 24, 27);
+  --primary: rgb(24, 24, 27);
+  --primary-foreground: rgb(255, 255, 255);
+  --secondary: rgb(244, 244, 245);
+  --secondary-foreground: rgb(24, 24, 27);
+  --muted: rgb(244, 244, 245);
+  --muted-foreground: rgb(113, 113, 122);
+  --accent: rgb(244, 244, 245);
+  --accent-foreground: rgb(24, 24, 27);
+  --border: rgb(228, 228, 231);
+  --input: rgb(228, 228, 231);
+  --ring: rgb(113, 113, 122);
+  --invoice-accent: rgb(190, 224, 246);
+  --invoice-accent-strong: rgb(69, 58, 184);
+  --invoice-ink: rgb(16, 21, 65);
+  --invoice-canvas: rgb(255, 255, 255);
 }

@@ -109,8 +109,8 @@ export async function listProjectFinancialSummaries() {
        EXISTS(SELECT 1 FROM invoices WHERE invoices.project_id = projects.id AND document_type = 'invoice') AS has_invoice,
        EXISTS(SELECT 1 FROM invoices WHERE invoices.project_id = projects.id AND document_type = 'nota') AS has_nota
      FROM projects
-     WHERE projects.archived = 0
-       AND EXISTS(SELECT 1 FROM customer_orders WHERE customer_orders.project_id = projects.id)
+     WHERE EXISTS(SELECT 1 FROM customer_orders WHERE customer_orders.project_id = projects.id)
+        OR EXISTS(SELECT 1 FROM transactions WHERE transactions.project_id = projects.id)
      ORDER BY projects.id DESC`,
   );
 }
@@ -123,6 +123,13 @@ export async function deleteExpenseTransaction(id: number) {
   ]);
 }
 
+export type PaymentAccount = {
+  id: string;
+  bank_name: string;
+  account_number: string;
+  account_holder: string;
+};
+
 export type InvoiceSettings = {
   agency_name: string;
   invoice_prefix: string;
@@ -130,14 +137,33 @@ export type InvoiceSettings = {
   agency_address: string;
   agency_phone: string;
   agency_email: string;
-  payment_instructions: string;
+  payment_accounts: PaymentAccount[];
+  signature_path: string;
   signatory_name: string;
 };
+
+function parsePaymentAccounts(value: string | undefined): PaymentAccount[] {
+  if (!value) return [];
+  try {
+    const accounts = JSON.parse(value);
+    if (!Array.isArray(accounts)) return [];
+    return accounts
+      .filter((account): account is PaymentAccount =>
+        typeof account?.id === "string" &&
+        typeof account?.bank_name === "string" &&
+        typeof account?.account_number === "string" &&
+        typeof account?.account_holder === "string",
+      );
+  } catch {
+    return [];
+  }
+}
+
 export async function loadInvoiceSettings(): Promise<InvoiceSettings> {
   const rows = await (
     await db()
   ).select<{ key: string; value: string }[]>(
-    "SELECT key, value FROM settings WHERE key IN ('agency_name', 'invoice_prefix', 'logo_path', 'agency_address', 'agency_phone', 'agency_email', 'payment_instructions', 'signatory_name')",
+    "SELECT key, value FROM settings WHERE key IN ('agency_name', 'invoice_prefix', 'logo_path', 'agency_address', 'agency_phone', 'agency_email', 'payment_accounts', 'signature_path', 'signatory_name')",
   );
   const values = Object.fromEntries(rows.map((row) => [row.key, row.value]));
   return {
@@ -147,7 +173,8 @@ export async function loadInvoiceSettings(): Promise<InvoiceSettings> {
     agency_address: values.agency_address ?? "",
     agency_phone: values.agency_phone ?? "",
     agency_email: values.agency_email ?? "",
-    payment_instructions: values.payment_instructions ?? "",
+    payment_accounts: parsePaymentAccounts(values.payment_accounts),
+    signature_path: values.signature_path ?? "",
     signatory_name: values.signatory_name ?? "",
   };
 }
@@ -160,7 +187,8 @@ export async function saveInvoiceSettings(settings: InvoiceSettings) {
     ["agency_address", settings.agency_address],
     ["agency_phone", settings.agency_phone],
     ["agency_email", settings.agency_email],
-    ["payment_instructions", settings.payment_instructions],
+    ["payment_accounts", JSON.stringify(settings.payment_accounts)],
+    ["signature_path", settings.signature_path],
     ["signatory_name", settings.signatory_name],
   ];
 
@@ -196,10 +224,28 @@ export async function generateInvoice(
   items: unknown[],
 ) {
   const database = await db();
-  const row = await database.select<{ next_number: number }[]>(
-    "SELECT COUNT(*) + 1 AS next_number FROM invoices",
+  const existing = await database.select<{ number: string }[]>(
+    "SELECT number FROM invoices WHERE project_id = $1 AND document_type = $2 ORDER BY id ASC LIMIT 1",
+    [projectId, documentType],
   );
-  const number = `${prefix || "INV"}-${String(row[0]?.next_number ?? 1).padStart(3, "0")}`;
+  if (existing[0]?.number) return existing[0].number;
+
+  let number: string;
+  if (documentType === "nota") {
+    const projectInvoice = await database.select<{ number: string }[]>(
+      "SELECT number FROM invoices WHERE project_id = $1 AND document_type = 'invoice' ORDER BY id ASC LIMIT 1",
+      [projectId],
+    );
+    const invoiceNumber = projectInvoice[0]?.number;
+    const suffix = invoiceNumber?.match(/-(\d+)$/)?.[1];
+    if (!suffix) throw new Error("Buat Invoice project ini terlebih dahulu sebelum membuat Nota.");
+    number = `NOTA-${suffix}`;
+  } else {
+  const row = await database.select<{ next_number: number }[]>(
+    "SELECT COALESCE(MAX(id), 0) + 1 AS next_number FROM invoices",
+  );
+    number = `${prefix || "INV"}-${String(row[0]?.next_number ?? 1).padStart(3, "0")}`;
+  }
   await database.execute(
     "INSERT INTO invoices (project_id, order_id, document_type, number, issued_at, items_json) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, $5)",
     [projectId, orderId, documentType, number, JSON.stringify(items)],
@@ -243,6 +289,25 @@ export async function listCustomerOrders(projectId: number) {
     "SELECT customer_orders.id, customer_orders.project_id, customer_orders.customer_name, customer_orders.customer_whatsapp, customer_orders.status, COALESCE(SUM(order_items.quantity * order_items.unit_price), 0) AS total_amount, MIN(order_items.id) AS primary_item_id, COALESCE(MIN(order_items.quantity), 1) AS primary_quantity FROM customer_orders LEFT JOIN order_items ON order_items.order_id = customer_orders.id WHERE customer_orders.project_id = $1 GROUP BY customer_orders.id ORDER BY customer_orders.id DESC",
     [projectId],
   );
+}
+
+export type InvoiceNumberRecap = {
+  document_type: "invoice" | "nota";
+  total: number;
+  latest_number: string | null;
+  latest_issued_at: string | null;
+};
+
+export async function getInvoiceNumberRecap() {
+  return (await (await db()).select<InvoiceNumberRecap[]>(
+    `SELECT
+      document_type,
+      COUNT(*) AS total,
+      (SELECT number FROM invoices latest WHERE latest.document_type = invoices.document_type ORDER BY latest.id DESC LIMIT 1) AS latest_number,
+      (SELECT issued_at FROM invoices latest WHERE latest.document_type = invoices.document_type ORDER BY latest.id DESC LIMIT 1) AS latest_issued_at
+    FROM invoices
+    GROUP BY document_type`,
+  ));
 }
 
 

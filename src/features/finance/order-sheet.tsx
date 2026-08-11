@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -40,7 +41,6 @@ export function OrderSheet({
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("1");
   const [price, setPrice] = useState("");
-  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     if (!open) return;
@@ -48,7 +48,6 @@ export function OrderSheet({
     setName("");
     setQuantity("1");
     setPrice("");
-    setFeedback("");
   }, [open, initialProjectId, projects]);
 
   useEffect(() => {
@@ -78,13 +77,13 @@ export function OrderSheet({
     setQuantity("1");
     setPrice("");
     setOrders(await listCustomerOrders(Number(projectId)));
-    setFeedback("Pesanan tersimpan.");
+    toast.success("Pesanan tersimpan.");
   };
 
   const removeOrder = async (order: CustomerOrder) => {
     await deleteCustomerOrder(order.id);
     setOrders(await listCustomerOrders(Number(projectId)));
-    setFeedback(`Pesanan ${order.customer_name} dihapus.`);
+    toast.success(`Pesanan ${order.customer_name} dihapus.`);
   };
 
   return (
@@ -127,7 +126,7 @@ export function OrderSheet({
             onClick={() =>
               save().catch((error: unknown) => {
                 console.error(error);
-                setFeedback("Pesanan gagal disimpan. Coba lagi.");
+                toast.error("Pesanan gagal disimpan. Coba lagi.");
               })
             }
             disabled={!projectId || !name.trim() || !price}
@@ -154,7 +153,7 @@ export function OrderSheet({
                   onClick={() =>
                     removeOrder(order).catch((error: unknown) => {
                       console.error(error);
-                      setFeedback("Pesanan gagal dihapus. Coba lagi.");
+                      toast.error("Pesanan gagal dihapus. Coba lagi.");
                     })
                   }
                 >
@@ -163,11 +162,6 @@ export function OrderSheet({
               </div>
             ))}
           </div>
-          {feedback && (
-            <p aria-live="polite" className="text-sm text-muted-foreground">
-              {feedback}
-            </p>
-          )}
         </div>
       </SheetContent>
     </Sheet>

@@ -206,15 +206,15 @@
         "area":  "finance",
         "title":  "Generate invoice \u0026 nota dari data transaksi + export",
         "user_visible_behavior":  "User klik generate, invoice/nota otomatis terisi dari data transaksi project (tanpa input ulang), bisa di-export ke PNG, JPG, atau PDF.",
-        "status":  "in_progress",
+        "status":  "passing",
         "verification":  [
                              "Generate invoice dari project dengan transaksi terisi, cek semua data transaksi masuk otomatis",
                              "Export ke PNG, cek file valid dan sesuai tampilan",
                              "Export ke PDF, cek file valid dan bisa dibuka",
                              "Cek penomoran otomatis sesuai format dari Settings"
                          ],
-        "evidence":  "2026-08-07: invoice generated from project income; user confirmed PDF export succeeds, logo is included, and its size was adjusted. npm run build passed.",
-        "notes":  "Reworked scope 2026-08-08: Invoice and Nota use all billable order items from the selected project, not payment transactions. One project can have multiple customer orders collected into one document. Payments remain separate. Owner expense flow added 2026-08-08: Finance only accepts expense entries for projects that have orders plus both Invoice and Nota; omset, expense, and actual margin are calculated per project. Manual runtime verification remains required."
+        "evidence":  "2026-08-10: User confirmed updated Invoice visual output is correct and PDF export can be saved and opened. PNG preview/export is visible in the application; npm run build passed (3091 modules).",
+        "notes":  "Reworked scope 2026-08-08: Invoice and Nota use all billable order items from the selected project, not payment transactions. One project can have multiple customer orders collected into one document. Payments remain separate. Owner expense flow added 2026-08-08: Finance only accepts expense entries for projects that have orders plus both Invoice and Nota; omset, expense, and actual margin are calculated per project."
     },
     {
         "id":  "idea-crud",
@@ -222,12 +222,12 @@
         "area":  "idea",
         "title":  "CRUD Idea (teks, dokumen, gambar, link)",
         "user_visible_behavior":  "User bisa tambah ide dalam 4 bentuk konten: teks, dokumen, gambar, atau link, lalu lihat/edit/hapus lagi.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Tambah satu ide tiap tipe konten, cek semua tersimpan dengan benar",
                              "Edit dan hapus ide, cek perubahan sesuai"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-10: User confirmed the Idea table, title, multi-content form, Notepad text action, file controls, and category filter are working as expected. npm run build passed.",
         "notes":  ""
     },
     {
@@ -236,12 +236,12 @@
         "area":  "idea",
         "title":  "Kategori Idea (preset + custom)",
         "user_visible_behavior":  "Tiap ide masuk satu kategori. User bisa pilih dari kategori preset atau tambah kategori baru sendiri.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Tambah ide dengan kategori preset, cek tersimpan benar",
                              "Tambah kategori baru lewat Settings, cek muncul sebagai pilihan saat tambah ide"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-10: Custom category controls in Settings were implemented and user confirmed the deletion flow. npm run build passed.",
         "notes":  "Satu ide hanya boleh masuk satu kategori, sesuai PRD."
     },
     {
@@ -250,12 +250,12 @@
         "area":  "reference",
         "title":  "Browser in-app untuk reference",
         "user_visible_behavior":  "User bisa buka website beneran di dalam app (bukan cuma daftar link), tanpa perlu buka Chrome.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Buka salah satu link reference, cek website beneran ter-render di dalam app",
                              "Navigasi di dalam webview (klik link lain, scroll) berjalan normal"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-11: User verified Pinterest and Magnific render as native in-app webviews, can be navigated and scrolled; the Reference view no longer remains when moving to another route.",
         "notes":  "Pakai webview native Tauri, bukan iframe web."
     },
     {
@@ -264,12 +264,12 @@
         "area":  "reference",
         "title":  "Kategori dan manajemen link Reference",
         "user_visible_behavior":  "User bisa tambah link referensi manual, dikelompokkan per kategori.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Tambah link baru dengan kategori, cek tersimpan dan muncul di grup kategori yang benar",
                              "Hapus link, cek hilang dari daftar"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-11: User visually confirmed manual Reference entries are grouped by category in the subsidebar and can be managed from the Reference settings panel.",
         "notes":  ""
     },
     {
@@ -278,13 +278,13 @@
         "area":  "archive",
         "title":  "Pindahkan project selesai ke Archive",
         "user_visible_behavior":  "Project berstatus Selesai bisa diarsipkan lewat satu aksi, lalu hilang dari daftar Project utama dan muncul di halaman Archive.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Arsipkan satu project, cek hilang dari daftar Project utama",
                              "Cek project tersebut muncul di halaman Archive",
                              "Buka detail project yang diarsipkan, cek datanya masih lengkap"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-11: Uji runtime RKT-017 berhasil diarsipkan. Project hilang dari daftar utama, muncul di Archive, dan Detail menampilkan kembali kode, klien, status pembayaran, serta field project yang tersimpan.",
         "notes":  ""
     },
     {
@@ -293,12 +293,12 @@
         "area":  "archive",
         "title":  "Pindahkan folder fisik project ke sub-folder Arsip",
         "user_visible_behavior":  "Saat project diarsipkan, folder fisiknya otomatis pindah dari folder utama ke sub-folder Arsip di dalamnya.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Arsipkan project, cek folder fisik benar-benar pindah lokasi (bukan disalin/duplikat)",
                              "Cek tombol buka folder di project yang sudah diarsipkan tetap mengarah ke lokasi baru yang benar"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-11: File Explorer dari tombol Folder Archive menunjukkan D:\\#0 JOBS\\RAKIT-V2.0.0\\Arsip\\RKT-017-verifikasi-lokal-2026-08-11. Folder berada di sub-folder Arsip dan tidak ada duplikasi pada folder utama.",
         "notes":  ""
     },
     {
@@ -307,13 +307,13 @@
         "area":  "dashboard",
         "title":  "Widget ringkasan Dashboard",
         "user_visible_behavior":  "Dashboard menampilkan ringkasan semua project: status per tahap, klien, project overdue, dan gambaran keuangan.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Cek widget overview menampilkan jumlah/status project yang sesuai data asli",
                              "Cek widget overdue hanya menampilkan project yang deadline-nya lewat",
                              "Ubah data project/transaksi, cek Dashboard ter-update sesuai"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-11: Dashboard source terbaru diuji pada aplikasi Tauri dev. Lima kartu (Project Aktif, Klien Aktif, Project Selesai, Deadline Lewat, Margin Riil), status per tahap, keuangan, dan empty state overdue ter-render benar.",
         "notes":  "Dikerjakan paling akhir karena narik data dari semua modul lain yang sudah jadi."
     },
     {
