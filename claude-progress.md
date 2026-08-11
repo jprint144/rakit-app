@@ -19,6 +19,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Perubahan Project terbaru:** Aksi Brief per-project kini membuka file `brief.txt` tetap di folder project menggunakan Notepad Windows. Brief HTML lama dipindahkan sebagai teks saat file pertama kali dibuat; verifikasi runtime masih diperlukan.
 - **Perilaku FAB Project:** Tombol tambah Project disembunyikan saat panel atau dialog Project apa pun terbuka (tambah/edit, Brief, Pesanan, Detail, atau konfirmasi hapus) agar tidak tertutup overlay.
 - **Build distribusi terbaru:** Windows x64 `app.exe`, installer NSIS, dan installer MSI versi `0.1.5` berhasil dibuat pada 2026-08-11 dari source terbaru. Artefak updater bertanda tangan tidak dibuat karena private signing key tidak tersedia di environment.
+- **Rilis GitHub terbaru:** `v0.1.6` sudah dipublikasikan pada 2026-08-11 dengan installer Windows NSIS `Rakit_0.1.6_x64-setup.exe`. Commit aplikasi: `d2f38cd`.
 
 **Environment dev:**
 
@@ -31,6 +32,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ---
 
 ## Session Record
+
+### Sesi 58 - Publikasi GitHub Release v0.1.6 (2026-08-11)
+
+- **Goal:** Mempublikasikan seluruh pembaruan lokal sebagai rilis aplikasi.
+- **Completed:** Versi aplikasi dinaikkan menjadi `0.1.6`, seluruh 97 file pembaruan di-commit sebagai `d2f38cd` (`release: v0.1.6`), didorong ke `master`, dan ditandai `v0.1.6`. GitHub Release dibuat dan memuat installer `Rakit_0.1.6_x64-setup.exe` (6.49 MB).
+- **Verification run:** `npm install` dan `npm run build` lulus (3107 modul). Tauri release build menghasilkan installer NSIS x64 dan aset Release GitHub terverifikasi berstatus `uploaded`.
+- **Commits:** `d2f38cd release: v0.1.6`.
+- **Known risks:** Auto-update Tauri belum dapat dipakai karena `TAURI_SIGNING_PRIVATE_KEY` tidak tersedia, sehingga file updater bertanda tangan tidak dibuat. Unduh/pasang installer release tetap normal.
+- **Next best action:** Pasang installer dari GitHub Release untuk memperbarui aplikasi lokal; konfigurasi private signing key bila ingin mengaktifkan pembaruan otomatis.
 
 ### Sesi 57 - Pembaruan executable Windows (2026-08-11)
 
