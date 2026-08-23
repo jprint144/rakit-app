@@ -207,8 +207,8 @@ export default function ProjectPage() {
               <Input required placeholder="Nama klien" value={form.client_name} onChange={(event) => setForm({ ...form, client_name: event.target.value })} />
               <Input placeholder="Nomor WhatsApp" value={form.client_whatsapp ?? ""} onChange={(event) => setForm({ ...form, client_whatsapp: event.target.value })} />
               <div className="flex gap-4">
-                <Input type="date" aria-label="Tanggal mulai" value={form.started_at ?? ""} onChange={(event) => setForm({ ...form, started_at: event.target.value })} />
-                <Input type="date" aria-label="Deadline" value={form.deadline ?? ""} onChange={(event) => setForm({ ...form, deadline: event.target.value })} />
+                <Input className="scheme-light dark:scheme-dark" type="date" aria-label="Tanggal mulai" value={form.started_at ?? ""} onChange={(event) => setForm({ ...form, started_at: event.target.value })} />
+                <Input className="scheme-light dark:scheme-dark" type="date" aria-label="Deadline" value={form.deadline ?? ""} onChange={(event) => setForm({ ...form, deadline: event.target.value })} />
               </div>
               <div className="flex gap-4">
                 <Select value={form.kanban_status} onValueChange={(value) => setForm({ ...form, kanban_status: value })}>

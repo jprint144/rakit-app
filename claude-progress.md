@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 117 - Kontras ikon kalender popup Project (2026-08-24)
+
+- **Goal:** Membuat ikon kalender input tanggal pada popup Tambah/Edit Project terlihat di dark mode.
+- **Completed:** Input Tanggal mulai dan Deadline pada popup Project kini mengikuti color scheme aplikasi, sama seperti input tanggal Tugas Harian.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `fix(project): improve date icon contrast in forms`.
+- **Next best action:** User mengecek ikon kalender di popup Project.
+
 ### Sesi 116 - State aktif filter hari biru (2026-08-24)
 
 - **Goal:** Menyamakan penanda pilihan aktif dengan warna primary aplikasi.
