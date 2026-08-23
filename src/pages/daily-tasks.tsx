@@ -150,7 +150,7 @@ export default function DailyTasksPage() {
 
       <Card className="shadow-sm">
         <CardContent className="flex flex-col gap-4 p-5">
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             <label className="grid gap-1 text-sm font-medium">Tanggal
               <Input className="scheme-light dark:scheme-dark" type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
             </label>
@@ -166,18 +166,14 @@ export default function DailyTasksPage() {
                 {taskPriorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
               </select>
             </label>
-            <label className="grid gap-1 text-sm font-medium">Status
-              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
-                <option value="open">Belum selesai</option>
-                <option value="done">Selesai</option>
-                <option value="all">Semua status</option>
-              </select>
-            </label>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
               <Button type="button" size="sm" variant={weekdayFilter === "all" ? "default" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
               {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "default" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
+              <Button type="button" size="sm" variant={statusFilter === "open" ? "default" : "outline"} onClick={() => setStatusFilter("open")}>Belum selesai</Button>
+              <Button type="button" size="sm" variant={statusFilter === "done" ? "default" : "outline"} onClick={() => setStatusFilter("done")}>Selesai</Button>
+              <Button type="button" size="sm" variant={statusFilter === "all" ? "default" : "outline"} onClick={() => setStatusFilter("all")}>Semua status</Button>
             </div>
             <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>Reset filter</Button>
           </div>
