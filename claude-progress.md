@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 109 - Outline checkbox Tugas Harian (2026-08-24)
+
+- **Goal:** Memperjelas batas kotak checkbox sebelum tugas selesai.
+- **Completed:** Checkbox sekarang menggunakan outline foreground dua piksel, tetap memanfaatkan token warna tema aktif.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): strengthen completion checkbox outline`.
+- **Next best action:** User mengecek visibilitas checkbox di tampilan aplikasi.
+
 ### Sesi 108 - Checkbox tugas lebih tegas (2026-08-24)
 
 - **Goal:** Membuat checkbox penyelesaian tugas lebih mudah terlihat sebagai kotak.

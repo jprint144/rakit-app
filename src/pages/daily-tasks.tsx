@@ -213,7 +213,7 @@ export default function DailyTasksPage() {
               {visibleTasks.map((task) => (
                 <TableRow key={task.id} className={task.completed ? "opacity-70" : "transition-colors hover:bg-muted/40"}>
                   <TableCell>
-                    <Checkbox className="size-5 rounded-none border-2" checked={Boolean(task.completed)} aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onCheckedChange={() => void toggleComplete(task)} />
+                    <Checkbox className="size-5 rounded-none border-2 border-foreground" checked={Boolean(task.completed)} aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onCheckedChange={() => void toggleComplete(task)} />
                   </TableCell>
                   <TableCell className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</TableCell>
                   <TableCell>
