@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 104 - Popup catatan Tugas Harian (2026-08-24)
+
+- **Goal:** Menjaga baris tabel tugas tetap ringkas saat sebuah catatan panjang.
+- **Completed:** Kolom Catatan kini hanya menampilkan tombol `Lihat catatan`; klik tombol membuka dialog berisi judul tugas dan seluruh isi catatan yang dapat digulir.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `feat(tasks): show notes in a dialog`.
+- **Next best action:** User mengecek interaksi popup catatan dan melanjutkan uji CRUD tugas mandiri.
+
 ### Sesi 103 - Susunan filter desktop dua baris (2026-08-24)
 
 - **Goal:** Memperbaiki toolbar filter yang masih terpecah dan terlihat acak.

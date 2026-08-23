@@ -20,6 +20,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -82,6 +89,7 @@ export default function DailyTasksPage() {
   const [tasks, setTasks] = useState<DailyTask[]>([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<DailyTask | null>(null);
+  const [viewingNote, setViewingNote] = useState<DailyTask | null>(null);
   const [deleting, setDeleting] = useState<DailyTask | null>(null);
   const [dateFilter, setDateFilter] = useState("all");
   const [weekdayFilter, setWeekdayFilter] = useState<WeekdayFilter>("all");
@@ -211,7 +219,9 @@ export default function DailyTasksPage() {
                     </Button>
                   </TableCell>
                   <TableCell className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</TableCell>
-                  <TableCell className="max-w-72 whitespace-pre-wrap text-muted-foreground">{task.notes || "-"}</TableCell>
+                  <TableCell>
+                    {task.notes ? <Button size="sm" variant="ghost" onClick={() => setViewingNote(task)}>Lihat catatan</Button> : "-"}
+                  </TableCell>
                   <TableCell><Badge variant="outline">{task.priority}</Badge></TableCell>
                   <TableCell><Badge variant="secondary">{task.category}</Badge></TableCell>
                   <TableCell>{task.task_date}{task.task_time ? ` · ${task.task_time}` : ""}</TableCell>
@@ -245,6 +255,16 @@ export default function DailyTasksPage() {
           <div className="px-4 pb-4"><DailyTaskForm task={editing ? toTaskInput(editing) : defaultTask()} onCancel={() => setFormOpen(false)} onSubmit={save} /></div>
         </SheetContent>
       </Sheet>
+
+      <Dialog open={Boolean(viewingNote)} onOpenChange={(open) => !open && setViewingNote(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Catatan tugas</DialogTitle>
+            <DialogDescription>{viewingNote?.title}</DialogDescription>
+          </DialogHeader>
+          <p className="max-h-96 overflow-y-auto whitespace-pre-wrap text-sm leading-6">{viewingNote?.notes}</p>
+        </DialogContent>
+      </Dialog>
 
       <AlertDialog open={Boolean(deleting)} onOpenChange={(open) => !open && setDeleting(null)}>
         <AlertDialogContent>
