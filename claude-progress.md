@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 92 - Posisi menu Tugas Harian (2026-08-24)
+
+- **Goal:** Menempatkan akses tugas harian sesuai urutan navigasi yang diminta user.
+- **Completed:** Folder `Pribadi` dengan item Tugas Harian dipindahkan tepat setelah Kelola kerja dan sebelum Eksplorasi pada sidebar tree.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `fix(navigation): place daily tasks above exploration`.
+- **Next best action:** User melanjutkan uji manual CRUD Tugas Harian setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 91 - CRUD Tugas Harian mandiri (2026-08-24)
 
 - **Goal:** Menambahkan pencatatan tugas harian yang sepenuhnya terpisah dari Project.

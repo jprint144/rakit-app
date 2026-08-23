@@ -36,6 +36,9 @@ const navigation: TreeBranch[] = [
     { label: "Keuangan", url: "/finance" },
     { label: "Invoice / Nota", url: "/invoice" },
   ]],
+  ["Pribadi", [
+    { label: "Tugas Harian", url: "/tugas-harian" },
+  ]],
   ["Eksplorasi", [
     { label: "Idea", url: "/idea" },
     { label: "Reference", url: "/reference" },
@@ -43,9 +46,6 @@ const navigation: TreeBranch[] = [
   ["Lainnya", [
     { label: "Archive", url: "/archive" },
     { label: "Settings", url: "/settings" },
-  ]],
-  ["Pribadi", [
-    { label: "Tugas Harian", url: "/tugas-harian" },
   ]],
 ];
 
