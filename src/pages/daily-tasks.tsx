@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -124,6 +124,13 @@ export default function DailyTasksPage() {
     setEditing(null);
     load();
   };
+  const resetFilters = () => {
+    setDateFilter("all");
+    setWeekdayFilter("all");
+    setCategoryFilter("all");
+    setPriorityFilter("all");
+    setStatusFilter("open");
+  };
 
   return (
     <div className="flex flex-1 flex-col gap-5 overflow-x-hidden px-6 py-5 md:px-8">
@@ -135,42 +142,41 @@ export default function DailyTasksPage() {
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base">Filter tugas</CardTitle>
-          <CardDescription>Pilih tanggal, kategori, prioritas, atau status yang ingin dilihat.</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <p className="mr-2 text-sm font-medium">Hari</p>
-            <div className="flex flex-wrap gap-2">
+        <CardContent className="flex flex-wrap items-end gap-3 p-4">
+          <div className="mr-2 grid gap-0.5 self-center">
+            <p className="text-sm font-semibold">Filter tugas</p>
+            <p className="text-xs text-muted-foreground">Atur daftar yang ditampilkan.</p>
+          </div>
+          <div className="grid gap-1">
+            <span className="text-sm font-medium">Hari</span>
+            <div className="flex flex-wrap gap-1">
               <Button type="button" size="sm" variant={weekdayFilter === "all" ? "secondary" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
               {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "secondary" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
             </div>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            <label className="grid gap-1 text-sm font-medium">Tanggal spesifik
-              <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
-            </label>
-            <label className="grid gap-1 text-sm font-medium">Kategori
-              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
-                <option value="all">Semua kategori</option>
-                {categories.map((category) => <option key={category} value={category}>{category}</option>)}
-              </select>
-            </label>
-            <label className="grid gap-1 text-sm font-medium">Prioritas
-              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value)}>
-                <option value="all">Semua prioritas</option>
-                {taskPriorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
-              </select>
-            </label>
-            <label className="grid gap-1 text-sm font-medium">Status
-              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
-                <option value="open">Belum selesai</option>
-                <option value="done">Selesai</option>
-                <option value="all">Semua status</option>
-              </select>
-            </label>
-          </div>
+          <label className="grid min-w-40 gap-1 text-sm font-medium">Tanggal
+            <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
+          </label>
+          <label className="grid min-w-36 gap-1 text-sm font-medium">Kategori
+            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
+              <option value="all">Semua kategori</option>
+              {categories.map((category) => <option key={category} value={category}>{category}</option>)}
+            </select>
+          </label>
+          <label className="grid min-w-36 gap-1 text-sm font-medium">Prioritas
+            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value)}>
+              <option value="all">Semua prioritas</option>
+              {taskPriorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
+            </select>
+          </label>
+          <label className="grid min-w-36 gap-1 text-sm font-medium">Status
+            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
+              <option value="open">Belum selesai</option>
+              <option value="done">Selesai</option>
+              <option value="all">Semua status</option>
+            </select>
+          </label>
+          <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>Reset</Button>
         </CardContent>
       </Card>
 
