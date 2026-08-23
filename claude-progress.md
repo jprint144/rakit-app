@@ -19,7 +19,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Perubahan Project terbaru:** Aksi Brief per-project kini membuka file `brief.txt` tetap di folder project menggunakan Notepad Windows. Brief HTML lama dipindahkan sebagai teks saat file pertama kali dibuat; verifikasi runtime masih diperlukan.
 - **Perilaku FAB Project:** Tombol tambah Project disembunyikan saat panel atau dialog Project apa pun terbuka (tambah/edit, Brief, Pesanan, Detail, atau konfirmasi hapus) agar tidak tertutup overlay.
 - **Build distribusi terbaru:** Windows x64 `app.exe`, installer NSIS, dan installer MSI versi `0.1.9` berhasil diverifikasi pada 2026-08-24. SHA-256 installer NSIS: `1C8BA4442AEF0E6D6F85F3CB7B551F73BA8DEC6BFE78F4A363078E0F3FFCC789`. Artefak updater bertanda tangan tidak dibuat karena private signing key tidak tersedia di environment.
-- **Rilis GitHub terbaru:** `v0.1.9` siap dipublikasikan dengan installer Windows NSIS `Rakit_0.1.9_x64-setup.exe` dan MSI `Rakit_0.1.9_x64_en-US.msi`.
+- **Rilis GitHub terbaru:** `v0.1.9` sudah dipublikasikan pada 2026-08-24 dengan installer Windows NSIS `Rakit_0.1.9_x64-setup.exe` dan MSI `Rakit_0.1.9_x64_en-US.msi`. Tag menunjuk commit `3ea1011`.
 - **Source aktif:** Perilaku UI sidebar memakai basis `v0.1.7`; metadata aplikasi dinaikkan ke `v0.1.9` untuk rilis perbaikan berikutnya.
 
 **Environment dev:**
@@ -37,10 +37,10 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ### Sesi 129 - Rilis v0.1.9 (2026-08-24)
 
 - **Goal:** Menerbitkan perbaikan layout Settings dan filter Tugas Harian.
-- **Completed:** Versi aplikasi dinaikkan ke `0.1.9`; installer NSIS dan MSI berhasil dibuat; metadata `app.exe` menunjukkan ProductVersion/FileVersion `0.1.9`.
-- **Verification run:** `npm run tauri build` dan build NSIS eksplisit lulus; checksum installer NSIS dicatat di Current Verified State.
-- **Commits:** `chore(release): bump version to 0.1.9`.
-- **Next best action:** Push branch master, tag `v0.1.9`, lalu menerbitkan GitHub Release dengan kedua installer.
+- **Completed:** Versi aplikasi dinaikkan ke `0.1.9`; installer NSIS dan MSI berhasil dibuat; metadata `app.exe` menunjukkan ProductVersion/FileVersion `0.1.9`; branch `master`, tag `v0.1.9`, dan GitHub Release sudah dipublikasikan.
+- **Verification run:** `npm run tauri build` dan build NSIS eksplisit lulus; checksum installer NSIS dicatat di Current Verified State; aset GitHub Release diverifikasi.
+- **Commits:** `chore(release): bump version to 0.1.9`; `docs: record v0.1.9 release build`.
+- **Next best action:** Uji manual installer v0.1.9, terutama Settings dan filter Tugas Harian.
 
 ### Sesi 128 - Jarak lebar antar filter hari dan status (2026-08-24)
 
