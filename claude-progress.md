@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 84 - UX halaman Settings (2026-08-23)
+
+- **Goal:** Merapikan pengalaman penggunaan Settings.
+- **Completed:** Halaman Settings diubah dari daftar kartu satu kolom menjadi grid responsif: Tampilan dan Folder Utama di bagian atas, Identitas Agency memanjang penuh, kedua kategori berdampingan pada desktop, dan Backup diberi penekanan visual sebagai aksi data penting. Label input dan status logo memperjelas konteks kontrol; fungsi simpan/restore tetap sama.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `feat(settings): improve settings page ux`.
+- **Known risks:** Perlu penilaian visual runtime untuk UX Settings, palet tema, serta popup yang mengikuti tema aktif. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
+- **Next best action:** User menilai halaman Settings di mode terang dan gelap; lanjutkan polish berdasarkan umpan balik lalu tutup verifikasi tema.
+
 ### Sesi 83 - Revert chrome indigo/royal blue (2026-08-23)
 
 - **Goal:** Membatalkan arah visual dari referensi karena tidak sesuai penilaian user.
