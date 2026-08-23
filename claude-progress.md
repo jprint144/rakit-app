@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 114 - Kontras ikon tanggal dark mode (2026-08-24)
+
+- **Goal:** Membuat ikon kalender bawaan pada input tanggal terbaca di dark mode.
+- **Completed:** Input tanggal filter dan form tugas sekarang menetapkan color scheme yang mengikuti mode aplikasi, sehingga kontrol kalender native memakai ikon yang kontras.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `fix(tasks): improve date input contrast in dark mode`.
+- **Next best action:** User mengecek ikon kalender pada filter dan form tambah/edit tugas.
+
 ### Sesi 113 - Kembalikan perataan kolom Tugas (2026-08-24)
 
 - **Goal:** Mengembalikan susunan perataan sebelum header Tugas dipusatkan.

@@ -152,7 +152,7 @@ export default function DailyTasksPage() {
         <CardContent className="flex flex-col gap-4 p-5">
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <label className="grid gap-1 text-sm font-medium">Tanggal
-              <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
+              <Input className="scheme-light dark:scheme-dark" type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
             </label>
             <label className="grid gap-1 text-sm font-medium">Kategori
               <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
@@ -292,7 +292,7 @@ function DailyTaskForm({ task, onSubmit, onCancel }: { task: DailyTaskInput; onS
       <label className="grid gap-1 text-sm font-medium">Judul tugas<Input autoFocus required value={input.title} onChange={(event) => setInput({ ...input, title: event.target.value })} placeholder="Contoh: Susun konten Instagram" /></label>
       <label className="grid gap-1 text-sm font-medium">Catatan<Textarea value={input.notes ?? ""} onChange={(event) => setInput({ ...input, notes: event.target.value })} placeholder="Detail atau konteks tugas (opsional)" /></label>
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-1 text-sm font-medium">Tanggal<Input type="date" required value={input.task_date} onChange={(event) => setInput({ ...input, task_date: event.target.value })} /></label>
+      <label className="grid gap-1 text-sm font-medium">Tanggal<Input className="scheme-light dark:scheme-dark" type="date" required value={input.task_date} onChange={(event) => setInput({ ...input, task_date: event.target.value })} /></label>
         <label className="grid gap-1 text-sm font-medium">Jam<Input type="time" value={input.task_time ?? ""} onChange={(event) => setInput({ ...input, task_time: event.target.value })} /></label>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
