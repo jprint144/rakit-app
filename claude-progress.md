@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 96 - Aksi selesai di kolom pertama (2026-08-24)
+
+- **Goal:** Memprioritaskan aksi penyelesaian tugas pada daftar tabel.
+- **Completed:** Tombol ikon selesai/batal selesai dipindahkan ke kolom paling kiri, sebelum nomor tugas. Kolom Aksi di kanan kini hanya berisi Edit dan Hapus.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `fix(tasks): move completion action to first column`.
+- **Next best action:** User mengecek urutan tabel Tugas Harian dan melanjutkan uji CRUD setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 95 - Daftar Tugas Harian berbentuk tabel (2026-08-24)
 
 - **Goal:** Menyamakan kerapian susunan Tugas Harian dengan daftar Project.

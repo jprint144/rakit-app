@@ -165,6 +165,7 @@ export default function DailyTasksPage() {
           <Table className="w-auto min-w-full table-auto text-sm [&_th]:px-3 [&_th]:py-3 [&_th]:text-center [&_th]:font-semibold [&_td]:px-3 [&_td]:py-3 [&_td]:text-center">
             <TableHeader>
               <TableRow>
+                <TableHead>Selesai</TableHead>
                 <TableHead>No.</TableHead>
                 <TableHead className="min-w-48">Tugas</TableHead>
                 <TableHead className="min-w-56">Catatan</TableHead>
@@ -179,6 +180,11 @@ export default function DailyTasksPage() {
             <TableBody>
               {visibleTasks.map((task, index) => (
                 <TableRow key={task.id} className={task.completed ? "opacity-70" : "transition-colors hover:bg-muted/40"}>
+                  <TableCell>
+                    <Button size="icon" variant="ghost" aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onClick={() => void toggleComplete(task)}>
+                      {task.completed ? <CheckCircle2 /> : <Circle />}
+                    </Button>
+                  </TableCell>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</TableCell>
                   <TableCell className="max-w-72 whitespace-pre-wrap text-muted-foreground">{task.notes || "-"}</TableCell>
@@ -189,10 +195,6 @@ export default function DailyTasksPage() {
                   <TableCell><Badge variant={task.completed ? "secondary" : "outline"}>{task.completed ? "Selesai" : "Belum selesai"}</Badge></TableCell>
                   <TableCell>
                     <div className="flex items-center justify-center gap-1">
-                      <Button size="sm" variant="ghost" aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onClick={() => void toggleComplete(task)}>
-                        {task.completed ? <CheckCircle2 data-icon="inline-start" /> : <Circle data-icon="inline-start" />}
-                        {task.completed ? "Batal" : "Selesai"}
-                      </Button>
                       <Button size="icon" variant="ghost" aria-label="Edit tugas" onClick={() => openEdit(task)}><Pencil /></Button>
                       <Button size="icon" variant="ghost" aria-label="Hapus tugas" onClick={() => setDeleting(task)}><Trash2 /></Button>
                     </div>
