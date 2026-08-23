@@ -315,13 +315,13 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
                 <SelectTrigger className="relative w-full justify-center [&>svg]:absolute [&>svg]:right-3">
                   <SelectValue className="w-full justify-center text-center" />
                 </SelectTrigger>
-                <SelectContent><SelectItem value="invoice">Invoice</SelectItem><SelectItem value="nota">Nota</SelectItem></SelectContent>
+                <SelectContent position="popper"><SelectItem value="invoice">Invoice</SelectItem><SelectItem value="nota">Nota</SelectItem></SelectContent>
               </Select>
               <Select value={projectId} onValueChange={setProjectId}>
                 <SelectTrigger className="relative w-full justify-center [&>svg]:absolute [&>svg]:right-3">
                   <SelectValue className="w-full justify-center text-center" placeholder="Pilih project" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent position="popper">
                   <SelectGroup>
                     {projects.map((project) => (
                       <SelectItem key={project.id} value={String(project.id)}>

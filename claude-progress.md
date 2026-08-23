@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 118 - Popup pilihan Invoice dan Project selaras (2026-08-24)
+
+- **Goal:** Menyelaraskan kotak popup Select dengan pemicunya pada form Buat Invoice.
+- **Completed:** Menu pilihan Invoice/Nota dan Pilih project sekarang memakai posisi popper, sehingga tepi dan lebar popup mengikuti kotak Select masing-masing.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `fix(invoice): align select menus with their triggers`.
+- **Next best action:** User mengecek dropdown Invoice/Nota dan Pilih project.
+
 ### Sesi 117 - Kontras ikon kalender popup Project (2026-08-24)
 
 - **Goal:** Membuat ikon kalender input tanggal pada popup Tambah/Edit Project terlihat di dark mode.
