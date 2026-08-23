@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 83 - Revert chrome indigo/royal blue (2026-08-23)
+
+- **Goal:** Membatalkan arah visual dari referensi karena tidak sesuai penilaian user.
+- **Completed:** Commit `3ab877b` dibalik secara eksplisit. Sidebar solid indigo dan top bar royal blue kembali ke palet biru lembut sebelumnya; tidak ada perubahan versi pengguna yang disentuh.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `e831516 Revert "feat(ui): adopt indigo blue application chrome"`.
+- **Known risks:** Palet biru lembut dari sesi 81 masih aktif dan perlu penilaian user. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
+- **Next best action:** Jika palet biru lembut juga tidak diinginkan, kembalikan token tema ke palet netral sebelum eksplorasi arah visual baru.
+
 ### Sesi 81 - Palet biru global (2026-08-23)
 
 - **Goal:** Menambahkan perpaduan warna biru pada tampilan aplikasi.
