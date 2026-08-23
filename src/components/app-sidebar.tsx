@@ -1,48 +1,132 @@
+import * as React from "react";
+import { ChevronRight, File, Folder } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+
 import {
-  Archive,
-  FileText,
-  FolderKanban,
-  Globe,
-  LayoutDashboard,
-  Lightbulb,
-  Settings,
-  Wallet,
-} from "lucide-react";
-import { NavMain, type NavMainItem } from "@/components/nav-main";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-const dashboardItems: NavMainItem[] = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+type TreeLeaf = { label: string; url: string };
+type TreeBranch = [label: string, items: TreeItem[]];
+type TreeItem = TreeLeaf | TreeBranch;
+
+const shortcuts: TreeLeaf[] = [
+  { label: "Dashboard", url: "/" },
+  { label: "Project", url: "/project" },
+  { label: "Keuangan", url: "/finance" },
 ];
-const workItems: NavMainItem[] = [
-  { title: "Project", url: "/project", icon: FolderKanban },
-  { title: "Keuangan", url: "/finance", icon: Wallet },
-  { title: "Invoice / Nota", url: "/invoice", icon: FileText },
-];
-const systemItems: NavMainItem[] = [
-  { title: "Archive", url: "/archive", icon: Archive },
-  { title: "Settings", url: "/settings", icon: Settings },
+
+const navigation: TreeBranch[] = [
+  ["Kelola kerja", [
+    { label: "Project", url: "/project" },
+    { label: "Keuangan", url: "/finance" },
+    { label: "Invoice / Nota", url: "/invoice" },
+  ]],
+  ["Eksplorasi", [
+    { label: "Idea", url: "/idea" },
+    { label: "Reference", url: "/reference" },
+  ]],
+  ["Lainnya", [
+    { label: "Archive", url: "/archive" },
+    { label: "Settings", url: "/settings" },
+  ]],
 ];
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
-  const exploreItems: NavMainItem[] = [
-    { title: "Idea", url: "/idea", icon: Lightbulb },
-    { title: "Reference", url: "/reference", icon: Globe },
-  ];
-
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar {...props}>
       <SidebarContent>
-        <NavMain items={dashboardItems} label="Utama" />
-        <NavMain items={workItems} label="Kelola kerja" />
-        <NavMain items={exploreItems} label="Eksplorasi" />
-        <NavMain items={systemItems} label="Lainnya" />
+        <SidebarGroup>
+          <SidebarGroupLabel>Pintasan</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {shortcuts.map((item) => (
+                <Tree key={item.label} item={item} />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Navigasi</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigation.map((item) => (
+                <Tree key={item[0]} item={item} />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
+  );
+}
+
+function Tree({ item }: { item: TreeItem }) {
+  const { pathname } = useLocation();
+
+  if (!Array.isArray(item)) {
+    const isActive = item.url === "/" ? pathname === "/" : pathname.startsWith(item.url);
+
+    return (
+      <SidebarMenuItem>
+        <SidebarMenuButton asChild isActive={isActive}>
+          <Link to={item.url}>
+            <File />
+            {item.label}
+          </Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    );
+  }
+
+  const [name, items] = item;
+  const isActive = items.some((child) =>
+    Array.isArray(child)
+      ? child[1].some((nested) => !Array.isArray(nested) && pathname.startsWith(nested.url))
+      : child.url === "/"
+        ? pathname === "/"
+        : pathname.startsWith(child.url),
+  );
+
+  return (
+    <SidebarMenuItem>
+      <Collapsible
+        className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
+        defaultOpen={isActive}
+      >
+        <CollapsibleTrigger asChild>
+          <SidebarMenuButton isActive={isActive}>
+            <ChevronRight className="transition-transform" />
+            <Folder />
+            {name}
+          </SidebarMenuButton>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <SidebarMenuSub>
+            {items.map((subItem) => (
+              <Tree
+                key={Array.isArray(subItem) ? subItem[0] : subItem.label}
+                item={subItem}
+              />
+            ))}
+          </SidebarMenuSub>
+        </CollapsibleContent>
+      </Collapsible>
+    </SidebarMenuItem>
   );
 }

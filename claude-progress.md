@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 90 - Sidebar-11 resmi dengan navigasi Rakit (2026-08-24)
+
+- **Goal:** Memasang block resmi `sidebar-11`, bukan hanya meniru susunan visualnya.
+- **Completed:** Menjalankan `npx shadcn@latest add sidebar-11 --overwrite`. Data contoh file explorer diganti menjadi pintasan dan tree navigasi Rakit; folder Kelola kerja, Eksplorasi, dan Lainnya dapat dibuka/tutup dan itemnya tetap mengarahkan ke rute aplikasi. Perilaku popup Sheet yang mengikuti warna tema dipertahankan.
+- **Verification run:** `npm run build` lulus (3107 modul); `git diff --check` lulus. `npm run tauri dev` tidak dapat memulai instance kedua karena port Vite 1420 sudah dipakai, yang berarti instance dev yang ada perlu direfresh untuk melihat hot update.
+- **Commits:** `feat(ui): install sidebar eleven tree navigation`.
+- **Known risks:** Penilaian visual runtime tetap diperlukan. Jangan menimpa lagi block secara mentah karena akan mengembalikan data contoh file explorer dan menghapus rute Rakit.
+- **Next best action:** Refresh aplikasi dev yang sudah terbuka, lalu cek tampilan tree sidebar dan navigasinya.
+
 ### Sesi 89 - Struktur navigasi sidebar-11 (2026-08-24)
 
 - **Goal:** Menggunakan tampilan sidebar block `sidebar-11` dari shadcn untuk navigasi utama.
