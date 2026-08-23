@@ -363,12 +363,12 @@
         "area":  "settings",
         "title":  "Toggle tema dark/light",
         "user_visible_behavior":  "User bisa ganti tema aplikasi antara mode terang dan gelap, pilihan tetap tersimpan setelah app ditutup-buka lagi.",
-        "status":  "passing",
+        "status":  "in_progress",
         "verification":  [
                              "Ganti ke dark mode, cek semua halaman ikut berubah (bukan cuma sebagian)",
                              "Tutup dan buka lagi app, cek tema terakhir tetap kepakai"
                          ],
-        "evidence":  "2026-08-23: Build produksi lulus (3107 modul). Tema disimpan pada SQLite dan diterapkan saat aplikasi mulai. Runtime Tauri dev pada mode gelap menunjukkan panel Pengaturan Invoice berwarna terang dengan teks/tombol berkontras, sedangkan latar aplikasi tetap gelap.",
+        "evidence":  "2026-08-23: Tema dark/light sudah terverifikasi sebelumnya. Requirement popup diubah oleh user agar mengikuti warna normal tema aktif; implementasi baru menunggu verifikasi visual runtime.",
         "notes":  ""
     },
     {

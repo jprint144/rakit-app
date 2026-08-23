@@ -94,7 +94,7 @@ Sebagai desainer, mau daftar project utama tetap bersih dari project yang sudah 
 - **AC:** Bisa atur/ganti folder utama tempat semua folder project dibuat.
 - **AC:** Bisa atur identitas agency (nama, logo) buat dipakai di invoice/nota.
 - **AC:** Bisa tambah/kelola kategori custom untuk Idea dan Reference.
-- **AC:** Bisa ganti tema dark/light. Panel popup memakai warna kontras terbalik: putih saat tema gelap, hitam saat tema terang.
+- **AC:** Bisa ganti tema dark/light. Panel popup mengikuti warna latar dan teks normal dari tema aktif agar konsisten dengan halaman aplikasi.
 - **AC:** Bisa export data (backup manual) dan import dari file backup.
 
 ## 5. Data Model (Entitas Utama)
