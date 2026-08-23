@@ -38,7 +38,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Memulai `settings-kategori-custom` (priority 25) dan memastikan penghapusan kategori tidak merusak item yang memakainya.
 - **Completed:** Meninjau implementasi kategori terpusat pada Settings. Menambahkan fallback transaksi data: penghapusan kategori custom Idea memindahkan item terkait ke `Inspirasi`; penghapusan kategori custom Reference memindahkan item terkait ke `Umum`; kemudian kategori dihapus dari daftar Settings. Toast menjelaskan fallback yang diterapkan.
 - **Verification run:** `npm run build` lulus (3107 modul); `git diff --check` lulus.
-- **Commits:** Belum dibuat.
+- **Commits:** `40d4f6b feat(settings): preserve items when categories are removed`.
 - **Known risks:** Tidak membuat kategori uji atau menghapus kategori pengguna secara otomatis. Uji runtime tambah–hapus satu kategori custom masih diperlukan untuk menutup feature.
 - **Next best action:** Tambah satu kategori custom di Settings, gunakan pada Idea atau Reference, lalu hapus; pastikan item berpindah ke kategori default dan tidak error.
 
