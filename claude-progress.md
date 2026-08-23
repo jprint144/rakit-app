@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 121 - Sidebar desktop selalu terlihat (2026-08-24)
+
+- **Goal:** Memulihkan navigasi sidebar yang menghilang pada halaman Settings.
+- **Completed:** Sidebar aplikasi kini non-collapsible pada layout desktop; tombol dan rail untuk menyembunyikannya dihapus agar navigasi selalu tersedia.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** Akan dicatat setelah checkpoint ini.
+- **Next best action:** User memeriksa navigasi pada halaman Settings dan halaman utama lainnya.
+
 ### Sesi 120 - Persiapan rilis v0.1.7 (2026-08-24)
 
 - **Goal:** Menerbitkan build Windows terbaru yang berisi Tugas Harian dan penyempurnaan UI.

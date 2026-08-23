@@ -17,7 +17,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 
 type TreeLeaf = { label: string; url: string };
@@ -52,7 +51,7 @@ const navigation: TreeBranch[] = [
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
+    <Sidebar collapsible="none" {...props}>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Pintasan</SidebarGroupLabel>
@@ -75,7 +74,6 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }
