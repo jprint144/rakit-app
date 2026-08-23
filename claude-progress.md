@@ -38,7 +38,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Melanjutkan fitur prioritas 23 agar lokasi folder project dapat dilihat dan diganti dari Settings.
 - **Completed:** Entry fitur ditandai `in_progress`. Meninjau implementasi yang sudah ada: key SQLite `projects_root` dibaca kembali setiap project baru dibuat, sehingga lokasi baru digunakan tanpa memindahkan folder lama. Menambahkan validasi path kosong dan toast sukses/gagal pada pemilihan/penyimpanan folder utama. Halaman Settings diverifikasi pada aplikasi Tauri dev; path aktif, pemilih folder, tombol Simpan, serta informasi bahwa project lama tidak dipindahkan otomatis tampil benar.
 - **Verification run:** `npm run build` lulus (3107 modul); `git diff --check` lulus. Runtime Tauri dev berhasil memuat halaman Settings dari source terbaru.
-- **Commits:** `291e365 feat(settings): prepare project root setting`.
+- **Commits:** `8241459 feat(settings): prepare project root setting`.
 - **Known risks:** Aplikasi debug berisi data yang sudah ada, sehingga uji acceptance penuh (mengganti ke folder tujuan uji lalu membuat project baru) belum dijalankan agar tidak mengubah data/folder pengguna. Perubahan versi `0.1.7` pada `package.json`, lockfile, dan konfigurasi Tauri sudah ada sebelum sesi ini dan dipertahankan.
 - **Next best action:** Dengan folder uji yang disetujui user, ganti Folder Utama, buat satu project baru, pastikan folder dibuat di lokasi baru dan folder project lama tetap di lokasi asal; lalu tandai `settings-folder-utama` passing.
 
