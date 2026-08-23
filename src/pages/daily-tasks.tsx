@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  CheckCircle2,
-  Circle,
   ListTodo,
   Pencil,
   Plus,
@@ -20,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -214,9 +213,7 @@ export default function DailyTasksPage() {
               {visibleTasks.map((task) => (
                 <TableRow key={task.id} className={task.completed ? "opacity-70" : "transition-colors hover:bg-muted/40"}>
                   <TableCell>
-                    <Button size="icon" variant="ghost" aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onClick={() => void toggleComplete(task)}>
-                      {task.completed ? <CheckCircle2 /> : <Circle />}
-                    </Button>
+                    <Checkbox checked={Boolean(task.completed)} aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onCheckedChange={() => void toggleComplete(task)} />
                   </TableCell>
                   <TableCell className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</TableCell>
                   <TableCell>

@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 107 - Checkbox penyelesaian tugas (2026-08-24)
+
+- **Goal:** Mengganti indikator selesai berbentuk lingkaran pada daftar Tugas Harian menjadi kotak checkbox.
+- **Completed:** Menambahkan komponen Checkbox shadcn dan menggunakannya di kolom Selesai; klik tetap menyelesaikan atau membatalkan penyelesaian tugas.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `feat(tasks): use square completion checkbox`.
+- **Next best action:** User mengecek tampilan checkbox dan melanjutkan uji CRUD tugas mandiri.
+
 ### Sesi 106 - Urutan filter hari Tugas Harian (2026-08-24)
 
 - **Goal:** Memindahkan filter hari dari bagian atas toolbar.
