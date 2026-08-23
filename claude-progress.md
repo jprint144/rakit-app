@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 81 - Palet biru global (2026-08-23)
+
+- **Goal:** Menambahkan perpaduan warna biru pada tampilan aplikasi.
+- **Completed:** Token shadcn global untuk mode terang dan gelap diperbarui ke palet biru profesional: latar sangat lembut bernuansa biru, kartu/popup dan sidebar selaras, serta aksen biru untuk primary, selected state, border, dan focus ring. Tidak ada class warna per-halaman yang di-hardcode; seluruh komponen mengikuti token yang sama.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `feat(ui): add blue application palette`.
+- **Known risks:** Verifikasi visual runtime tetap diperlukan untuk palet biru dan popup yang mengikuti tema aktif. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
+- **Next best action:** Cek mode terang dan gelap di aplikasi. Bila perpaduan biru dan popup sudah sesuai, tutup kembali `settings-tema-dark-light` sebagai passing.
+
 ### Sesi 80 - Popup mengikuti tema aktif (2026-08-23)
 
 - **Goal:** Mengubah arahan visual popup agar tidak memakai warna terbalik terhadap tema aplikasi.
