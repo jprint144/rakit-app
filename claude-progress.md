@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 105 - Pintasan Tugas Harian (2026-08-24)
+
+- **Goal:** Menjadikan halaman Tugas Harian dapat diakses langsung dari bagian Pintasan sidebar.
+- **Completed:** Menambahkan tautan `Tugas Harian` ke Pintasan tanpa mengubah penempatan asalnya pada navigasi Pribadi.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `feat(sidebar): add daily tasks shortcut`.
+- **Next best action:** User mengecek akses pintasan dan melanjutkan uji CRUD tugas mandiri.
+
 ### Sesi 104 - Popup catatan Tugas Harian (2026-08-24)
 
 - **Goal:** Menjaga baris tabel tugas tetap ringkas saat sebuah catatan panjang.

@@ -28,6 +28,7 @@ const shortcuts: TreeLeaf[] = [
   { label: "Dashboard", url: "/" },
   { label: "Project", url: "/project" },
   { label: "Keuangan", url: "/finance" },
+  { label: "Tugas Harian", url: "/tugas-harian" },
 ];
 
 const navigation: TreeBranch[] = [
