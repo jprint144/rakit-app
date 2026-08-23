@@ -11,7 +11,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Standard verification path:** `npm run build` â€” **SUDAH LOLOS** di mesin Windows (Sesi 2).
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
-- **Highest priority unfinished feature:** `settings-backup-export-import` (priority 27, `in_progress`). Seluruh fitur hingga `settings-tema-dark-light` (priority 26) sudah passing.
+- **Highest priority unfinished feature:** Tidak ada. Semua fitur pada roadmap saat ini sudah passing.
 - **Current blocker:** Tidak ada blocker teknis.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
@@ -27,11 +27,20 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - Intel Core i5-12450H, 16GB RAM, MSI Thin GF63 12UC
 - Rust 1.97.1 âœ…, MSVC Build Tools 2026 âœ…, WebView2 150.0 âœ…
 
-**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish (`settings-backup-export-import` berikutnya)
+**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish selesai.
 
 ---
 
 ## Session Record
+
+### Sesi 79 - Verifikasi backup/restore selesai (2026-08-23)
+
+- **Goal:** Menutup acceptance test `settings-backup-export-import`.
+- **Completed:** User mengonfirmasi export backup dan import restore berhasil dijalankan secara manual. Fitur terakhir roadmap ditandai `passing`; seluruh fitur yang terdaftar kini telah selesai.
+- **Verification run:** Konfirmasi uji manual user; baseline build final dicatat bersama checkpoint penutupan.
+- **Commits:** `test(settings): verify data backup restore`.
+- **Known risks:** Folder sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan. Lampiran Idea dan folder Project eksternal tetap tidak dikopi atau dihapus oleh proses restore, sesuai keterangan UI.
+- **Next best action:** Tentukan roadmap atau rilis berikutnya; seluruh feature list saat ini sudah selesai.
 
 ### Sesi 78 - Pratinjau isi backup sebelum restore (2026-08-23)
 

@@ -377,12 +377,12 @@
         "area":  "settings",
         "title":  "Export dan import backup data",
         "user_visible_behavior":  "User bisa export seluruh data ke file backup, dan import lagi dari file itu untuk restore data.",
-        "status":  "in_progress",
+        "status":  "passing",
         "verification":  [
                              "Export data, cek file backup ter-generate dan berisi semua data (project, transaksi, idea, reference, settings)",
                              "Import dari file backup ke kondisi kosong/baru, cek semua data kembali utuh"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-23: User mengonfirmasi uji manual export dan import backup berhasil. File backup dapat dibuat dan data berhasil dipulihkan.",
         "notes":  "Fitur ini penting karena app belum punya cloud sync - satu-satunya proteksi data. PRD section 7."
     }
 ]
