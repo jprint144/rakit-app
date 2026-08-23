@@ -36,6 +36,17 @@ import {
 } from "@/features/tugas-harian/daily-task-repository";
 
 type StatusFilter = "all" | "open" | "done";
+type WeekdayFilter = "all" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+const weekdays: { label: string; value: Exclude<WeekdayFilter, "all"> }[] = [
+  { label: "Senin", value: 1 },
+  { label: "Selasa", value: 2 },
+  { label: "Rabu", value: 3 },
+  { label: "Kamis", value: 4 },
+  { label: "Jumat", value: 5 },
+  { label: "Sabtu", value: 6 },
+  { label: "Minggu", value: 0 },
+];
 
 function localDate() {
   const date = new Date();
@@ -68,12 +79,12 @@ function toTaskInput(task: DailyTask): DailyTaskInput {
 }
 
 export default function DailyTasksPage() {
-  const today = localDate();
   const [tasks, setTasks] = useState<DailyTask[]>([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<DailyTask | null>(null);
   const [deleting, setDeleting] = useState<DailyTask | null>(null);
-  const [dateFilter, setDateFilter] = useState(today);
+  const [dateFilter, setDateFilter] = useState("all");
+  const [weekdayFilter, setWeekdayFilter] = useState<WeekdayFilter>("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("open");
@@ -89,6 +100,7 @@ export default function DailyTasksPage() {
   );
   const visibleTasks = tasks.filter((task) =>
     (dateFilter === "all" || task.task_date === dateFilter)
+    && (weekdayFilter === "all" || new Date(`${task.task_date}T00:00:00`).getDay() === weekdayFilter)
     && (categoryFilter === "all" || task.category === categoryFilter)
     && (priorityFilter === "all" || task.priority === priorityFilter)
     && (statusFilter === "all" || (statusFilter === "done" ? task.completed === 1 : task.completed === 0)),
@@ -127,16 +139,17 @@ export default function DailyTasksPage() {
           <CardTitle className="text-base">Filter tugas</CardTitle>
           <CardDescription>Pilih tanggal, kategori, prioritas, atau status yang ingin dilihat.</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="grid gap-2">
-            <label className="grid gap-1 text-sm font-medium">Filter hari
-              <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
-            </label>
-            <div className="flex gap-2">
-              <Button type="button" size="sm" variant={dateFilter === today ? "secondary" : "outline"} onClick={() => setDateFilter(today)}>Hari ini</Button>
-              <Button type="button" size="sm" variant={dateFilter === "all" ? "secondary" : "outline"} onClick={() => setDateFilter("all")}>Semua hari</Button>
+        <CardContent className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          <div className="grid gap-2 xl:col-span-2">
+            <p className="text-sm font-medium">Filter hari</p>
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" size="sm" variant={weekdayFilter === "all" ? "secondary" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
+              {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "secondary" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
             </div>
           </div>
+          <label className="grid gap-1 text-sm font-medium">Tanggal spesifik
+            <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
+          </label>
           <label className="grid gap-1 text-sm font-medium">Kategori
             <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
               <option value="all">Semua kategori</option>

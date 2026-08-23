@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 100 - Filter nama hari Tugas Harian (2026-08-24)
+
+- **Goal:** Memfilter tugas berdasarkan hari dalam minggu.
+- **Completed:** Filter cepat diubah menjadi tombol Senin hingga Minggu serta Semua. Pemilih tanggal spesifik tetap tersedia dan dapat digabungkan dengan filter hari.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `feat(tasks): filter by weekday`.
+- **Next best action:** User mengecek filter hari dan melanjutkan uji CRUD setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 99 - Filter cepat per hari (2026-08-24)
 
 - **Goal:** Mempercepat pemilihan tugas berdasarkan hari.
