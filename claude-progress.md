@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 120 - Persiapan rilis v0.1.7 (2026-08-24)
+
+- **Goal:** Menerbitkan build Windows terbaru yang berisi Tugas Harian dan penyempurnaan UI.
+- **Completed:** Versi aplikasi diselaraskan ke `0.1.7` pada package frontend dan konfigurasi Tauri.
+- **Verification run:** Build distribusi, push, serta GitHub Release akan dijalankan pada checkpoint ini.
+- **Commits:** Akan dicatat setelah checkpoint ini.
+- **Next best action:** Membuat installer Windows, push branch master, dan menerbitkan GitHub Release v0.1.7.
+
 ### Sesi 119 - Semua menu Select sejajar (2026-08-24)
 
 - **Goal:** Menerapkan perataan menu pilihan dengan kotak pemicunya secara konsisten di seluruh aplikasi.
