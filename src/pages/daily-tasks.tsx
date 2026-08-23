@@ -113,7 +113,7 @@ export default function DailyTasksPage() {
   };
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
+    <div className="flex flex-1 flex-col gap-5 overflow-x-hidden px-6 py-5 md:px-8">
       <div>
         <div>
           <h1 className="text-2xl font-semibold">Tugas Harian</h1>
@@ -161,19 +161,19 @@ export default function DailyTasksPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="w-full overflow-x-auto rounded-2xl border bg-card px-4 shadow-sm">
-          <Table className="w-auto min-w-full table-auto text-sm [&_th]:px-3 [&_th]:py-3 [&_th]:text-center [&_th]:font-semibold [&_td]:px-3 [&_td]:py-3 [&_td]:text-center">
+        <div className="w-full overflow-x-hidden rounded-2xl border bg-card px-4 shadow-sm">
+          <Table className="w-auto table-auto text-sm [&_th]:px-2 [&_th]:py-3 [&_th]:text-center [&_th]:font-semibold [&_td]:px-2 [&_td]:py-3 [&_td]:text-center">
             <TableHeader>
               <TableRow>
                 <TableHead>Selesai</TableHead>
-                <TableHead className="min-w-48">Tugas</TableHead>
-                <TableHead className="min-w-56">Catatan</TableHead>
-                <TableHead>Prioritas</TableHead>
-                <TableHead>Kategori</TableHead>
-                <TableHead className="min-w-36">Jadwal</TableHead>
-                <TableHead className="min-w-44">Pengingat</TableHead>
+                <TableHead className="w-48">Tugas</TableHead>
+                <TableHead className="w-60">Catatan</TableHead>
+                <TableHead className="w-28">Prioritas</TableHead>
+                <TableHead className="w-28">Kategori</TableHead>
+                <TableHead className="w-36">Jadwal</TableHead>
+                <TableHead className="w-44">Pengingat</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead className="min-w-40">Aksi</TableHead>
+                <TableHead className="w-28">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

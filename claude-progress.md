@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 98 - Tata letak desktop Tugas Harian (2026-08-24)
+
+- **Goal:** Menyesuaikan daftar Tugas Harian dengan proporsi halaman desktop Project.
+- **Completed:** Spasi halaman, pembungkus tabel, padding sel, dan lebar kolom tugas diselaraskan dengan tampilan desktop Project agar tabel lebih proporsional pada layar lebar.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): align table layout for desktop`.
+- **Next best action:** User mengecek tampilan desktop Tugas Harian dan melanjutkan uji CRUD setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 97 - Menghapus kolom nomor tugas (2026-08-24)
 
 - **Goal:** Menyederhanakan urutan kolom tabel Tugas Harian.
