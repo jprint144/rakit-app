@@ -13,6 +13,7 @@ const tables = {
   invoices: ["id", "project_id", "number", "issued_at", "items_json", "last_export_format", "created_at", "order_id", "document_type"],
   ideas: ["id", "content_type", "category", "content", "created_at", "updated_at", "text_content", "document_path", "image_path", "link_url", "title"],
   reference_items: ["id", "url", "title", "category", "added_at", "sort_order"],
+  daily_tasks: ["id", "title", "notes", "task_date", "task_time", "priority", "category", "completed", "reminder_at", "created_at", "updated_at"],
   settings: ["key", "value", "updated_at"],
 } as const;
 
@@ -98,7 +99,7 @@ export async function restoreBackup(value: unknown) {
 
   await database.execute("BEGIN TRANSACTION");
   try {
-    for (const table of ["invoices", "transactions", "order_items", "customer_orders", "projects", "ideas", "reference_items", "settings"] as TableName[]) await database.execute(`DELETE FROM ${table}`);
+    for (const table of ["invoices", "transactions", "order_items", "customer_orders", "projects", "ideas", "reference_items", "daily_tasks", "settings"] as TableName[]) await database.execute(`DELETE FROM ${table}`);
     for (const table of Object.keys(tables) as TableName[]) {
       const columns = tables[table];
       const placeholders = columns.map((_, index) => `$${index + 1}`).join(", ");

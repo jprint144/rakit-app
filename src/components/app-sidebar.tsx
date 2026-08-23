@@ -44,6 +44,9 @@ const navigation: TreeBranch[] = [
     { label: "Archive", url: "/archive" },
     { label: "Settings", url: "/settings" },
   ]],
+  ["Pribadi", [
+    { label: "Tugas Harian", url: "/tugas-harian" },
+  ]],
 ];
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {

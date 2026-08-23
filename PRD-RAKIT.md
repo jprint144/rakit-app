@@ -25,7 +25,7 @@ Dirinya sendiri, desainer grafis merangkap developer aplikasi ini. Personal use,
 
 ## 3. Struktur Halaman & Fitur Utama
 
-Navigasi sidebar (base komponen: shadcn/ui block `sidebar-07`), 7 halaman:
+Navigasi sidebar (base komponen: shadcn/ui block `sidebar-07`), 8 halaman:
 
 1. **Dashboard** â€” ringkasan semua project (status, overdue, klien, keuangan) dalam satu layar.
 2. **Project** â€” daftar & tracking semua project aktif. 4 tampilan: List, Table, Kanban, Kalender.
@@ -34,6 +34,7 @@ Navigasi sidebar (base komponen: shadcn/ui block `sidebar-07`), 7 halaman:
 5. **Reference** â€” browser in-app buat buka referensi desain, link dikelompokkan per kategori, ditambah manual.
 6. **Archive** â€” project yang sudah selesai dipindah ke sini biar gak numpuk di daftar utama; folder fisiknya juga dipindah ke folder Arsip di dalam folder utama.
 7. **Settings** â€” pengaturan aplikasi: folder utama, identitas agency (nama, logo) buat invoice/nota, kategori custom (Idea/Reference), tema (dark/light).
+8. **Tugas Harian** â€” catatan tugas pribadi yang berdiri sendiri, tidak terhubung ke Project, dengan jadwal dan pengingat.
 
 ## 4. User Stories & Acceptance Criteria
 
@@ -89,6 +90,15 @@ Sebagai desainer, mau daftar project utama tetap bersih dari project yang sudah 
 - **AC:** Saat diarsipkan, folder fisik project dipindah ke sub-folder Arsip di dalam folder utama (bukan dihapus).
 - **AC:** Project yang diarsipkan tetap bisa dibuka/dilihat detailnya (read-only atau tetap bisa diedit â€” diputuskan saat implementasi), tapi gak muncul di daftar Project utama.
 
+### Tugas Harian
+
+Sebagai pengguna, mau mencatat pekerjaan dan urusan harian di luar Project supaya tidak tercampur dengan tracker client.
+
+- **AC:** User bisa menambah, melihat, mengubah, menandai selesai, dan menghapus tugas harian secara mandiri tanpa relasi ke Project.
+- **AC:** Setiap tugas memiliki judul, catatan opsional, tanggal, jam opsional, prioritas, kategori, status selesai, serta waktu pengingat opsional.
+- **AC:** Daftar tugas dapat difilter berdasarkan tanggal, kategori, prioritas, dan status selesai; tugas pada hari ini ditampilkan lebih dahulu.
+- **AC:** Pengingat yang sudah waktunya tampil sebagai notifikasi desktop lokal ketika aplikasi sedang berjalan; tidak membutuhkan internet atau akun.
+
 ### Settings
 
 - **AC:** Bisa atur/ganti folder utama tempat semua folder project dibuat.
@@ -106,6 +116,7 @@ Gambaran awal, detail kolom lengkap disusun saat implementasi schema:
 - **Invoice/Nota** â€” relasi ke Project, nomor (auto sesuai format Settings), tanggal, item (dari data transaksi), format export terakhir.
 - **Idea** â€” judul, kategori, teks opsional, path dokumen opsional, path gambar opsional, link opsional, tanggal dibuat. Teks Idea dibuka dalam file `text.txt` permanen per Idea melalui Notepad; teks lama dipindahkan saat file pertama kali dibuka.
 - **Reference** â€” url, judul, kategori, tanggal ditambah, urutan tampilan manual.
+- **Tugas Harian** â€” judul, catatan opsional, tanggal tugas, jam opsional, prioritas, kategori, status selesai, waktu pengingat opsional, tanggal dibuat/diperbarui; tidak memiliki relasi ke Project.
 - **Settings** â€” path folder utama, nama & logo agency, format penomoran invoice/nota, daftar kategori custom (Idea/Reference), tema aktif.
 
 ## 6. Technical Stack
@@ -131,7 +142,7 @@ Gambaran awal, detail kolom lengkap disusun saat implementasi schema:
 
 - Login/akun dan cloud sync â€” sengaja ditunda, direncanakan upgrade bertahap di versi berikutnya.
 - Chat AI/brainstorming asisten â€” dihilangkan dari scope versi ini.
-- Reminder/notifikasi due date â€” ditunda, upgrade nanti.
+- Reminder/notifikasi otomatis untuk deadline Project â€” ditunda; pengingat hanya berlaku untuk modul Tugas Harian.
 - Multi-user atau kolaborasi tim.
 - Sistem langganan publik / model bisnis SaaS.
 - Integrasi otomatis ke sumber referensi luar (Pinterest, Behance, dll) â€” link tetap ditambah manual.
@@ -151,6 +162,7 @@ Karena dikerjakan lintas sesi (pindah-pindah chat/token terbatas), project ini d
 8. **Fase 7 â€” Archive:** pindah project selesai ke Archive, pindah folder fisik ke sub-folder Arsip.
 9. **Fase 8 â€” Dashboard:** widget ringkasan (status, klien, overdue, keuangan) narik data dari semua modul yang sudah jadi.
 10. **Fase 9 â€” Settings & Polish:** folder utama, kategori custom, dark/light mode, export/import backup data.
+11. **Fase 10 â€” Tugas Harian:** CRUD tugas mandiri (jadwal, prioritas, kategori, selesai), lalu pengingat/notifikasi desktop lokal.
 
 Urutan ini juga jadi acuan urutan `priority` di `feature_list.json`.
 

@@ -11,7 +11,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Standard verification path:** `npm run build` â€” **SUDAH LOLOS** di mesin Windows (Sesi 2).
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
-- **Highest priority unfinished feature:** `settings-tema-dark-light` (priority 26, `in_progress`) untuk verifikasi visual perubahan requirement popup.
+- **Highest priority unfinished feature:** `tugas-harian-crud` (priority 28, `in_progress`) untuk uji manual tugas mandiri.
 - **Current blocker:** Tidak ada blocker teknis.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
@@ -27,11 +27,20 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - Intel Core i5-12450H, 16GB RAM, MSI Thin GF63 12UC
 - Rust 1.97.1 âœ…, MSVC Build Tools 2026 âœ…, WebView2 150.0 âœ…
 
-**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish (verifikasi ulang tema popup).
+**Fase roadmap saat ini:** Fase 10 â€” Tugas Harian (CRUD mandiri; pengingat lokal berikutnya).
 
 ---
 
 ## Session Record
+
+### Sesi 91 - CRUD Tugas Harian mandiri (2026-08-24)
+
+- **Goal:** Menambahkan pencatatan tugas harian yang sepenuhnya terpisah dari Project.
+- **Completed:** PRD dan roadmap diperluas dengan Fase 10. Tabel `daily_tasks` ditambahkan melalui migrasi SQLite terpisah; tugas menyimpan judul, catatan, tanggal, jam, prioritas, kategori, status selesai, serta waktu pengingat opsional. Halaman Tugas Harian menyediakan tambah/edit/hapus, tandai selesai, dan filter tanggal/kategori/prioritas/status. Menu tree baru `Pribadi → Tugas Harian` serta route `/tugas-harian` ditambahkan. Backup/restore kini menyertakan tabel tugas baru.
+- **Verification run:** `npm run build` lulus (3109 modul); `cargo check` lulus pada `src-tauri`; `git diff --check` lulus.
+- **Commits:** `feat(tasks): add standalone daily task tracker`.
+- **Known risks:** Instance aplikasi Tauri yang sudah berjalan perlu direstart satu kali agar migrasi SQLite versi 7 dieksekusi. Pengingat/notifikasi desktop belum diimplementasikan; itu adalah fitur `tugas-harian-pengingat` terpisah setelah CRUD diuji.
+- **Next best action:** Restart aplikasi, buka Pribadi → Tugas Harian, lalu tambah satu tugas dan pastikan ia tetap ada setelah membuka ulang halaman.
 
 ### Sesi 90 - Sidebar-11 resmi dengan navigasi Rakit (2026-08-24)
 

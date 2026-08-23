@@ -30,6 +30,7 @@ pub fn run() {
         },
         Migration { version: 5, description: "add_title_to_ideas", sql: include_str!("../migrations/0005_idea_title.sql"), kind: MigrationKind::Up },
         Migration { version: 6, description: "add_reference_sort_order", sql: include_str!("../migrations/0006_reference_sort_order.sql"), kind: MigrationKind::Up },
+        Migration { version: 7, description: "create_daily_tasks", sql: include_str!("../migrations/0007_daily_tasks.sql"), kind: MigrationKind::Up },
     ];
 
     tauri::Builder::default()

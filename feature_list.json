@@ -363,7 +363,7 @@
         "area":  "settings",
         "title":  "Toggle tema dark/light",
         "user_visible_behavior":  "User bisa ganti tema aplikasi antara mode terang dan gelap, pilihan tetap tersimpan setelah app ditutup-buka lagi.",
-        "status":  "in_progress",
+        "status":  "not_started",
         "verification":  [
                              "Ganti ke dark mode, cek semua halaman ikut berubah (bukan cuma sebagian)",
                              "Tutup dan buka lagi app, cek tema terakhir tetap kepakai"
@@ -384,5 +384,34 @@
                          ],
         "evidence":  "2026-08-23: User mengonfirmasi uji manual export dan import backup berhasil. File backup dapat dibuat dan data berhasil dipulihkan.",
         "notes":  "Fitur ini penting karena app belum punya cloud sync - satu-satunya proteksi data. PRD section 7."
+    },
+    {
+        "id": "tugas-harian-crud",
+        "priority": 28,
+        "area": "tugas-harian",
+        "title": "Catatan tugas harian mandiri",
+        "user_visible_behavior": "User dapat membuat, mengubah, menyelesaikan, menghapus, dan memfilter tugas harian yang tidak terkait Project.",
+        "status": "in_progress",
+        "verification": [
+            "Tambah tugas dengan judul, catatan, tanggal, jam, prioritas, dan kategori; cek tersimpan setelah halaman dimuat ulang",
+            "Tandai tugas selesai dan batalkan statusnya; cek urutan/status daftar berubah benar",
+            "Filter tugas berdasarkan tanggal, kategori, prioritas, dan status; cek hanya data yang sesuai tampil"
+        ],
+        "evidence": "",
+        "notes": "Pengingat/notifikasi desktop dikerjakan sebagai fitur lanjutan setelah CRUD dan data tugas stabil."
+    },
+    {
+        "id": "tugas-harian-pengingat",
+        "priority": 29,
+        "area": "tugas-harian",
+        "title": "Pengingat tugas harian lokal",
+        "user_visible_behavior": "Saat aplikasi berjalan, tugas yang mencapai waktu pengingat memberi notifikasi desktop lokal.",
+        "status": "not_started",
+        "verification": [
+            "Buat tugas dengan waktu pengingat dekat; cek notifikasi tampil saat waktunya tiba",
+            "Tandai tugas selesai sebelum pengingat; cek tidak ada notifikasi yang dikirim"
+        ],
+        "evidence": "",
+        "notes": "Tidak memakai internet atau akun; hanya tugas harian mandiri."
     }
 ]

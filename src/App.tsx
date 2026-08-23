@@ -32,6 +32,7 @@ import ReferencePage from "@/pages/reference";
 import { ReferenceSubsidebar } from "@/features/reference/reference-subsidebar";
 import ArchivePage from "@/pages/archive";
 import SettingsPage from "@/pages/settings";
+import DailyTasksPage from "@/pages/daily-tasks";
 import ReferenceSettingsOverlayPage from "@/pages/reference-settings-overlay";
 
 const pageTitles: Record<string, string> = {
@@ -43,6 +44,7 @@ const pageTitles: Record<string, string> = {
   "/reference": "Reference",
   "/archive": "Archive",
   "/settings": "Settings",
+  "/tugas-harian": "Tugas Harian",
 };
 
 function AppShell() {
@@ -132,6 +134,7 @@ function AppShell() {
             <Route path="/reference" element={<ReferencePage />} />
             <Route path="/archive" element={<ArchivePage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/tugas-harian" element={<DailyTasksPage />} />
           </Routes>
           </div>
         </div>
