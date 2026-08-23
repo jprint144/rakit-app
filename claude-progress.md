@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 94 - Informasi kartu tugas rata kanan (2026-08-24)
+
+- **Goal:** Merapikan tata letak informasi sekunder pada kartu Tugas Harian.
+- **Completed:** Prioritas, kategori, tanggal/jam, dan pengingat kini rata kanan pada layar lebar; judul serta catatan tetap berada di kiri.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): align task metadata to the right`.
+- **Next best action:** User melanjutkan uji manual CRUD Tugas Harian setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 93 - Tombol tambah tugas mengambang (2026-08-24)
 
 - **Goal:** Menyesuaikan aksi tambah tugas dengan pola tombol tambah umum.

@@ -170,13 +170,15 @@ export default function DailyTasksPage() {
                   {task.completed ? <CheckCircle2 /> : <Circle />}
                 </Button>
                 <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <p className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</p>
-                    <Badge variant="outline">{task.priority}</Badge>
-                    <Badge variant="secondary">{task.category}</Badge>
+                    <div className="flex flex-wrap gap-2 sm:justify-end">
+                      <Badge variant="outline">{task.priority}</Badge>
+                      <Badge variant="secondary">{task.category}</Badge>
+                    </div>
                   </div>
                   {task.notes && <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">{task.notes}</p>}
-                  <div className="mt-2 flex flex-wrap gap-3 text-sm text-muted-foreground">
+                  <div className="mt-2 flex flex-wrap gap-3 text-sm text-muted-foreground sm:justify-end">
                     <span className="inline-flex items-center gap-1"><CalendarDays className="size-4" />{task.task_date}{task.task_time ? ` · ${task.task_time}` : ""}</span>
                     {task.reminder_at && <span className="inline-flex items-center gap-1"><Bell className="size-4" />{new Date(task.reminder_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })}</span>}
                   </div>
