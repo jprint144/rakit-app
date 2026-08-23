@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 106 - Urutan filter hari Tugas Harian (2026-08-24)
+
+- **Goal:** Memindahkan filter hari dari bagian atas toolbar.
+- **Completed:** Filter tanggal, kategori, prioritas, dan status sekarang tampil lebih dahulu; deretan Hari beserta Reset filter berada di bawahnya.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): move weekday filters below controls`.
+- **Next best action:** User mengecek susunan filter desktop dan melanjutkan uji CRUD tugas mandiri.
+
 ### Sesi 105 - Pintasan Tugas Harian (2026-08-24)
 
 - **Goal:** Menjadikan halaman Tugas Harian dapat diakses langsung dari bagian Pintasan sidebar.

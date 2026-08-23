@@ -151,14 +151,6 @@ export default function DailyTasksPage() {
 
       <Card className="shadow-sm">
         <CardContent className="flex flex-col gap-4 p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-1 text-sm font-medium">Hari</span>
-              <Button type="button" size="sm" variant={weekdayFilter === "all" ? "secondary" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
-              {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "secondary" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
-            </div>
-            <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>Reset filter</Button>
-          </div>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <label className="grid gap-1 text-sm font-medium">Tanggal
               <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
@@ -182,6 +174,14 @@ export default function DailyTasksPage() {
                 <option value="all">Semua status</option>
               </select>
             </label>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mr-1 text-sm font-medium">Hari</span>
+              <Button type="button" size="sm" variant={weekdayFilter === "all" ? "secondary" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
+              {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "secondary" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
+            </div>
+            <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>Reset filter</Button>
           </div>
         </CardContent>
       </Card>
