@@ -40,6 +40,8 @@
   --sidebar-accent-foreground: oklch(0.99 0.002 275);
   --sidebar-border: oklch(0.62 0.16 280 / 35%);
   --sidebar-ring: oklch(0.78 0.13 275);
+  --sidebar-gradient-start: oklch(0.48 0.25 280);
+  --sidebar-gradient-end: oklch(0.99 0.002 275);
 
   /* Status pembayaran & kanban Rakit */
   --success: oklch(0.6 0.15 145);
@@ -84,6 +86,8 @@
   --sidebar-accent-foreground: oklch(0.97 0.008 250);
   --sidebar-border: oklch(0.65 0.04 250 / 24%);
   --sidebar-ring: oklch(0.7 0.15 250);
+  --sidebar-gradient-start: oklch(0.2 0.035 255);
+  --sidebar-gradient-end: oklch(0.28 0.04 255);
 
   --success: oklch(0.65 0.16 145);
   --success-foreground: oklch(0.145 0 0);
@@ -148,6 +152,10 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.rakit-sidebar [data-sidebar="sidebar-inner"] {
+  background: linear-gradient(to right, var(--sidebar-gradient-start) 0%, var(--sidebar-gradient-start) 58%, var(--sidebar-gradient-end) 100%);
 }
 
 .font-invoice {

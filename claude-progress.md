@@ -33,15 +33,6 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
-### Sesi 88 - Sidebar split terang dan ungu (2026-08-24)
-
-- **Goal:** Menyesuaikan struktur sidebar utama dengan referensi panel terang di bagian atas dan navigasi berwarna di bawahnya.
-- **Completed:** Gradasi horizontal dihapus. Identitas Rakit serta menu Dashboard sekarang berada pada kartu terang bersudut besar, sedangkan kelompok navigasi kerja, eksplorasi, dan sistem tetap berada pada panel ungu. Subsidebar Reference tetap netral/putih.
-- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
-- **Commits:** `feat(ui): split sidebar header and navigation`.
-- **Known risks:** Penilaian visual runtime masih diperlukan untuk jarak, ukuran kartu atas, dan intensitas ungu. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
-- **Next best action:** User mengecek sidebar utama pada mode terang dan gelap, khususnya bentuk split putih-ungu seperti referensi.
-
 ### Sesi 87 - Subsidebar Reference netral (2026-08-24)
 
 - **Goal:** Memisahkan warna subsidebar Reference dari sidebar navigasi utama.
