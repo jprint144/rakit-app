@@ -11,7 +11,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Standard verification path:** `npm run build` â€” **SUDAH LOLOS** di mesin Windows (Sesi 2).
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
-- **Highest priority unfinished feature:** `settings-backup-export-import` (priority 27, `not_started`). Seluruh fitur hingga `settings-tema-dark-light` (priority 26) sudah passing.
+- **Highest priority unfinished feature:** `settings-backup-export-import` (priority 27, `in_progress`). Seluruh fitur hingga `settings-tema-dark-light` (priority 26) sudah passing.
 - **Current blocker:** Tidak ada blocker teknis.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
@@ -32,6 +32,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ---
 
 ## Session Record
+
+### Sesi 75 - Implementasi backup dan restore data (2026-08-23)
+
+- **Goal:** Memulai `settings-backup-export-import` (priority 27).
+- **Completed:** Menambahkan backup JSON berversi yang menyertakan seluruh tabel SQLite (`projects`, pesanan/item, transaksi, invoice/nota, Idea, Reference, dan Settings), serta logo/tanda tangan yang disalin aplikasi. Kartu Backup Data pada Settings sekarang menyediakan Export Backup dan Import Backup. Import memvalidasi struktur backup, meminta konfirmasi, memulihkan data secara transaksional sambil mempertahankan ID/relasi, lalu memuat ulang aplikasi. Folder Project dan lampiran Idea eksternal sengaja tidak disentuh/dihapus oleh restore dan dijelaskan pada dialog.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus. `npm run lint` tetap gagal pada error lama yang tidak terkait di `src/App.tsx:146` (`useEffect` dipanggil kondisional). Uji runtime tidak dapat dijalankan karena helper Computer Use tidak dapat tersambung ke native pipe; tidak ada data pengguna yang diexport atau ditimpa.
+- **Commits:** `feat(settings): add data backup and restore`.
+- **Known risks:** Acceptance test perlu uji manual terkontrol memakai salinan database/data uji: export, kemudian import ke kondisi kosong/baru, cek seluruh data dan aset invoice kembali utuh. Lampiran Idea dan folder Project yang dirujuk dari luar App Local Data tetap merupakan file eksternal.
+- **Next best action:** Jalankan uji acceptance export/import pada data uji atau backup yang telah dibuat pengguna, lalu bila lolos tandai `settings-backup-export-import` passing dan isi evidence.
 
 ### Sesi 74 - Kategori custom dan tema selesai (2026-08-23)
 

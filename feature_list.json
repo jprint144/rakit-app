@@ -377,7 +377,7 @@
         "area":  "settings",
         "title":  "Export dan import backup data",
         "user_visible_behavior":  "User bisa export seluruh data ke file backup, dan import lagi dari file itu untuk restore data.",
-        "status":  "not_started",
+        "status":  "in_progress",
         "verification":  [
                              "Export data, cek file backup ter-generate dan berisi semua data (project, transaksi, idea, reference, settings)",
                              "Import dari file backup ke kondisi kosong/baru, cek semua data kembali utuh"
