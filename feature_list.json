@@ -322,13 +322,13 @@
         "area":  "settings",
         "title":  "Pengaturan folder utama",
         "user_visible_behavior":  "User bisa lihat dan ganti lokasi folder utama tempat semua folder project dibuat.",
-        "status":  "not_started",
+        "status":  "in_progress",
         "verification":  [
                              "Ganti folder utama lewat Settings, cek project baru selanjutnya dibuat di lokasi baru",
                              "Cek project lama tidak ikut pindah otomatis (biar gak merusak referensi yang sudah ada)"
                          ],
-        "evidence":  "",
-        "notes":  ""
+        "evidence":  "2026-08-23: Build produksi lulus (3107 modul) dan halaman Settings diverifikasi visual pada aplikasi Tauri dev: path aktif, pemilih folder, tombol Simpan, serta peringatan bahwa project lama tidak dipindahkan otomatis tampil benar. Uji mengubah lokasi lalu membuat project baru belum dijalankan agar tidak memodifikasi data debug yang ada.",
+        "notes":  "Menunggu uji manual terkontrol dengan folder tujuan uji sebelum ditandai passing."
     },
     {
         "id":  "settings-identitas-agency",

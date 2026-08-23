@@ -11,7 +11,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Standard verification path:** `npm run build` â€” **SUDAH LOLOS** di mesin Windows (Sesi 2).
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
-- **Highest priority unfinished feature:** `settings-folder-utama` (priority 23, `not_started`). Seluruh fitur hingga Dashboard (priority 22) sudah passing.
+- **Highest priority unfinished feature:** `settings-folder-utama` (priority 23, `in_progress`). Seluruh fitur hingga Dashboard (priority 22) sudah passing.
 - **Current blocker:** Tidak ada blocker teknis.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
@@ -27,11 +27,20 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - Intel Core i5-12450H, 16GB RAM, MSI Thin GF63 12UC
 - Rust 1.97.1 âœ…, MSVC Build Tools 2026 âœ…, WebView2 150.0 âœ…
 
-**Fase roadmap saat ini:** Fase 1 â€” Project (folder otomatis)
+**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish (`settings-folder-utama` sedang diverifikasi)
 
 ---
 
 ## Session Record
+
+### Sesi 68 - Pengaturan folder utama (2026-08-23)
+
+- **Goal:** Melanjutkan fitur prioritas 23 agar lokasi folder project dapat dilihat dan diganti dari Settings.
+- **Completed:** Entry fitur ditandai `in_progress`. Meninjau implementasi yang sudah ada: key SQLite `projects_root` dibaca kembali setiap project baru dibuat, sehingga lokasi baru digunakan tanpa memindahkan folder lama. Menambahkan validasi path kosong dan toast sukses/gagal pada pemilihan/penyimpanan folder utama. Halaman Settings diverifikasi pada aplikasi Tauri dev; path aktif, pemilih folder, tombol Simpan, serta informasi bahwa project lama tidak dipindahkan otomatis tampil benar.
+- **Verification run:** `npm run build` lulus (3107 modul); `git diff --check` lulus. Runtime Tauri dev berhasil memuat halaman Settings dari source terbaru.
+- **Commits:** `291e365 feat(settings): prepare project root setting`.
+- **Known risks:** Aplikasi debug berisi data yang sudah ada, sehingga uji acceptance penuh (mengganti ke folder tujuan uji lalu membuat project baru) belum dijalankan agar tidak mengubah data/folder pengguna. Perubahan versi `0.1.7` pada `package.json`, lockfile, dan konfigurasi Tauri sudah ada sebelum sesi ini dan dipertahankan.
+- **Next best action:** Dengan folder uji yang disetujui user, ganti Folder Utama, buat satu project baru, pastikan folder dibuat di lokasi baru dan folder project lama tetap di lokasi asal; lalu tandai `settings-folder-utama` passing.
 
 ### Sesi 58 - Publikasi GitHub Release v0.1.6 (2026-08-11)
 
