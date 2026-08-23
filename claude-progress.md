@@ -33,15 +33,6 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
-### Sesi 82 - Hierarki visual biru dari referensi (2026-08-23)
-
-- **Goal:** Mendekatkan tampilan aplikasi pada referensi UI biru yang dikirim user.
-- **Completed:** Mode terang sekarang memakai sidebar indigo solid, top bar royal blue, canvas konten biru-putih lembut, serta kartu/popup terang. Token sidebar aktif/hover dan teks diperbarui agar kontras terhadap indigo. Mode gelap tetap navy dan mengikuti tema aktif. Breadcrumb header dijaga putih agar terbaca pada top bar.
-- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
-- **Commits:** `feat(ui): adopt indigo blue application chrome`.
-- **Known risks:** Perlu penilaian visual user pada aplikasi runtime untuk memastikan intensitas warna sudah sesuai referensi. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
-- **Next best action:** User menilai tampilan biru baru. Sesuaikan intensitas indigo/royal blue atau lanjutkan polishing layout bila diperlukan; setelah tema disetujui, tandai ulang feature tema passing.
-
 ### Sesi 81 - Palet biru global (2026-08-23)
 
 - **Goal:** Menambahkan perpaduan warna biru pada tampilan aplikasi.
