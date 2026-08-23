@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 87 - Subsidebar Reference netral (2026-08-24)
+
+- **Goal:** Memisahkan warna subsidebar Reference dari sidebar navigasi utama.
+- **Completed:** Subsidebar Reference tidak lagi memakai token `sidebar`; ia sekarang memakai `card` dan `card-foreground`, sehingga tampak putih/netral pada mode terang serta gelap netral pada mode gelap. Sidebar navigasi utama tetap memiliki gaya gradasinya sendiri.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `fix(reference): restore neutral subsidebar`.
+- **Known risks:** User perlu memastikan maksud arah warna sidebar utama setelah melihat runtime. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
+- **Next best action:** User cek halaman Reference: sidebar utama bergaya sendiri, subsidebar Website putih/netral, dan area browser tidak berubah.
+
 ### Sesi 86 - Gradasi sidebar biru ke putih (2026-08-24)
 
 - **Goal:** Menerapkan gradasi sidebar sesuai arahan user: biru di kiri, putih di kanan.
