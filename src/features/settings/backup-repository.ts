@@ -57,6 +57,11 @@ function assertBackup(value: unknown): asserts value is RakitBackup {
   if (backup.assets !== undefined && (!Array.isArray(backup.assets) || backup.assets.some((asset) => !asset || typeof asset.name !== "string" || typeof asset.extension !== "string" || typeof asset.data !== "string"))) throw new Error("Lampiran file backup tidak valid.");
 }
 
+export function parseBackup(value: unknown): RakitBackup {
+  assertBackup(value);
+  return value;
+}
+
 export async function createBackup(): Promise<RakitBackup> {
   const database = await db();
   const data = {} as BackupRows;
@@ -82,8 +87,7 @@ async function restoreAssets(backup: RakitBackup) {
 }
 
 export async function restoreBackup(value: unknown) {
-  assertBackup(value);
-  const backup = value;
+  const backup = parseBackup(value);
   const database = await db();
   const restoredPaths = await restoreAssets(backup);
   const rows = structuredClone(backup.data);

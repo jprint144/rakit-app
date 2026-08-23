@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 78 - Pratinjau isi backup sebelum restore (2026-08-23)
+
+- **Goal:** Memperjelas dampak import backup sebelum data aktif diganti.
+- **Completed:** File backup sekarang divalidasi saat dipilih, sebelum membuka dialog konfirmasi. Dialog menampilkan waktu backup serta jumlah Project, transaksi, Idea, dan Reference yang akan dipulihkan. Ini memberi pengguna konteks cukup untuk membatalkan file yang keliru sebelum aksi restore.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `feat(settings): preview backup contents before restore`.
+- **Known risks:** Acceptance test export/import dengan data uji tetap diperlukan sebelum status fitur diubah menjadi passing. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup di shell yang mengizinkan.
+- **Next best action:** Uji export dan import data uji melalui dialog baru, pastikan ringkasan cocok dengan isi backup dan data pulih utuh.
+
 ### Sesi 77 - Upaya verifikasi UI backup (2026-08-23)
 
 - **Goal:** Menjalankan acceptance test export/import lewat aplikasi desktop.
