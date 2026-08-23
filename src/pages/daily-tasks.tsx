@@ -134,48 +134,50 @@ export default function DailyTasksPage() {
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
+      <Card className="shadow-sm">
+        <CardHeader className="pb-3">
           <CardTitle className="text-base">Filter tugas</CardTitle>
           <CardDescription>Pilih tanggal, kategori, prioritas, atau status yang ingin dilihat.</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-          <div className="grid gap-2 xl:col-span-2">
-            <p className="text-sm font-medium">Filter hari</p>
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="mr-2 text-sm font-medium">Hari</p>
             <div className="flex flex-wrap gap-2">
               <Button type="button" size="sm" variant={weekdayFilter === "all" ? "secondary" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
               {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "secondary" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
             </div>
           </div>
-          <label className="grid gap-1 text-sm font-medium">Tanggal spesifik
-            <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
-          </label>
-          <label className="grid gap-1 text-sm font-medium">Kategori
-            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
-              <option value="all">Semua kategori</option>
-              {categories.map((category) => <option key={category} value={category}>{category}</option>)}
-            </select>
-          </label>
-          <label className="grid gap-1 text-sm font-medium">Prioritas
-            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value)}>
-              <option value="all">Semua prioritas</option>
-              {taskPriorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
-            </select>
-          </label>
-          <label className="grid gap-1 text-sm font-medium">Status
-            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
-              <option value="open">Belum selesai</option>
-              <option value="done">Selesai</option>
-              <option value="all">Semua status</option>
-            </select>
-          </label>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <label className="grid gap-1 text-sm font-medium">Tanggal spesifik
+              <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
+            </label>
+            <label className="grid gap-1 text-sm font-medium">Kategori
+              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
+                <option value="all">Semua kategori</option>
+                {categories.map((category) => <option key={category} value={category}>{category}</option>)}
+              </select>
+            </label>
+            <label className="grid gap-1 text-sm font-medium">Prioritas
+              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value)}>
+                <option value="all">Semua prioritas</option>
+                {taskPriorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
+              </select>
+            </label>
+            <label className="grid gap-1 text-sm font-medium">Status
+              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
+                <option value="open">Belum selesai</option>
+                <option value="done">Selesai</option>
+                <option value="all">Semua status</option>
+              </select>
+            </label>
+          </div>
         </CardContent>
       </Card>
 
       {visibleTasks.length === 0 ? (
-        <Card>
-          <CardContent className="flex min-h-56 flex-col items-center justify-center gap-3 text-center">
-            <ListTodo className="size-10 text-muted-foreground" />
+        <Card className="shadow-sm">
+          <CardContent className="flex min-h-44 flex-col items-center justify-center gap-2 text-center">
+            <ListTodo className="size-8 text-muted-foreground" />
             <p className="font-medium">Belum ada tugas pada filter ini.</p>
             <p className="text-sm text-muted-foreground">Tambahkan tugas baru untuk mulai mencatat aktivitas harian.</p>
           </CardContent>

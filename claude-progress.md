@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 101 - Polish UI/UX filter Tugas Harian (2026-08-24)
+
+- **Goal:** Merapikan tata letak desktop berdasarkan tampilan yang dikirim user.
+- **Completed:** Filter hari kini menjadi satu baris padat; filter tanggal, kategori, prioritas, serta status tersusun sejajar di bawahnya. Tinggi empty state dan ukuran ikon diperkecil agar halaman tidak terasa kosong atau renggang.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): compact desktop filter layout`.
+- **Next best action:** User menilai ulang halaman Tugas Harian pada desktop dan melanjutkan uji CRUD setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 100 - Filter nama hari Tugas Harian (2026-08-24)
 
 - **Goal:** Memfilter tugas berdasarkan hari dalam minggu.
