@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 95 - Daftar Tugas Harian berbentuk tabel (2026-08-24)
+
+- **Goal:** Menyamakan kerapian susunan Tugas Harian dengan daftar Project.
+- **Completed:** Kartu tugas diganti menjadi tabel berkolom: nomor, tugas, catatan, prioritas, kategori, jadwal, pengingat, status, dan aksi. Aksi selesai, edit, serta hapus tersusun rapi pada kolom akhir.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `feat(tasks): present daily tasks in project-style table`.
+- **Next best action:** User mengecek daftar tabel Tugas Harian dan melanjutkan uji CRUD setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 94 - Informasi kartu tugas rata kanan (2026-08-24)
 
 - **Goal:** Merapikan tata letak informasi sekunder pada kartu Tugas Harian.

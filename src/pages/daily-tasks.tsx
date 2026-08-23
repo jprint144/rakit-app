@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  Bell,
-  CalendarDays,
   CheckCircle2,
   Circle,
   ListTodo,
@@ -24,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import {
   deleteDailyTask,
@@ -162,34 +161,46 @@ export default function DailyTasksPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-3">
-          {visibleTasks.map((task) => (
-            <Card key={task.id} className={task.completed ? "opacity-70" : undefined}>
-              <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-start">
-                <Button size="icon" variant="ghost" aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onClick={() => void toggleComplete(task)}>
-                  {task.completed ? <CheckCircle2 /> : <Circle />}
-                </Button>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <p className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</p>
-                    <div className="flex flex-wrap gap-2 sm:justify-end">
-                      <Badge variant="outline">{task.priority}</Badge>
-                      <Badge variant="secondary">{task.category}</Badge>
+        <div className="w-full overflow-x-auto rounded-2xl border bg-card px-4 shadow-sm">
+          <Table className="w-auto min-w-full table-auto text-sm [&_th]:px-3 [&_th]:py-3 [&_th]:text-center [&_th]:font-semibold [&_td]:px-3 [&_td]:py-3 [&_td]:text-center">
+            <TableHeader>
+              <TableRow>
+                <TableHead>No.</TableHead>
+                <TableHead className="min-w-48">Tugas</TableHead>
+                <TableHead className="min-w-56">Catatan</TableHead>
+                <TableHead>Prioritas</TableHead>
+                <TableHead>Kategori</TableHead>
+                <TableHead className="min-w-36">Jadwal</TableHead>
+                <TableHead className="min-w-44">Pengingat</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="min-w-40">Aksi</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {visibleTasks.map((task, index) => (
+                <TableRow key={task.id} className={task.completed ? "opacity-70" : "transition-colors hover:bg-muted/40"}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</TableCell>
+                  <TableCell className="max-w-72 whitespace-pre-wrap text-muted-foreground">{task.notes || "-"}</TableCell>
+                  <TableCell><Badge variant="outline">{task.priority}</Badge></TableCell>
+                  <TableCell><Badge variant="secondary">{task.category}</Badge></TableCell>
+                  <TableCell>{task.task_date}{task.task_time ? ` · ${task.task_time}` : ""}</TableCell>
+                  <TableCell>{task.reminder_at ? new Date(task.reminder_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" }) : "-"}</TableCell>
+                  <TableCell><Badge variant={task.completed ? "secondary" : "outline"}>{task.completed ? "Selesai" : "Belum selesai"}</Badge></TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-center gap-1">
+                      <Button size="sm" variant="ghost" aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onClick={() => void toggleComplete(task)}>
+                        {task.completed ? <CheckCircle2 data-icon="inline-start" /> : <Circle data-icon="inline-start" />}
+                        {task.completed ? "Batal" : "Selesai"}
+                      </Button>
+                      <Button size="icon" variant="ghost" aria-label="Edit tugas" onClick={() => openEdit(task)}><Pencil /></Button>
+                      <Button size="icon" variant="ghost" aria-label="Hapus tugas" onClick={() => setDeleting(task)}><Trash2 /></Button>
                     </div>
-                  </div>
-                  {task.notes && <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">{task.notes}</p>}
-                  <div className="mt-2 flex flex-wrap gap-3 text-sm text-muted-foreground sm:justify-end">
-                    <span className="inline-flex items-center gap-1"><CalendarDays className="size-4" />{task.task_date}{task.task_time ? ` · ${task.task_time}` : ""}</span>
-                    {task.reminder_at && <span className="inline-flex items-center gap-1"><Bell className="size-4" />{new Date(task.reminder_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })}</span>}
-                  </div>
-                </div>
-                <div className="flex gap-1 self-end sm:self-auto">
-                  <Button size="icon" variant="ghost" aria-label="Edit tugas" onClick={() => openEdit(task)}><Pencil /></Button>
-                  <Button size="icon" variant="ghost" aria-label="Hapus tugas" onClick={() => setDeleting(task)}><Trash2 /></Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       )}
 
