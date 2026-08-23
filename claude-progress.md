@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 115 - Label filter hari dihilangkan (2026-08-24)
+
+- **Goal:** Memadatkan filter hari tanpa teks penanda tambahan.
+- **Completed:** Label `Hari` dihapus; pengguna langsung memilih tombol Semua atau nama hari.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): simplify weekday filter controls`.
+- **Next best action:** User mengecek susunan filter pada desktop.
+
 ### Sesi 114 - Kontras ikon tanggal dark mode (2026-08-24)
 
 - **Goal:** Membuat ikon kalender bawaan pada input tanggal terbaca di dark mode.
