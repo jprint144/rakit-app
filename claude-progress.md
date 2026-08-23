@@ -19,7 +19,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Perubahan Project terbaru:** Aksi Brief per-project kini membuka file `brief.txt` tetap di folder project menggunakan Notepad Windows. Brief HTML lama dipindahkan sebagai teks saat file pertama kali dibuat; verifikasi runtime masih diperlukan.
 - **Perilaku FAB Project:** Tombol tambah Project disembunyikan saat panel atau dialog Project apa pun terbuka (tambah/edit, Brief, Pesanan, Detail, atau konfirmasi hapus) agar tidak tertutup overlay.
 - **Build distribusi terbaru:** Windows x64 `app.exe`, installer NSIS, dan installer MSI versi `0.1.8` berhasil diverifikasi pada 2026-08-24. SHA-256 installer NSIS: `AF86FA66A87D61506B7FCBCE24768CF50FF0C28BACBD85EDDB525E7393A712F5`. Artefak updater bertanda tangan tidak dibuat karena private signing key tidak tersedia di environment.
-- **Rilis GitHub terbaru:** `v0.1.7` sudah dipublikasikan pada 2026-08-24 dengan installer Windows NSIS `Rakit_0.1.7_x64-setup.exe`. Tag menunjuk commit `9290c35`.
+- **Rilis GitHub terbaru:** `v0.1.8` sudah dipublikasikan pada 2026-08-24 dengan installer Windows NSIS `Rakit_0.1.8_x64-setup.exe` dan MSI `Rakit_0.1.8_x64_en-US.msi`. Tag menunjuk commit `4d47efd`.
 
 **Environment dev:**
 
@@ -36,10 +36,10 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ### Sesi 122 - Build installer hotfix v0.1.8 (2026-08-24)
 
 - **Goal:** Menyediakan installer Windows yang memuat perbaikan sidebar desktop selalu terlihat.
-- **Completed:** Versi dinaikkan ke `0.1.8`; installer NSIS `Rakit_0.1.8_x64-setup.exe` dan MSI `Rakit_0.1.8_x64_en-US.msi` berhasil dibuat.
+- **Completed:** Versi dinaikkan ke `0.1.8`; installer NSIS `Rakit_0.1.8_x64-setup.exe` dan MSI `Rakit_0.1.8_x64_en-US.msi` berhasil dibuat; branch `master`, tag `v0.1.8`, dan GitHub Release sudah dipublikasikan.
 - **Verification run:** `npm run tauri build` dan build NSIS eksplisit lulus; metadata `app.exe` menunjukkan ProductVersion/FileVersion `0.1.8`; checksum installer NSIS dicatat di Current Verified State.
 - **Commits:** `fix(layout): keep desktop sidebar visible`; `chore(release): bump version to 0.1.8`.
-- **Next best action:** Uji installer v0.1.8 secara manual; rilis GitHub belum dibuat.
+- **Next best action:** Uji installer v0.1.8 secara manual, terutama navigasi sidebar desktop.
 
 ### Sesi 121 - Sidebar desktop selalu terlihat (2026-08-24)
 
