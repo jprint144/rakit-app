@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 97 - Menghapus kolom nomor tugas (2026-08-24)
+
+- **Goal:** Menyederhanakan urutan kolom tabel Tugas Harian.
+- **Completed:** Kolom nomor dihapus; kolom selesai menjadi kolom paling kiri, langsung diikuti judul tugas.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): remove task number column`.
+- **Next best action:** User mengecek urutan tabel Tugas Harian dan melanjutkan uji CRUD setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 96 - Aksi selesai di kolom pertama (2026-08-24)
 
 - **Goal:** Memprioritaskan aksi penyelesaian tugas pada daftar tabel.

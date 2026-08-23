@@ -166,7 +166,6 @@ export default function DailyTasksPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Selesai</TableHead>
-                <TableHead>No.</TableHead>
                 <TableHead className="min-w-48">Tugas</TableHead>
                 <TableHead className="min-w-56">Catatan</TableHead>
                 <TableHead>Prioritas</TableHead>
@@ -178,14 +177,13 @@ export default function DailyTasksPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {visibleTasks.map((task, index) => (
+              {visibleTasks.map((task) => (
                 <TableRow key={task.id} className={task.completed ? "opacity-70" : "transition-colors hover:bg-muted/40"}>
                   <TableCell>
                     <Button size="icon" variant="ghost" aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onClick={() => void toggleComplete(task)}>
                       {task.completed ? <CheckCircle2 /> : <Circle />}
                     </Button>
                   </TableCell>
-                  <TableCell>{index + 1}</TableCell>
                   <TableCell className={task.completed ? "font-medium line-through" : "font-medium"}>{task.title}</TableCell>
                   <TableCell className="max-w-72 whitespace-pre-wrap text-muted-foreground">{task.notes || "-"}</TableCell>
                   <TableCell><Badge variant="outline">{task.priority}</Badge></TableCell>
