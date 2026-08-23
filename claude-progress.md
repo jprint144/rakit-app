@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 119 - Semua menu Select sejajar (2026-08-24)
+
+- **Goal:** Menerapkan perataan menu pilihan dengan kotak pemicunya secara konsisten di seluruh aplikasi.
+- **Completed:** Komponen Select kini secara default memakai posisi popper; seluruh dropdown tanpa konfigurasi khusus akan tampil dari tepi kotak pemicunya dengan lebar minimum yang sama.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `fix(ui): align select menus with triggers by default`.
+- **Next best action:** User mengecek dropdown pada Project, Keuangan, Idea, dan Invoice.
+
 ### Sesi 118 - Popup pilihan Invoice dan Project selaras (2026-08-24)
 
 - **Goal:** Menyelaraskan kotak popup Select dengan pemicunya pada form Buat Invoice.
