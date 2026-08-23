@@ -38,7 +38,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Menutup acceptance test `settings-identitas-agency`.
 - **Completed:** Settings memuat nama dan status logo agency yang tersimpan serta dapat menyimpannya melalui kartu Identitas Agency. Runtime Invoice/Nota menggunakan sumber data InvoiceSettings yang sama, sehingga perubahan identitas dari Settings otomatis dipakai oleh preview/dokumen baru tanpa duplikasi. Fitur ditandai `passing`.
 - **Verification run:** `npm run build` lulus (3107 modul). Runtime Tauri dev menampilkan Settings dan navigasi Invoice/Nota dengan benar tanpa mengubah identitas atau membuat dokumen baru.
-- **Commits:** Belum dibuat.
+- **Commits:** `9490fd4 test(settings): verify agency identity`.
 - **Known risks:** Perubahan versi `0.1.7` pada file package/Tauri masih merupakan perubahan pengguna yang dipertahankan terpisah.
 - **Next best action:** Mulai `settings-kategori-custom` (priority 25), khususnya verifikasi fallback item yang memakai kategori custom saat kategorinya dihapus.
 
