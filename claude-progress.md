@@ -38,7 +38,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Memulai `settings-identitas-agency` (priority 24) dan menghindari duplikasi data dengan pengaturan Invoice/Nota.
 - **Completed:** Meninjau implementasi Finance: data nama dan logo sudah disimpan di tabel `settings` serta digunakan oleh Invoice/Nota. Menambahkan kartu Identitas Agency pada halaman Settings yang membaca, menyimpan, dan menyalin logo ke penyimpanan aplikasi menggunakan data yang sama. Runtime Tauri dev memperlihatkan kartu, nama tersimpan, status logo, pemilih logo, dan tombol Simpan Identitas.
 - **Verification run:** `npm install` dan `npm run build` lulus (3107 modul); `git diff --check` lulus; runtime halaman Settings lulus.
-- **Commits:** Belum dibuat.
+- **Commits:** `f06392f feat(settings): centralize agency identity`.
 - **Known risks:** Tidak mengubah nama/logo yang telah tersimpan agar tidak mengganti identitas pengguna. Uji akhir perlu mengganti salah satu nilai lalu membuat/preview Invoice baru untuk memastikan identitas terbaru tampil.
 - **Next best action:** Ubah nama atau pilih logo lewat Settings, simpan, buka Invoice/Nota dan generate/preview dokumen baru; bila identitas terbaru tampil, tandai `settings-identitas-agency` passing.
 
