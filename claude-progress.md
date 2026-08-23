@@ -34,6 +34,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 127 - Jarak kelompok filter Tugas Harian (2026-08-24)
+
+- **Goal:** Memisahkan filter hari dan status agar lebih mudah dipindai.
+- **Completed:** Tombol hari dan tombol status sekarang berada pada dua kelompok responsif dengan jarak yang jelas.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** Akan dicatat setelah checkpoint ini.
+- **Next best action:** User memeriksa jarak filter pada halaman Tugas Harian.
+
 ### Sesi 126 - Filter status Tugas Harian berbentuk tombol (2026-08-24)
 
 - **Goal:** Menyamakan interaksi filter Status dengan filter hari.
