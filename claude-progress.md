@@ -38,7 +38,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Menutup `settings-kategori-custom` dan `settings-tema-dark-light`.
 - **Completed:** Fallback kategori custom sudah diimplementasikan dan ditandai passing: Idea berpindah ke Inspirasi, Reference ke Umum ketika kategorinya dihapus. Tema dark/light juga ditandai passing. Komponen Sheet, Dialog, dan AlertDialog kini memakai token `primary`, sehingga panel popup hitam pada tema terang dan putih pada tema gelap seperti PRD.
 - **Verification run:** `npm run build` lulus (3107 modul); `git diff --check` lulus. Runtime Tauri dev pada mode gelap menampilkan panel Pengaturan Invoice putih dengan teks dan tombol berkontras di atas aplikasi gelap.
-- **Commits:** Belum dibuat.
+- **Commits:** `7426644 feat(settings): invert popup contrast by theme`.
 - **Known risks:** Perubahan versi `0.1.7` pada file package/Tauri tetap merupakan perubahan pengguna yang dipertahankan terpisah.
 - **Next best action:** Mulai `settings-backup-export-import` (priority 27), fitur proteksi data lokal terakhir pada roadmap.
 
