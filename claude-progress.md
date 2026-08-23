@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 116 - State aktif filter hari biru (2026-08-24)
+
+- **Goal:** Menyamakan penanda pilihan aktif dengan warna primary aplikasi.
+- **Completed:** Tombol hari yang dipilih sekarang memakai varian primary biru; tombol yang belum dipilih tetap outline.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): use primary state for active weekday filter`.
+- **Next best action:** User mengecek konsistensi state aktif pada filter hari.
+
 ### Sesi 115 - Label filter hari dihilangkan (2026-08-24)
 
 - **Goal:** Memadatkan filter hari tanpa teks penanda tambahan.

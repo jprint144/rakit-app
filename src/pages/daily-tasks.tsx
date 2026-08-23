@@ -176,8 +176,8 @@ export default function DailyTasksPage() {
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" size="sm" variant={weekdayFilter === "all" ? "secondary" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
-              {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "secondary" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
+              <Button type="button" size="sm" variant={weekdayFilter === "all" ? "default" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
+              {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "default" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
             </div>
             <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>Reset filter</Button>
           </div>
