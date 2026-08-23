@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 110 - Perataan kolom Tugas (2026-08-24)
+
+- **Goal:** Merapikan pemindaian daftar dengan meratakan isi tugas ke kiri.
+- **Completed:** Header dan isi pada kolom Tugas kini rata kiri, sementara kolom lain tidak berubah.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): left-align task titles`.
+- **Next best action:** User mengecek kerapian tabel tugas pada desktop.
+
 ### Sesi 109 - Outline checkbox Tugas Harian (2026-08-24)
 
 - **Goal:** Memperjelas batas kotak checkbox sebelum tugas selesai.
