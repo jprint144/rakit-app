@@ -1,24 +1,103 @@
 import { useEffect, useState } from "react";
-import { Moon, Sun, FolderOpen, Plus, Save, Trash2 } from "lucide-react";
+import { appLocalDataDir } from "@tauri-apps/api/path";
 import { open } from "@tauri-apps/plugin-dialog";
+import { BaseDirectory, readFile, writeFile } from "@tauri-apps/plugin-fs";
+import { FolderOpen, Image, Moon, Plus, Save, Sun, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { loadInvoiceSettings, saveInvoiceSettings, type InvoiceSettings } from "@/features/finance/finance-repository";
 import { listIdeaCategories, presetIdeaCategories, saveIdeaCategories } from "@/features/idea/idea-repository";
 import { listReferenceCategories, presetReferenceCategories, saveReferenceCategories } from "@/features/reference/reference-repository";
 import { loadProjectsRoot, loadTheme, saveProjectsRoot, saveTheme } from "@/features/settings/settings-repository";
 
 export default function SettingsPage() {
-  const [categories, setCategories] = useState<string[]>([]); const [referenceCategories, setReferenceCategories] = useState<string[]>([]); const [name, setName] = useState(""); const [referenceName, setReferenceName] = useState(""); const [projectsRoot, setProjectsRoot] = useState(""); const [theme, setTheme] = useState<"light" | "dark">("light");
-  const load = () => listIdeaCategories().then(setCategories).catch(console.error); useEffect(() => { load(); listReferenceCategories().then(setReferenceCategories).catch(console.error); loadProjectsRoot().then(setProjectsRoot).catch(console.error); loadTheme().then(setTheme).catch(console.error); }, []);
-  const save = async (next: string[]) => { await saveIdeaCategories(next.filter((item) => !presetIdeaCategories.includes(item))); setCategories(next); };
-  const add = () => { const value = name.trim(); if (value && !categories.some((item) => item.toLowerCase() === value.toLowerCase())) save([...categories, value]).catch(console.error); setName(""); };
-  const saveReference = async (next: string[]) => { await saveReferenceCategories(next.filter((item) => !presetReferenceCategories.includes(item))); setReferenceCategories(next); };
-  const addReference = () => { const value = referenceName.trim(); if (value && !referenceCategories.some((item) => item.toLowerCase() === value.toLowerCase())) saveReference([...referenceCategories, value]).catch(console.error); setReferenceName(""); };
-  const changeTheme = (next: "light" | "dark") => { setTheme(next); document.documentElement.classList.toggle("dark", next === "dark"); saveTheme(next).catch(console.error); };
-  const saveRoot = async () => { const path = projectsRoot.trim(); if (!path) { toast.error("Pilih folder utama terlebih dahulu."); return; } try { await saveProjectsRoot(path); setProjectsRoot(path); toast.success("Folder utama diperbarui. Project lama tidak dipindahkan."); } catch (error) { console.error(error); toast.error("Folder utama gagal disimpan."); } };
-  const chooseRoot = async () => { try { const path = await open({ directory: true, multiple: false }); if (typeof path === "string") setProjectsRoot(path); } catch (error) { console.error(error); toast.error("Folder tidak dapat dipilih."); } };
-  return <div className="flex flex-1 flex-col gap-4 p-4"><div><h1 className="text-2xl font-semibold">Settings</h1><p className="text-muted-foreground">Kelola pengaturan aplikasi Rakit.</p></div><Card className="max-w-2xl"><CardHeader><CardTitle>Tema</CardTitle><CardDescription>Pilih tampilan terang atau gelap. Pilihan disimpan otomatis.</CardDescription></CardHeader><CardContent className="flex gap-2"><Button variant={theme === "light" ? "default" : "outline"} onClick={() => changeTheme("light")}><Sun data-icon="inline-start" />Terang</Button><Button variant={theme === "dark" ? "default" : "outline"} onClick={() => changeTheme("dark")}><Moon data-icon="inline-start" />Gelap</Button></CardContent></Card><Card className="max-w-2xl"><CardHeader><CardTitle>Folder Utama Project</CardTitle><CardDescription>Project baru dan folder Arsip akan dibuat di lokasi ini. Project lama tidak dipindahkan otomatis.</CardDescription></CardHeader><CardContent className="flex gap-2"><Input value={projectsRoot} onChange={(event) => setProjectsRoot(event.target.value)} /><Button size="icon" variant="outline" onClick={() => void chooseRoot()} aria-label="Pilih folder utama"><FolderOpen /></Button><Button onClick={() => void saveRoot()}><Save data-icon="inline-start" />Simpan</Button></CardContent></Card><Card className="max-w-2xl"><CardHeader><CardTitle>Kategori Idea</CardTitle><CardDescription>Kategori preset tidak dapat dihapus. Tambahkan kategori baru untuk dipakai pada Idea.</CardDescription></CardHeader><CardContent className="grid gap-4"><div className="flex gap-2"><Input value={name} onChange={(event) => setName(event.target.value)} onKeyDown={(event) => event.key === "Enter" && (event.preventDefault(), add())} placeholder="Nama kategori baru" /><Button onClick={add}><Plus data-icon="inline-start" />Tambah</Button></div><div className="flex flex-wrap gap-2">{categories.map((category) => <Badge key={category} variant={presetIdeaCategories.includes(category) ? "secondary" : "outline"} className="gap-1 py-1.5">{category}{!presetIdeaCategories.includes(category) && <button type="button" aria-label={`Hapus ${category}`} onClick={() => save(categories.filter((item) => item !== category)).catch(console.error)}><Trash2 className="size-3" /></button>}</Badge>)}</div></CardContent></Card><Card className="max-w-2xl"><CardHeader><CardTitle>Kategori Reference</CardTitle><CardDescription>Tambahkan kategori agar muncul sebagai pilihan saat menyimpan website Reference.</CardDescription></CardHeader><CardContent className="grid gap-4"><div className="flex gap-2"><Input value={referenceName} onChange={(event) => setReferenceName(event.target.value)} onKeyDown={(event) => event.key === "Enter" && (event.preventDefault(), addReference())} placeholder="Nama kategori baru" /><Button onClick={addReference}><Plus data-icon="inline-start" />Tambah</Button></div><div className="flex flex-wrap gap-2">{referenceCategories.map((category) => <Badge key={category} variant={presetReferenceCategories.includes(category) ? "secondary" : "outline"} className="gap-1 py-1.5">{category}{!presetReferenceCategories.includes(category) && <button type="button" aria-label={`Hapus ${category}`} onClick={() => saveReference(referenceCategories.filter((item) => item !== category)).catch(console.error)}><Trash2 className="size-3" /></button>}</Badge>)}</div></CardContent></Card></div>;
+  const [categories, setCategories] = useState<string[]>([]);
+  const [referenceCategories, setReferenceCategories] = useState<string[]>([]);
+  const [name, setName] = useState("");
+  const [referenceName, setReferenceName] = useState("");
+  const [projectsRoot, setProjectsRoot] = useState("");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [invoiceSettings, setInvoiceSettings] = useState<InvoiceSettings | null>(null);
+  const [agencyName, setAgencyName] = useState("");
+  const [logoPath, setLogoPath] = useState("");
+
+  const loadCategories = () => listIdeaCategories().then(setCategories).catch(console.error);
+
+  useEffect(() => {
+    loadCategories();
+    listReferenceCategories().then(setReferenceCategories).catch(console.error);
+    loadProjectsRoot().then(setProjectsRoot).catch(console.error);
+    loadTheme().then(setTheme).catch(console.error);
+    loadInvoiceSettings().then((settings) => {
+      setInvoiceSettings(settings);
+      setAgencyName(settings.agency_name);
+      setLogoPath(settings.logo_path);
+    }).catch(console.error);
+  }, []);
+
+  const saveCategories = async (next: string[]) => {
+    await saveIdeaCategories(next.filter((item) => !presetIdeaCategories.includes(item)));
+    setCategories(next);
+  };
+  const addCategory = () => {
+    const value = name.trim();
+    if (value && !categories.some((item) => item.toLowerCase() === value.toLowerCase())) void saveCategories([...categories, value]);
+    setName("");
+  };
+  const saveReferenceCategoryList = async (next: string[]) => {
+    await saveReferenceCategories(next.filter((item) => !presetReferenceCategories.includes(item)));
+    setReferenceCategories(next);
+  };
+  const addReferenceCategory = () => {
+    const value = referenceName.trim();
+    if (value && !referenceCategories.some((item) => item.toLowerCase() === value.toLowerCase())) void saveReferenceCategoryList([...referenceCategories, value]);
+    setReferenceName("");
+  };
+  const changeTheme = (next: "light" | "dark") => {
+    setTheme(next);
+    document.documentElement.classList.toggle("dark", next === "dark");
+    void saveTheme(next);
+  };
+  const saveRoot = async () => {
+    const path = projectsRoot.trim();
+    if (!path) { toast.error("Pilih folder utama terlebih dahulu."); return; }
+    try { await saveProjectsRoot(path); setProjectsRoot(path); toast.success("Folder utama diperbarui. Project lama tidak dipindahkan."); }
+    catch (error) { console.error(error); toast.error("Folder utama gagal disimpan."); }
+  };
+  const chooseRoot = async () => {
+    try { const path = await open({ directory: true, multiple: false }); if (typeof path === "string") setProjectsRoot(path); }
+    catch (error) { console.error(error); toast.error("Folder tidak dapat dipilih."); }
+  };
+  const chooseLogo = async () => {
+    try {
+      const selected = await open({ multiple: false, filters: [{ name: "Logo", extensions: ["png", "jpg", "jpeg"] }] });
+      if (typeof selected !== "string") return;
+      const extension = selected.split(".").pop()?.toLowerCase() || "png";
+      const localName = `invoice-logo.${extension}`;
+      await writeFile(localName, await readFile(selected), { baseDir: BaseDirectory.AppLocalData });
+      const localDirectory = await appLocalDataDir();
+      setLogoPath(`${localDirectory}${localDirectory.endsWith("\\") ? "" : "\\"}${localName}`);
+    } catch (error) { console.error(error); toast.error("Logo gagal dipilih."); }
+  };
+  const saveAgencyIdentity = async () => {
+    if (!invoiceSettings) return;
+    try {
+      const next = { ...invoiceSettings, agency_name: agencyName.trim(), logo_path: logoPath };
+      await saveInvoiceSettings(next);
+      setInvoiceSettings(next);
+      toast.success("Identitas agency diperbarui.");
+    } catch (error) { console.error(error); toast.error("Identitas agency gagal disimpan."); }
+  };
+
+  return <div className="flex flex-1 flex-col gap-4 p-4">
+    <div><h1 className="text-2xl font-semibold">Settings</h1><p className="text-muted-foreground">Kelola pengaturan aplikasi Rakit.</p></div>
+    <Card className="max-w-2xl"><CardHeader><CardTitle>Tema</CardTitle><CardDescription>Pilih tampilan terang atau gelap. Pilihan disimpan otomatis.</CardDescription></CardHeader><CardContent className="flex gap-2"><Button variant={theme === "light" ? "default" : "outline"} onClick={() => changeTheme("light")}><Sun data-icon="inline-start" />Terang</Button><Button variant={theme === "dark" ? "default" : "outline"} onClick={() => changeTheme("dark")}><Moon data-icon="inline-start" />Gelap</Button></CardContent></Card>
+    <Card className="max-w-2xl"><CardHeader><CardTitle>Folder Utama Project</CardTitle><CardDescription>Project baru dan folder Arsip akan dibuat di lokasi ini. Project lama tidak dipindahkan otomatis.</CardDescription></CardHeader><CardContent className="flex gap-2"><Input value={projectsRoot} onChange={(event) => setProjectsRoot(event.target.value)} /><Button size="icon" variant="outline" onClick={() => void chooseRoot()} aria-label="Pilih folder utama"><FolderOpen /></Button><Button onClick={() => void saveRoot()}><Save data-icon="inline-start" />Simpan</Button></CardContent></Card>
+    <Card className="max-w-2xl"><CardHeader><CardTitle>Identitas Agency</CardTitle><CardDescription>Nama dan logo ini digunakan oleh Invoice dan Nota baru.</CardDescription></CardHeader><CardContent className="grid gap-3"><Input value={agencyName} onChange={(event) => setAgencyName(event.target.value)} placeholder="Nama agency" /><div className="flex flex-wrap items-center gap-2"><Button type="button" variant="outline" onClick={() => void chooseLogo()}><Image data-icon="inline-start" />Pilih Logo</Button><span className="text-sm text-muted-foreground">{logoPath ? "Logo sudah dipilih." : "Logo belum dipilih."}</span></div><div><Button onClick={() => void saveAgencyIdentity()} disabled={!invoiceSettings}><Save data-icon="inline-start" />Simpan Identitas</Button></div></CardContent></Card>
+    <Card className="max-w-2xl"><CardHeader><CardTitle>Kategori Idea</CardTitle><CardDescription>Kategori preset tidak dapat dihapus. Tambahkan kategori baru untuk dipakai pada Idea.</CardDescription></CardHeader><CardContent className="grid gap-4"><div className="flex gap-2"><Input value={name} onChange={(event) => setName(event.target.value)} onKeyDown={(event) => event.key === "Enter" && (event.preventDefault(), addCategory())} placeholder="Nama kategori baru" /><Button onClick={addCategory}><Plus data-icon="inline-start" />Tambah</Button></div><div className="flex flex-wrap gap-2">{categories.map((category) => <Badge key={category} variant={presetIdeaCategories.includes(category) ? "secondary" : "outline"} className="gap-1 py-1.5">{category}{!presetIdeaCategories.includes(category) && <button type="button" aria-label={`Hapus ${category}`} onClick={() => void saveCategories(categories.filter((item) => item !== category))}><Trash2 className="size-3" /></button>}</Badge>)}</div></CardContent></Card>
+    <Card className="max-w-2xl"><CardHeader><CardTitle>Kategori Reference</CardTitle><CardDescription>Tambahkan kategori agar muncul sebagai pilihan saat menyimpan website Reference.</CardDescription></CardHeader><CardContent className="grid gap-4"><div className="flex gap-2"><Input value={referenceName} onChange={(event) => setReferenceName(event.target.value)} onKeyDown={(event) => event.key === "Enter" && (event.preventDefault(), addReferenceCategory())} placeholder="Nama kategori baru" /><Button onClick={addReferenceCategory}><Plus data-icon="inline-start" />Tambah</Button></div><div className="flex flex-wrap gap-2">{referenceCategories.map((category) => <Badge key={category} variant={presetReferenceCategories.includes(category) ? "secondary" : "outline"} className="gap-1 py-1.5">{category}{!presetReferenceCategories.includes(category) && <button type="button" aria-label={`Hapus ${category}`} onClick={() => void saveReferenceCategoryList(referenceCategories.filter((item) => item !== category))}><Trash2 className="size-3" /></button>}</Badge>)}</div></CardContent></Card>
+  </div>;
 }
