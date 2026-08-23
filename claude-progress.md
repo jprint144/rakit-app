@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 93 - Tombol tambah tugas mengambang (2026-08-24)
+
+- **Goal:** Menyesuaikan aksi tambah tugas dengan pola tombol tambah umum.
+- **Completed:** Tombol teks Tambah tugas pada header diganti dengan FAB bulat berikon `+` di kanan bawah. Tombol disembunyikan saat Sheet input atau konfirmasi hapus sedang terbuka.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `feat(tasks): use floating add button`.
+- **Next best action:** User melanjutkan uji manual CRUD Tugas Harian setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 92 - Posisi menu Tugas Harian (2026-08-24)
 
 - **Goal:** Menempatkan akses tugas harian sesuai urutan navigasi yang diminta user.

@@ -115,14 +115,11 @@ export default function DailyTasksPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
-      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
+      <div>
         <div>
           <h1 className="text-2xl font-semibold">Tugas Harian</h1>
           <p className="text-muted-foreground">Catat aktivitas pribadi dan pekerjaan harian di luar Project.</p>
         </div>
-        <Button onClick={openCreate}>
-          <Plus data-icon="inline-start" />Tambah tugas
-        </Button>
       </div>
 
       <Card>
@@ -193,6 +190,15 @@ export default function DailyTasksPage() {
           ))}
         </div>
       )}
+
+      {!formOpen && !deleting && <Button
+        className="fixed right-6 bottom-6 size-12 rounded-full shadow-lg"
+        size="icon"
+        aria-label="Tambah tugas"
+        onClick={openCreate}
+      >
+        <Plus />
+      </Button>}
 
       <Sheet open={formOpen} onOpenChange={setFormOpen}>
         <SheetContent className="overflow-y-auto">
