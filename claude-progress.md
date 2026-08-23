@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 112 - Header kolom Tugas di tengah (2026-08-24)
+
+- **Goal:** Memisahkan perataan header dan isi kolom Tugas.
+- **Completed:** Label header `Tugas` dikembalikan ke tengah, sedangkan judul tugas dalam setiap baris tetap rata kiri.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): center task column header`.
+- **Next best action:** User mengecek perataan header dan isi tabel tugas.
+
 ### Sesi 111 - Perataan tegas kolom Tugas (2026-08-24)
 
 - **Goal:** Memastikan aturan rata kiri pada kolom Tugas tidak dikalahkan oleh perataan global tabel.
