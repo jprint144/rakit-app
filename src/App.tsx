@@ -90,16 +90,16 @@ function AppShell() {
     <SidebarProvider>
       {!referenceFocusMode && <AppSidebar />}
       <SidebarInset className={referenceFocusMode ? "ml-0" : undefined}>
-        {!referenceFocusMode && !(pathname === "/reference" && referenceHeaderHidden) && <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
+        {!referenceFocusMode && !(pathname === "/reference" && referenceHeaderHidden) && <header className="flex h-16 shrink-0 items-center gap-2 border-b border-primary/30 bg-primary px-4 text-primary-foreground">
+          <SidebarTrigger className="-ml-1 hover:bg-primary-foreground/15 hover:text-primary-foreground" />
           <Separator
             orientation="vertical"
-            className="mr-2 data-[orientation=vertical]:h-4"
+            className="mr-2 bg-primary-foreground/30 data-[orientation=vertical]:h-4"
           />
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbPage>{title}</BreadcrumbPage>
+                <BreadcrumbPage className="text-primary-foreground">{title}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>

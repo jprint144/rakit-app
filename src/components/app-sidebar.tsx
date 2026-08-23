@@ -48,7 +48,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
               />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">Rakit</span>
-                <span className="truncate text-xs text-muted-foreground">
+                <span className="truncate text-xs text-sidebar-foreground/70">
                   Rapikan · Atur · Kembangkan
                 </span>
               </div>
