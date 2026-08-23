@@ -36,8 +36,8 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     { title: "Reference", url: "/reference", icon: Globe },
   ];
   return (
-    <Sidebar variant="floating" collapsible="icon" className="rakit-sidebar overflow-x-hidden [&_[data-sidebar=sidebar-inner]]:rounded-3xl" {...props}>
-      <SidebarHeader>
+    <Sidebar variant="floating" collapsible="icon" className="overflow-x-hidden [&_[data-sidebar=sidebar-inner]]:rounded-3xl" {...props}>
+      <SidebarHeader className="m-2 mb-1 rounded-2xl bg-card text-card-foreground shadow-sm">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" tooltip="Rakit">
@@ -48,7 +48,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
               />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">Rakit</span>
-                <span className="truncate text-xs text-sidebar-foreground/70">
+                <span className="truncate text-xs text-muted-foreground">
                   Rapikan · Atur · Kembangkan
                 </span>
               </div>
@@ -56,8 +56,10 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+      <div className="mx-2 mb-2 rounded-2xl bg-card text-card-foreground shadow-sm">
+        <NavMain items={dashboardItems} />
+      </div>
       <SidebarContent className="gap-0 overflow-x-hidden">
-        <NavMain items={dashboardItems} label="Utama" />
         <NavMain items={workItems} label="Kelola kerja" />
         <NavMain items={exploreItems} label="Eksplorasi" />
         <NavMain items={systemItems} label="Lainnya" />
