@@ -19,7 +19,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Perubahan Project terbaru:** Aksi Brief per-project kini membuka file `brief.txt` tetap di folder project menggunakan Notepad Windows. Brief HTML lama dipindahkan sebagai teks saat file pertama kali dibuat; verifikasi runtime masih diperlukan.
 - **Perilaku FAB Project:** Tombol tambah Project disembunyikan saat panel atau dialog Project apa pun terbuka (tambah/edit, Brief, Pesanan, Detail, atau konfirmasi hapus) agar tidak tertutup overlay.
 - **Build distribusi terbaru:** Windows x64 `app.exe` dan installer NSIS versi `0.1.7` berhasil diverifikasi pada 2026-08-24. SHA-256 installer: `5C16BD6E5E42AAB351429AEFE49720E50F1A0688C850D52C436C78828B3B7CFD`. Artefak updater bertanda tangan tidak dibuat karena private signing key tidak tersedia di environment.
-- **Rilis GitHub terbaru:** `v0.1.7` siap dipublikasikan dengan installer Windows NSIS `Rakit_0.1.7_x64-setup.exe`. Commit aplikasi: `4a1f289`.
+- **Rilis GitHub terbaru:** `v0.1.7` sudah dipublikasikan pada 2026-08-24 dengan installer Windows NSIS `Rakit_0.1.7_x64-setup.exe`. Tag menunjuk commit `9290c35`.
 
 **Environment dev:**
 
@@ -36,10 +36,10 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ### Sesi 120 - Persiapan rilis v0.1.7 (2026-08-24)
 
 - **Goal:** Menerbitkan build Windows terbaru yang berisi Tugas Harian dan penyempurnaan UI.
-- **Completed:** Versi aplikasi diselaraskan ke `0.1.7` pada package frontend dan konfigurasi Tauri; executable Windows dan installer NSIS `Rakit_0.1.7_x64-setup.exe` berhasil dibuat.
-- **Verification run:** `npm run tauri build` lulus; metadata `app.exe` menunjukkan ProductVersion/FileVersion `0.1.7`; checksum SHA-256 installer dicatat di Current Verified State.
-- **Commits:** `chore(release): bump version to 0.1.7`.
-- **Next best action:** Push branch master, tag `v0.1.7`, lalu menerbitkan GitHub Release beserta installer NSIS.
+- **Completed:** Versi aplikasi diselaraskan ke `0.1.7` pada package frontend dan konfigurasi Tauri; executable Windows dan installer NSIS `Rakit_0.1.7_x64-setup.exe` berhasil dibuat; branch `master` dan tag `v0.1.7` sudah dipush; GitHub Release sudah dipublikasikan.
+- **Verification run:** `npm run tauri build` lulus; metadata `app.exe` menunjukkan ProductVersion/FileVersion `0.1.7`; checksum SHA-256 installer dicatat di Current Verified State; aset release GitHub diverifikasi.
+- **Commits:** `chore(release): bump version to 0.1.7`; `docs: record v0.1.7 release build`.
+- **Next best action:** Uji manual alur Tugas Harian sebelum status fiturnya dinaikkan dari `in_progress`.
 
 ### Sesi 119 - Semua menu Select sejajar (2026-08-24)
 
