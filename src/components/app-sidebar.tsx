@@ -36,7 +36,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     { title: "Reference", url: "/reference", icon: Globe },
   ];
   return (
-    <Sidebar collapsible="icon" className="overflow-x-hidden" {...props}>
+    <Sidebar variant="floating" collapsible="icon" className="overflow-x-hidden [&_[data-sidebar=sidebar-inner]]:rounded-3xl" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -48,7 +48,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
               />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">Rakit</span>
-                <span className="truncate text-xs text-muted-foreground">
+                <span className="truncate text-xs text-sidebar-foreground/70">
                   Rapikan · Atur · Kembangkan
                 </span>
               </div>

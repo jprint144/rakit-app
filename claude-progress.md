@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 85 - Sidebar floating ungu (2026-08-24)
+
+- **Goal:** Menyesuaikan tampilan sidebar dengan referensi yang diberikan user.
+- **Completed:** Sidebar memakai varian floating shadcn dengan panel bersudut besar. Pada mode terang token sidebar menjadi ungu/indigo, teks dibuat terang, hover tetap lembut, dan menu aktif menjadi pill terang dengan teks ungu. Subtitle branding disesuaikan supaya tetap terbaca. Konten utama tidak diubah.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `feat(ui): style floating sidebar navigation`.
+- **Known risks:** Penilaian visual runtime diperlukan untuk mengatur intensitas ungu dan ukuran sudut sidebar. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
+- **Next best action:** User mengecek sidebar di mode terang dan gelap; sesuaikan detail berdasarkan umpan balik, lalu lanjutkan verifikasi tema.
+
 ### Sesi 84 - UX halaman Settings (2026-08-23)
 
 - **Goal:** Merapikan pengalaman penggunaan Settings.
