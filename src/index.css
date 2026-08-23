@@ -32,16 +32,14 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.48 0.25 280);
-  --sidebar-foreground: oklch(0.98 0.005 275);
-  --sidebar-primary: oklch(0.48 0.25 280);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.57 0.2 280);
-  --sidebar-accent-foreground: oklch(0.99 0.002 275);
-  --sidebar-border: oklch(0.62 0.16 280 / 35%);
-  --sidebar-ring: oklch(0.78 0.13 275);
-  --sidebar-gradient-start: oklch(0.48 0.25 280);
-  --sidebar-gradient-end: oklch(0.99 0.002 275);
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--card-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 
   /* Status pembayaran & kanban Rakit */
   --success: oklch(0.6 0.15 145);
@@ -78,16 +76,14 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.2 0.035 255);
-  --sidebar-foreground: oklch(0.97 0.008 250);
-  --sidebar-primary: oklch(0.7 0.15 250);
-  --sidebar-primary-foreground: oklch(0.2 0.04 255);
-  --sidebar-accent: oklch(0.32 0.07 255);
-  --sidebar-accent-foreground: oklch(0.97 0.008 250);
-  --sidebar-border: oklch(0.65 0.04 250 / 24%);
-  --sidebar-ring: oklch(0.7 0.15 250);
-  --sidebar-gradient-start: oklch(0.2 0.035 255);
-  --sidebar-gradient-end: oklch(0.28 0.04 255);
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--card-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 
   --success: oklch(0.65 0.16 145);
   --success-foreground: oklch(0.145 0 0);
@@ -152,10 +148,6 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-.rakit-sidebar [data-sidebar="sidebar-inner"] {
-  background: linear-gradient(to right, var(--sidebar-gradient-start) 0%, var(--sidebar-gradient-start) 58%, var(--sidebar-gradient-end) 100%);
 }
 
 .font-invoice {

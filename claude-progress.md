@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 89 - Struktur navigasi sidebar-11 (2026-08-24)
+
+- **Goal:** Menggunakan tampilan sidebar block `sidebar-11` dari shadcn untuk navigasi utama.
+- **Completed:** Meninjau block resmi melalui CLI shadcn. Struktur navigasi Rakit diubah ke panel sidebar standar `sidebar-11`: tanpa floating card, branding, atau gradasi; menu tetap dikelompokkan dan seluruh rute Rakit dipertahankan. Token sidebar kini mengikuti `card`, `accent`, dan token tema aktif agar netral di mode terang maupun gelap. State menu aktif kembali memakai aksen standar shadcn.
+- **Verification run:** `npx shadcn@latest info --json`, `npx shadcn@latest docs sidebar`, dan pratinjau `sidebar-11` berhasil; `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `feat(ui): adopt sidebar eleven navigation`.
+- **Known risks:** Block contoh asli berisi file tree dan akan menimpa `app-sidebar.tsx`, `sidebar.tsx`, serta `sheet.tsx`; tidak diterapkan mentah agar navigasi dan popup Rakit tidak rusak. Penilaian visual runtime masih diperlukan.
+- **Next best action:** User cek sidebar baru pada aplikasi, lalu berikan arahan bila masih ada detail visual yang perlu diubah.
+
 ### Sesi 87 - Subsidebar Reference netral (2026-08-24)
 
 - **Goal:** Memisahkan warna subsidebar Reference dari sidebar navigasi utama.
