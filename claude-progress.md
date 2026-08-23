@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 123 - Sidebar ringkas, bukan tersembunyi (2026-08-24)
+
+- **Goal:** Merapikan ulang perubahan sidebar yang membuat layout desktop tidak proporsional.
+- **Completed:** Sidebar kembali ke struktur header shadcn lengkap dan sekarang memakai mode `icon`: dapat diringkas menjadi ikon, tetapi tidak lagi hilang seluruhnya dari desktop.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** Akan dicatat setelah checkpoint ini.
+- **Next best action:** User memeriksa layout sidebar pada aplikasi dev yang sedang terbuka.
+
 ### Sesi 122 - Build installer hotfix v0.1.8 (2026-08-24)
 
 - **Goal:** Menyediakan installer Windows yang memuat perbaikan sidebar desktop selalu terlihat.
