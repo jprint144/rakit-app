@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 86 - Gradasi sidebar biru ke putih (2026-08-24)
+
+- **Goal:** Menerapkan gradasi sidebar sesuai arahan user: biru di kiri, putih di kanan.
+- **Completed:** Menambahkan token awal/akhir gradasi sidebar. Panel sidebar mode terang mempertahankan ungu-biru sampai sekitar tiga perlima lebar lalu bertransisi ke putih di kanan; mode gelap memakai transisi navy agar konsisten. Implementasi memakai token CSS, bukan nilai warna per komponen.
+- **Verification run:** `npm run build` lulus (3108 modul); `git diff --check` lulus.
+- **Commits:** `feat(ui): add blue to white sidebar gradient`.
+- **Known risks:** Kontras teks terhadap bagian kanan gradasi perlu dinilai pada runtime dan mungkin perlu penyesuaian panjang/tingkat gradasi. Direktori sementara `.rakit-cargo-check` masih menunggu cleanup pada shell yang mengizinkan.
+- **Next best action:** User mengecek sidebar. Bila teks pada sisi kanan kurang terbaca, pendekkan area putih atau terapkan gradien hanya sebagai aksen non-interaktif.
+
 ### Sesi 85 - Sidebar floating ungu (2026-08-24)
 
 - **Goal:** Menyesuaikan tampilan sidebar dengan referensi yang diberikan user.

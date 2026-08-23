@@ -36,7 +36,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     { title: "Reference", url: "/reference", icon: Globe },
   ];
   return (
-    <Sidebar variant="floating" collapsible="icon" className="overflow-x-hidden [&_[data-sidebar=sidebar-inner]]:rounded-3xl" {...props}>
+    <Sidebar variant="floating" collapsible="icon" className="rakit-sidebar overflow-x-hidden [&_[data-sidebar=sidebar-inner]]:rounded-3xl" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
