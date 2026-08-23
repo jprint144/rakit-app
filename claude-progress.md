@@ -11,7 +11,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Standard verification path:** `npm run build` â€” **SUDAH LOLOS** di mesin Windows (Sesi 2).
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
-- **Highest priority unfinished feature:** `settings-folder-utama` (priority 23, `in_progress`). Seluruh fitur hingga Dashboard (priority 22) sudah passing.
+- **Highest priority unfinished feature:** `settings-identitas-agency` (priority 24, `not_started`). Seluruh fitur hingga `settings-folder-utama` (priority 23) sudah passing.
 - **Current blocker:** Tidak ada blocker teknis.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
@@ -27,11 +27,29 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - Intel Core i5-12450H, 16GB RAM, MSI Thin GF63 12UC
 - Rust 1.97.1 âœ…, MSVC Build Tools 2026 âœ…, WebView2 150.0 âœ…
 
-**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish (`settings-folder-utama` sedang diverifikasi)
+**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish (`settings-identitas-agency` berikutnya)
 
 ---
 
 ## Session Record
+
+### Sesi 70 - Verifikasi Folder Utama selesai (2026-08-23)
+
+- **Goal:** Menutup acceptance test `settings-folder-utama`.
+- **Completed:** User mengonfirmasi Folder Utama dapat diubah melalui Settings, folder project baru dibuat pada lokasi baru, dan folder project lama tetap berada di lokasi semula. Fitur ditandai `passing`.
+- **Verification run:** Konfirmasi uji manual user, didukung baseline `npm install` dan `npm run build` yang lulus (3107 modul) pada sesi ini.
+- **Commits:** Belum dibuat.
+- **Known risks:** Folder uji kosong `.rakit-verification\projects-root` sempat dibuat untuk persiapan pengujian dan tidak dipakai aplikasi; cleanup lewat shell diblokir oleh policy environment.
+- **Next best action:** Mulai `settings-identitas-agency` (priority 24), setelah meninjau overlap dengan pengaturan Invoice/Nota yang sudah ada.
+
+### Sesi 69 - Persiapan uji Folder Utama (2026-08-23)
+
+- **Goal:** Menjalankan acceptance test terkontrol untuk `settings-folder-utama` tanpa mengubah folder project lama.
+- **Completed:** Baseline `npm install` dan `npm run build` lulus (3107 modul). Aplikasi Tauri dev dibuka dan halaman Settings menampilkan lokasi folder utama saat ini. Folder uji sementara dibuat di workspace, tetapi belum dipakai.
+- **Verification run:** Navigasi runtime menuju Settings lulus; build produksi lulus.
+- **Commits:** Belum dibuat.
+- **Known risks:** Otomasi Windows tidak dapat memperoleh fokus yang aman pada field input WebView untuk mengganti path. Folder uji sementara belum berhasil dibersihkan karena perintah hapus diblokir oleh policy shell; folder itu kosong di `.rakit-verification\projects-root` dan tidak dipakai aplikasi.
+- **Next best action:** Di aplikasi Rakit yang masih terbuka, gunakan folder picker untuk memilih folder uji kosong, simpan, buat satu project baru, verifikasi foldernya masuk ke lokasi tersebut serta project lama tetap di lokasi asal. Kembalikan Folder Utama ke lokasi semula sesudahnya, lalu tandai fitur passing.
 
 ### Sesi 68 - Pengaturan folder utama (2026-08-23)
 
