@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 108 - Checkbox tugas lebih tegas (2026-08-24)
+
+- **Goal:** Membuat checkbox penyelesaian tugas lebih mudah terlihat sebagai kotak.
+- **Completed:** Checkbox kolom Selesai dibuat tanpa sudut membulat, berukuran sedikit lebih besar, dan memakai garis tepi lebih tegas.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): sharpen completion checkbox`.
+- **Next best action:** User mengecek tampilan checkbox pada daftar tugas.
+
 ### Sesi 107 - Checkbox penyelesaian tugas (2026-08-24)
 
 - **Goal:** Mengganti indikator selesai berbentuk lingkaran pada daftar Tugas Harian menjadi kotak checkbox.
