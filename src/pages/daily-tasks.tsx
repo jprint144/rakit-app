@@ -199,7 +199,7 @@ export default function DailyTasksPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Selesai</TableHead>
-                <TableHead className="w-48">Tugas</TableHead>
+                <TableHead className="w-48 !text-left">Tugas</TableHead>
                 <TableHead className="w-60">Catatan</TableHead>
                 <TableHead className="w-28">Prioritas</TableHead>
                 <TableHead className="w-28">Kategori</TableHead>
