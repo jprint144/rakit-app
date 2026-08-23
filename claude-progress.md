@@ -38,7 +38,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Menutup acceptance test `settings-folder-utama`.
 - **Completed:** User mengonfirmasi Folder Utama dapat diubah melalui Settings, folder project baru dibuat pada lokasi baru, dan folder project lama tetap berada di lokasi semula. Fitur ditandai `passing`.
 - **Verification run:** Konfirmasi uji manual user, didukung baseline `npm install` dan `npm run build` yang lulus (3107 modul) pada sesi ini.
-- **Commits:** Belum dibuat.
+- **Commits:** `b17d375 test(settings): verify project root setting`.
 - **Known risks:** Folder uji kosong `.rakit-verification\projects-root` sempat dibuat untuk persiapan pengujian dan tidak dipakai aplikasi; cleanup lewat shell diblokir oleh policy environment.
 - **Next best action:** Mulai `settings-identitas-agency` (priority 24), setelah meninjau overlap dengan pengaturan Invoice/Nota yang sudah ada.
 
