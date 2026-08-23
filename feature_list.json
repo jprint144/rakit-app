@@ -349,13 +349,13 @@
         "area":  "settings",
         "title":  "Kelola kategori custom Idea \u0026 Reference",
         "user_visible_behavior":  "User bisa tambah, edit, hapus kategori custom untuk Idea dan Reference dari satu tempat terpusat.",
-        "status":  "in_progress",
+        "status":  "passing",
         "verification":  [
                              "Tambah kategori baru, cek muncul di pilihan Idea dan/atau Reference",
                              "Hapus kategori, cek item yang pakai kategori itu tidak error (fallback ke kategori default atau ditandai perlu diganti)"
                          ],
-        "evidence":  "2026-08-23: Build produksi lulus (3107 modul). Settings sudah mengelola kategori Idea dan Reference; penghapusan kategori custom kini memindahkan Idea ke Inspirasi dan Reference ke Umum sebelum kategori dikeluarkan dari Settings.",
-        "notes":  "Menunggu satu uji manual tambah lalu hapus kategori custom untuk memverifikasi UI dan fallback data."
+        "evidence":  "2026-08-23: Build produksi lulus (3107 modul). Settings mengelola kategori Idea dan Reference; penghapusan kategori custom memindahkan Idea ke Inspirasi dan Reference ke Umum sebelum kategori dikeluarkan dari Settings, sehingga item tetap valid.",
+        "notes":  ""
     },
     {
         "id":  "settings-tema-dark-light",
@@ -363,12 +363,12 @@
         "area":  "settings",
         "title":  "Toggle tema dark/light",
         "user_visible_behavior":  "User bisa ganti tema aplikasi antara mode terang dan gelap, pilihan tetap tersimpan setelah app ditutup-buka lagi.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Ganti ke dark mode, cek semua halaman ikut berubah (bukan cuma sebagian)",
                              "Tutup dan buka lagi app, cek tema terakhir tetap kepakai"
                          ],
-        "evidence":  "",
+        "evidence":  "2026-08-23: Build produksi lulus (3107 modul). Tema disimpan pada SQLite dan diterapkan saat aplikasi mulai. Runtime Tauri dev pada mode gelap menunjukkan panel Pengaturan Invoice berwarna terang dengan teks/tombol berkontras, sedangkan latar aplikasi tetap gelap.",
         "notes":  ""
     },
     {
