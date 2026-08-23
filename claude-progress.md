@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 73 - Fallback penghapusan kategori custom (2026-08-23)
+
+- **Goal:** Memulai `settings-kategori-custom` (priority 25) dan memastikan penghapusan kategori tidak merusak item yang memakainya.
+- **Completed:** Meninjau implementasi kategori terpusat pada Settings. Menambahkan fallback transaksi data: penghapusan kategori custom Idea memindahkan item terkait ke `Inspirasi`; penghapusan kategori custom Reference memindahkan item terkait ke `Umum`; kemudian kategori dihapus dari daftar Settings. Toast menjelaskan fallback yang diterapkan.
+- **Verification run:** `npm run build` lulus (3107 modul); `git diff --check` lulus.
+- **Commits:** Belum dibuat.
+- **Known risks:** Tidak membuat kategori uji atau menghapus kategori pengguna secara otomatis. Uji runtime tambah–hapus satu kategori custom masih diperlukan untuk menutup feature.
+- **Next best action:** Tambah satu kategori custom di Settings, gunakan pada Idea atau Reference, lalu hapus; pastikan item berpindah ke kategori default dan tidak error.
+
 ### Sesi 72 - Verifikasi Identitas Agency selesai (2026-08-23)
 
 - **Goal:** Menutup acceptance test `settings-identitas-agency`.

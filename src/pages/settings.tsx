@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { loadInvoiceSettings, saveInvoiceSettings, type InvoiceSettings } from "@/features/finance/finance-repository";
-import { listIdeaCategories, presetIdeaCategories, saveIdeaCategories } from "@/features/idea/idea-repository";
-import { listReferenceCategories, presetReferenceCategories, saveReferenceCategories } from "@/features/reference/reference-repository";
+import { deleteIdeaCategory, listIdeaCategories, presetIdeaCategories, saveIdeaCategories } from "@/features/idea/idea-repository";
+import { deleteReferenceCategory, listReferenceCategories, presetReferenceCategories, saveReferenceCategories } from "@/features/reference/reference-repository";
 import { loadProjectsRoot, loadTheme, saveProjectsRoot, saveTheme } from "@/features/settings/settings-repository";
 
 export default function SettingsPage() {
@@ -39,7 +39,9 @@ export default function SettingsPage() {
   }, []);
 
   const saveCategories = async (next: string[]) => {
-    await saveIdeaCategories(next.filter((item) => !presetIdeaCategories.includes(item)));
+    const removed = categories.find((item) => !next.includes(item) && !presetIdeaCategories.includes(item));
+    if (removed) { await deleteIdeaCategory(removed); toast.success(`Kategori ${removed} dipindahkan ke ${presetIdeaCategories[0]}.`); }
+    else await saveIdeaCategories(next.filter((item) => !presetIdeaCategories.includes(item)));
     setCategories(next);
   };
   const addCategory = () => {
@@ -48,7 +50,9 @@ export default function SettingsPage() {
     setName("");
   };
   const saveReferenceCategoryList = async (next: string[]) => {
-    await saveReferenceCategories(next.filter((item) => !presetReferenceCategories.includes(item)));
+    const removed = referenceCategories.find((item) => !next.includes(item) && !presetReferenceCategories.includes(item));
+    if (removed) { await deleteReferenceCategory(removed); toast.success(`Kategori ${removed} dipindahkan ke ${presetReferenceCategories[0]}.`); }
+    else await saveReferenceCategories(next.filter((item) => !presetReferenceCategories.includes(item)));
     setReferenceCategories(next);
   };
   const addReferenceCategory = () => {

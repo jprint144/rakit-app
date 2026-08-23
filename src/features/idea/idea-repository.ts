@@ -54,3 +54,11 @@ export async function listIdeaCategories() {
 export async function saveIdeaCategories(categories: string[]) {
   await (await db()).execute("INSERT INTO settings (key, value, updated_at) VALUES ('idea_categories', $1, CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = CURRENT_TIMESTAMP", [JSON.stringify(categories)]);
 }
+
+export async function deleteIdeaCategory(category: string) {
+  if (presetIdeaCategories.includes(category)) return;
+  const database = await db();
+  await database.execute("UPDATE ideas SET category = $1, updated_at = CURRENT_TIMESTAMP WHERE category = $2", [presetIdeaCategories[0], category]);
+  const categories = await listIdeaCategories();
+  await saveIdeaCategories(categories.filter((item) => item !== category));
+}
