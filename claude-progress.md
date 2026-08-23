@@ -34,6 +34,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 125 - Layout Settings adaptif (2026-08-24)
+
+- **Goal:** Membuat halaman Settings selentur layout Dashboard saat lebar jendela berubah.
+- **Completed:** Grid Settings kini memakai lebar penuh dan dua kolom mulai breakpoint desktop; kartu Identitas/Backup mengikuti seluruh lebar grid; form kategori membungkus ke satu kolom pada ruang yang lebih sempit.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** Akan dicatat setelah checkpoint ini.
+- **Next best action:** User memeriksa halaman Settings pada jendela aplikasi development.
+
 ### Sesi 124 - Kembali ke source v0.1.7 (2026-08-24)
 
 - **Goal:** Mengembalikan aplikasi lokal ke versi yang diminta user.
