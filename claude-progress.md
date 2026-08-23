@@ -20,6 +20,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Perilaku FAB Project:** Tombol tambah Project disembunyikan saat panel atau dialog Project apa pun terbuka (tambah/edit, Brief, Pesanan, Detail, atau konfirmasi hapus) agar tidak tertutup overlay.
 - **Build distribusi terbaru:** Windows x64 `app.exe`, installer NSIS, dan installer MSI versi `0.1.8` berhasil diverifikasi pada 2026-08-24. SHA-256 installer NSIS: `AF86FA66A87D61506B7FCBCE24768CF50FF0C28BACBD85EDDB525E7393A712F5`. Artefak updater bertanda tangan tidak dibuat karena private signing key tidak tersedia di environment.
 - **Rilis GitHub terbaru:** `v0.1.8` sudah dipublikasikan pada 2026-08-24 dengan installer Windows NSIS `Rakit_0.1.8_x64-setup.exe` dan MSI `Rakit_0.1.8_x64_en-US.msi`. Tag menunjuk commit `4d47efd`.
+- **Source aktif:** Dikembalikan ke perilaku dan metadata `v0.1.7` pada 2026-08-24 untuk pengecekan ulang UI; rilis GitHub `v0.1.8` tidak dihapus.
 
 **Environment dev:**
 
@@ -32,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ---
 
 ## Session Record
+
+### Sesi 124 - Kembali ke source v0.1.7 (2026-08-24)
+
+- **Goal:** Mengembalikan aplikasi lokal ke versi yang diminta user.
+- **Completed:** Metadata package/Tauri dan perilaku sidebar dikembalikan agar sama dengan tag `v0.1.7`; aplikasi development di-restart dan berjalan sebagai `rakit@0.1.7`.
+- **Verification run:** `npm run build` lulus (3110 modul); perbandingan source UI dan metadata terhadap tag `v0.1.7` lulus; `npm run tauri dev` berhasil membuka `app.exe`.
+- **Commits:** Akan dicatat setelah checkpoint ini.
+- **Next best action:** User memeriksa ulang tampilan v0.1.7 sebelum memutuskan rilis perbaikan selanjutnya.
 
 ### Sesi 123 - Sidebar ringkas, bukan tersembunyi (2026-08-24)
 
