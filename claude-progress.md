@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 76 - Izin lokasi backup umum (2026-08-23)
+
+- **Goal:** Menyelesaikan kelayakan export backup untuk lokasi pilihan pengguna.
+- **Completed:** Menambahkan scope filesystem Tauri untuk Desktop, Documents, dan Downloads, sehingga tombol Export Backup tidak terbatas pada drive D atau App Local Data. Konfigurasi tetap memakai capability resmi Tauri.
+- **Verification run:** `npm install` lulus; `npm run build` lulus (3108 modul). `cargo check` dengan target terisolasi selesai tanpa proses Rust tersisa; target sementara dibuat di `.rakit-cargo-check`.
+- **Commits:** Akan dicatat setelah checkpoint capability di-commit.
+- **Known risks:** Uji acceptance manual export/import tetap diperlukan. Direktori target Rust sementara `.rakit-cargo-check` tidak dapat dihapus pada sesi ini karena kebijakan shell menolak operasi penghapusan, meski targetnya telah diverifikasi persis berada di root workspace dan tidak ada proses compiler tersisa.
+- **Next best action:** Bersihkan `.rakit-cargo-check` secara aman, lalu uji export ke Desktop/Documents/Downloads serta import backup ke data uji; bila data kembali utuh, tandai fitur passing.
+
 ### Sesi 75 - Implementasi backup dan restore data (2026-08-23)
 
 - **Goal:** Memulai `settings-backup-export-import` (priority 27).

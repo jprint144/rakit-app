@@ -28,7 +28,10 @@
         "D:/#0 JOBS/RAKIT-V2.0.0",
         "D:/#0 JOBS/RAKIT-V2.0.0/**/*",
         "D:/**/*",
-        "$APPLOCALDATA/**/*"
+        "$APPLOCALDATA/**/*",
+        "$DESKTOP/**/*",
+        "$DOCUMENT/**/*",
+        "$DOWNLOAD/**/*"
       ]
     },
     "opener:default",
