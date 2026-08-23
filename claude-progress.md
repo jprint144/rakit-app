@@ -33,6 +33,15 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 77 - Upaya verifikasi UI backup (2026-08-23)
+
+- **Goal:** Menjalankan acceptance test export/import lewat aplikasi desktop.
+- **Completed:** Baseline `npm install` dan `npm run build` kembali lulus (3108 modul). Mencoba menghubungkan kontrol UI desktop dua kali, dengan jeda sesuai prosedur recovery.
+- **Verification run:** Tidak dapat dilakukan karena kedua percobaan mengembalikan `Computer Use native pipe is unavailable` (`os error 2`). Tidak ada file backup diexport dan tidak ada data aplikasi yang dihapus/diimport.
+- **Commits:** `docs: record backup verification blocker`.
+- **Known risks:** `settings-backup-export-import` belum boleh ditandai passing sampai export dan import diuji pada data uji. Direktori sementara `.rakit-cargo-check` juga masih memerlukan cleanup manual/di sesi shell yang mengizinkan.
+- **Next best action:** Jalankan aplikasi Rakit secara lokal, buka Settings → Backup Data → Export Backup, lalu import file tersebut pada database/data uji. Konfirmasi restore hanya pada data uji dan cek Project, transaksi, Idea, Reference, Settings, serta aset Invoice kembali utuh.
+
 ### Sesi 76 - Izin lokasi backup umum (2026-08-23)
 
 - **Goal:** Menyelesaikan kelayakan export backup untuk lokasi pilihan pengguna.
