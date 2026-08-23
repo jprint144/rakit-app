@@ -68,11 +68,12 @@ function toTaskInput(task: DailyTask): DailyTaskInput {
 }
 
 export default function DailyTasksPage() {
+  const today = localDate();
   const [tasks, setTasks] = useState<DailyTask[]>([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<DailyTask | null>(null);
   const [deleting, setDeleting] = useState<DailyTask | null>(null);
-  const [dateFilter, setDateFilter] = useState(localDate());
+  const [dateFilter, setDateFilter] = useState(today);
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("open");
@@ -127,9 +128,15 @@ export default function DailyTasksPage() {
           <CardDescription>Pilih tanggal, kategori, prioritas, atau status yang ingin dilihat.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <label className="grid gap-1 text-sm font-medium">Tanggal
-            <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
-          </label>
+          <div className="grid gap-2">
+            <label className="grid gap-1 text-sm font-medium">Filter hari
+              <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
+            </label>
+            <div className="flex gap-2">
+              <Button type="button" size="sm" variant={dateFilter === today ? "secondary" : "outline"} onClick={() => setDateFilter(today)}>Hari ini</Button>
+              <Button type="button" size="sm" variant={dateFilter === "all" ? "secondary" : "outline"} onClick={() => setDateFilter("all")}>Semua hari</Button>
+            </div>
+          </div>
           <label className="grid gap-1 text-sm font-medium">Kategori
             <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
               <option value="all">Semua kategori</option>
