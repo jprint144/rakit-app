@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 103 - Susunan filter desktop dua baris (2026-08-24)
+
+- **Goal:** Memperbaiki toolbar filter yang masih terpecah dan terlihat acak.
+- **Completed:** Filter disusun eksplisit menjadi dua baris: hari dan Reset filter di atas; tanggal, kategori, prioritas, serta status sejajar di bawahnya. Empty state dipadatkan kembali agar area daftar tidak terlalu tinggi.
+- **Verification run:** `npm run build` lulus (3109 modul); `git diff --check` lulus.
+- **Commits:** `style(tasks): organize desktop filters into rows`.
+- **Next best action:** User mengecek hasil layout baru pada desktop dan melanjutkan uji CRUD setelah restart aplikasi agar migrasi SQLite terbaru berjalan.
+
 ### Sesi 102 - Toolbar filter Tugas Harian (2026-08-24)
 
 - **Goal:** Menghilangkan ruang kosong dan memperjelas alur filter pada desktop.

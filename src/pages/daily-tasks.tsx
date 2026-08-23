@@ -142,47 +142,45 @@ export default function DailyTasksPage() {
       </div>
 
       <Card className="shadow-sm">
-        <CardContent className="flex flex-wrap items-end gap-3 p-4">
-          <div className="mr-2 grid gap-0.5 self-center">
-            <p className="text-sm font-semibold">Filter tugas</p>
-            <p className="text-xs text-muted-foreground">Atur daftar yang ditampilkan.</p>
-          </div>
-          <div className="grid gap-1">
-            <span className="text-sm font-medium">Hari</span>
-            <div className="flex flex-wrap gap-1">
+        <CardContent className="flex flex-col gap-4 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mr-1 text-sm font-medium">Hari</span>
               <Button type="button" size="sm" variant={weekdayFilter === "all" ? "secondary" : "outline"} onClick={() => setWeekdayFilter("all")}>Semua</Button>
               {weekdays.map((day) => <Button key={day.value} type="button" size="sm" variant={weekdayFilter === day.value ? "secondary" : "outline"} onClick={() => setWeekdayFilter(day.value)}>{day.label}</Button>)}
             </div>
+            <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>Reset filter</Button>
           </div>
-          <label className="grid min-w-40 gap-1 text-sm font-medium">Tanggal
-            <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
-          </label>
-          <label className="grid min-w-36 gap-1 text-sm font-medium">Kategori
-            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
-              <option value="all">Semua kategori</option>
-              {categories.map((category) => <option key={category} value={category}>{category}</option>)}
-            </select>
-          </label>
-          <label className="grid min-w-36 gap-1 text-sm font-medium">Prioritas
-            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value)}>
-              <option value="all">Semua prioritas</option>
-              {taskPriorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
-            </select>
-          </label>
-          <label className="grid min-w-36 gap-1 text-sm font-medium">Status
-            <select className="h-9 rounded-md border bg-background px-3 text-sm" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
-              <option value="open">Belum selesai</option>
-              <option value="done">Selesai</option>
-              <option value="all">Semua status</option>
-            </select>
-          </label>
-          <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>Reset</Button>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <label className="grid gap-1 text-sm font-medium">Tanggal
+              <Input type="date" value={dateFilter === "all" ? "" : dateFilter} onChange={(event) => setDateFilter(event.target.value || "all")} />
+            </label>
+            <label className="grid gap-1 text-sm font-medium">Kategori
+              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
+                <option value="all">Semua kategori</option>
+                {categories.map((category) => <option key={category} value={category}>{category}</option>)}
+              </select>
+            </label>
+            <label className="grid gap-1 text-sm font-medium">Prioritas
+              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value)}>
+                <option value="all">Semua prioritas</option>
+                {taskPriorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
+              </select>
+            </label>
+            <label className="grid gap-1 text-sm font-medium">Status
+              <select className="h-9 rounded-md border bg-background px-3 text-sm" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
+                <option value="open">Belum selesai</option>
+                <option value="done">Selesai</option>
+                <option value="all">Semua status</option>
+              </select>
+            </label>
+          </div>
         </CardContent>
       </Card>
 
       {visibleTasks.length === 0 ? (
         <Card className="shadow-sm">
-          <CardContent className="flex min-h-44 flex-col items-center justify-center gap-2 text-center">
+          <CardContent className="flex min-h-32 flex-col items-center justify-center gap-2 py-8 text-center">
             <ListTodo className="size-8 text-muted-foreground" />
             <p className="font-medium">Belum ada tugas pada filter ini.</p>
             <p className="text-sm text-muted-foreground">Tambahkan tugas baru untuk mulai mencatat aktivitas harian.</p>
