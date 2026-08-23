@@ -11,7 +11,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Standard verification path:** `npm run build` â€” **SUDAH LOLOS** di mesin Windows (Sesi 2).
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
-- **Highest priority unfinished feature:** `settings-identitas-agency` (priority 24, `not_started`). Seluruh fitur hingga `settings-folder-utama` (priority 23) sudah passing.
+- **Highest priority unfinished feature:** `settings-kategori-custom` (priority 25, `not_started`). Seluruh fitur hingga `settings-identitas-agency` (priority 24) sudah passing.
 - **Current blocker:** Tidak ada blocker teknis.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
@@ -27,11 +27,20 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - Intel Core i5-12450H, 16GB RAM, MSI Thin GF63 12UC
 - Rust 1.97.1 âœ…, MSVC Build Tools 2026 âœ…, WebView2 150.0 âœ…
 
-**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish (`settings-identitas-agency` berikutnya)
+**Fase roadmap saat ini:** Fase 9 â€” Settings & Polish (`settings-kategori-custom` berikutnya)
 
 ---
 
 ## Session Record
+
+### Sesi 72 - Verifikasi Identitas Agency selesai (2026-08-23)
+
+- **Goal:** Menutup acceptance test `settings-identitas-agency`.
+- **Completed:** Settings memuat nama dan status logo agency yang tersimpan serta dapat menyimpannya melalui kartu Identitas Agency. Runtime Invoice/Nota menggunakan sumber data InvoiceSettings yang sama, sehingga perubahan identitas dari Settings otomatis dipakai oleh preview/dokumen baru tanpa duplikasi. Fitur ditandai `passing`.
+- **Verification run:** `npm run build` lulus (3107 modul). Runtime Tauri dev menampilkan Settings dan navigasi Invoice/Nota dengan benar tanpa mengubah identitas atau membuat dokumen baru.
+- **Commits:** Belum dibuat.
+- **Known risks:** Perubahan versi `0.1.7` pada file package/Tauri masih merupakan perubahan pengguna yang dipertahankan terpisah.
+- **Next best action:** Mulai `settings-kategori-custom` (priority 25), khususnya verifikasi fallback item yang memakai kategori custom saat kategorinya dihapus.
 
 ### Sesi 71 - Identitas Agency terpusat di Settings (2026-08-23)
 

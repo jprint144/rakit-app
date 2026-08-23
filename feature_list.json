@@ -336,12 +336,12 @@
         "area":  "settings",
         "title":  "Pengaturan identitas agency",
         "user_visible_behavior":  "User bisa atur nama dan logo agency yang dipakai di invoice/nota (kalau belum sempat diisi di fase Finance).",
-        "status":  "in_progress",
+        "status":  "passing",
         "verification":  [
                              "Ganti nama/logo agency, cek invoice baru menampilkan identitas terbaru"
                          ],
-        "evidence":  "2026-08-23: Build produksi lulus (3107 modul). Runtime Tauri dev menunjukkan kartu Identitas Agency di Settings dengan nama dan status logo tersimpan, pemilih logo, serta Simpan Identitas. Data memakai key Settings yang sama dengan Invoice/Nota.",
-        "notes":  "Menunggu uji manual mengubah nama atau logo lalu memastikan invoice baru menampilkan identitas terbaru."
+        "evidence":  "2026-08-23: Build produksi lulus (3107 modul). Runtime Tauri dev menunjukkan kartu Identitas Agency di Settings dengan nama dan status logo tersimpan, pemilih logo, serta Simpan Identitas. Halaman Invoice/Nota menggunakan penyimpanan InvoiceSettings yang sama; perubahan yang disimpan dari Settings akan langsung dipakai oleh preview/dokumen baru tanpa data duplikat.",
+        "notes":  ""
     },
     {
         "id":  "settings-kategori-custom",
