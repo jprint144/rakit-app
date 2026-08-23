@@ -199,7 +199,7 @@ export default function DailyTasksPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Selesai</TableHead>
-                <TableHead className="w-48 text-left">Tugas</TableHead>
+                <TableHead className="w-48 !text-left">Tugas</TableHead>
                 <TableHead className="w-60">Catatan</TableHead>
                 <TableHead className="w-28">Prioritas</TableHead>
                 <TableHead className="w-28">Kategori</TableHead>
@@ -215,7 +215,7 @@ export default function DailyTasksPage() {
                   <TableCell>
                     <Checkbox className="size-5 rounded-none border-2 border-foreground" checked={Boolean(task.completed)} aria-label={task.completed ? "Batalkan selesai" : "Tandai selesai"} onCheckedChange={() => void toggleComplete(task)} />
                   </TableCell>
-                  <TableCell className={task.completed ? "text-left font-medium line-through" : "text-left font-medium"}>{task.title}</TableCell>
+                  <TableCell className={task.completed ? "!text-left font-medium line-through" : "!text-left font-medium"}>{task.title}</TableCell>
                   <TableCell>
                     {task.notes ? <Button size="sm" variant="ghost" onClick={() => setViewingNote(task)}>Lihat catatan</Button> : "-"}
                   </TableCell>

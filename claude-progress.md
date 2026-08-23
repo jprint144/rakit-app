@@ -33,6 +33,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 111 - Perataan tegas kolom Tugas (2026-08-24)
+
+- **Goal:** Memastikan aturan rata kiri pada kolom Tugas tidak dikalahkan oleh perataan global tabel.
+- **Completed:** Memberi prioritas eksplisit pada header dan isi kolom Tugas untuk perataan kiri.
+- **Verification run:** `npm run build` lulus (3110 modul); `git diff --check` lulus.
+- **Commits:** `fix(tasks): force task titles left aligned`.
+- **Next best action:** User mengecek hasil perataan kembali pada aplikasi.
+
 ### Sesi 110 - Perataan kolom Tugas (2026-08-24)
 
 - **Goal:** Merapikan pemindaian daftar dengan meratakan isi tugas ke kiri.
