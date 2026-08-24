@@ -7,6 +7,7 @@ import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AppSidebar } from "@/components/app-sidebar";
 import { verifyDatabaseConnection } from "@/lib/database";
 import { loadTheme } from "@/features/settings/settings-repository";
+import { syncWindowIcon } from "@/lib/window-icon";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -150,7 +151,10 @@ export default function App() {
     verifyDatabaseConnection().catch((error: unknown) => {
       console.error("SQLite startup check failed:", error);
     });
-    loadTheme().then((theme) => document.documentElement.classList.toggle("dark", theme === "dark")).catch(console.error);
+    loadTheme().then(async (theme) => {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      await syncWindowIcon(theme);
+    }).catch(console.error);
   }, []);
 
   return (

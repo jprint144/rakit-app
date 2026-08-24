@@ -34,6 +34,14 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 ## Session Record
 
+### Sesi 130 - Logo title bar mengikuti tema (2026-08-24)
+
+- **Goal:** Membuat ikon Rakit pada title bar memiliki kontras sesuai tema aktif.
+- **Completed:** Ikon jendela native direkolor dari logo Rakit: hitam pada tema terang dan putih pada tema gelap; pembaruan dijalankan saat aplikasi dimuat dan ketika tema diganti di Settings.
+- **Verification run:** `npm run build`, `cargo check --manifest-path src-tauri\\Cargo.toml`, dan `git diff --check` lulus.
+- **Commits:** Akan dicatat setelah checkpoint ini.
+- **Next best action:** Jalankan aplikasi development dan periksa perubahan ikon pada title bar saat mengganti tema.
+
 ### Sesi 129 - Rilis v0.1.9 (2026-08-24)
 
 - **Goal:** Menerbitkan perbaikan layout Settings dan filter Tugas Harian.

@@ -13,6 +13,7 @@ import { loadInvoiceSettings, saveInvoiceSettings, type InvoiceSettings } from "
 import { deleteIdeaCategory, listIdeaCategories, presetIdeaCategories, saveIdeaCategories } from "@/features/idea/idea-repository";
 import { deleteReferenceCategory, listReferenceCategories, presetReferenceCategories, saveReferenceCategories } from "@/features/reference/reference-repository";
 import { loadProjectsRoot, loadTheme, saveProjectsRoot, saveTheme } from "@/features/settings/settings-repository";
+import { syncWindowIcon } from "@/lib/window-icon";
 import { createBackup, parseBackup, restoreBackup, type RakitBackup } from "@/features/settings/backup-repository";
 
 export default function SettingsPage() {
@@ -68,6 +69,7 @@ export default function SettingsPage() {
     setTheme(next);
     document.documentElement.classList.toggle("dark", next === "dark");
     void saveTheme(next);
+    void syncWindowIcon(next).catch(console.error);
   };
   const saveRoot = async () => {
     const path = projectsRoot.trim();
