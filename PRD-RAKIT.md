@@ -10,7 +10,7 @@ Aplikasi desktop personal untuk desainer grafis, satu ruang kerja dari ide menta
 
 **Problem Statement:** Sebagai desainer grafis, sering kesulitan brainstorming ide begitu dapat project baru, progress project susah dilacak, untung-rugi tiap project gak jelas, ide numpuk gak keurus, dan referensi visual tersebar di banyak tab browser yang campur aduk sama urusan pribadi.
 
-**Proposed Solution:** Rakit menyatukan kebutuhan tracking project, keuangan, idea vault, dan reference browser dalam satu aplikasi desktop offline, lokal sepenuhnya, jadi gak perlu lompat-lompat antar tools buat urusan yang sebenarnya saling terkait.
+**Proposed Solution:** Rakit menyatukan kebutuhan tracking project, keuangan, idea vault, dan reference browser dalam satu aplikasi offline, lokal sepenuhnya, di desktop dan Android. Jadi gak perlu lompat-lompat antar tools buat urusan yang sebenarnya saling terkait.
 
 **Success Criteria:**
 - Semua project aktif punya catatan pemasukan-pengeluaran yang match 1:1 dengan kondisi rekening/tunai asli â€” gak ada lagi tebak-tebak untung-rugi.
@@ -146,7 +146,7 @@ Gambaran awal, detail kolom lengkap disusun saat implementasi schema:
 - Multi-user atau kolaborasi tim.
 - Sistem langganan publik / model bisnis SaaS.
 - Integrasi otomatis ke sumber referensi luar (Pinterest, Behance, dll) â€” link tetap ditambah manual.
-- Versi web atau mobile â€” Rakit sengaja desktop-only.
+- Versi web dan iOS. Android menjadi platform pendamping desktop, dengan penyesuaian UI responsif dan pengujian akses file per perangkat.
 
 ## 9. Roadmap Pengerjaan Bertahap
 

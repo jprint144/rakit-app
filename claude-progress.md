@@ -12,7 +12,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
 - **Highest priority unfinished feature:** `tugas-harian-crud` (priority 28, `in_progress`) untuk uji manual tugas mandiri.
-- **Current blocker:** Tidak ada blocker teknis.
+- **Current blocker:** Target Android belum dapat diinisialisasi karena Android SDK Command-line Tools belum terpasang; Android SDK, Platform-Tools, Build-Tools, dan Emulator sudah terdeteksi pada 2026-08-24.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
 - **Perubahan UI terbaru:** Halaman Finance memakai FAB bulat di pojok kanan bawah untuk membuka popup input pengeluaran desktop; verifikasi visual runtime masih diperlukan.
@@ -33,6 +33,13 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ---
 
 ## Session Record
+
+### Sesi 131 - Persiapan target Android (2026-08-24)
+
+- **Goal:** Menyiapkan Rakit untuk dijalankan pada Android.
+- **Completed:** Scope PRD diperluas dari desktop-only menjadi desktop + Android. Android Studio, Android SDK, Platform-Tools, Build-Tools, dan Java terdeteksi; `adb devices` berjalan, tetapi belum ada HP tersambung.
+- **Verification run:** `npm run tauri android -- --help` lulus. `npm run tauri android init` berhenti dengan jelas karena Android SDK Command-line Tools belum tersedia.
+- **Next best action:** Pasang Android SDK Command-line Tools (latest) dari SDK Manager, lalu jalankan `npm run tauri android init` dan sambungkan HP dengan USB debugging.
 
 ### Sesi 130 - Logo title bar mengikuti tema (2026-08-24)
 
