@@ -12,7 +12,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
 - **Highest priority unfinished feature:** `tugas-harian-crud` (priority 28, `in_progress`) untuk uji manual tugas mandiri.
-- **Current blocker:** APK Android ARM64 debug sudah berhasil dibuat, tetapi belum ada HP yang terdeteksi oleh `adb devices` untuk pemasangan dan uji runtime.
+- **Current blocker:** Tidak ada blocker teknis untuk target Android. Verifikasi UI responsif dan fitur yang bergantung pada filesystem masih perlu dilakukan langsung di Redmi Note 13.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
 - **Perubahan UI terbaru:** Halaman Finance memakai FAB bulat di pojok kanan bawah untuk membuka popup input pengeluaran desktop; verifikasi visual runtime masih diperlukan.
@@ -38,8 +38,8 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 
 - **Goal:** Menyiapkan Rakit untuk dijalankan pada Android.
 - **Completed:** Scope PRD diperluas dari desktop-only menjadi desktop + Android. Android Studio, Android SDK, Platform-Tools, Build-Tools, Command-line Tools, NDK 28.2, dan Java terdeteksi. `tauri android init` berhasil memasang target Rust Android dan membuat proyek Gradle pada `src-tauri/gen/android`. Updater dibatasi ke desktop agar kompiler Android tidak memuat plugin khusus desktop.
-- **Verification run:** `npm run build` lulus. Setelah Windows Developer Mode aktif dan `JAVA_HOME` diarahkan ke Temurin JDK 17 (Android Studio JBR 25 tidak kompatibel dengan Gradle 8.14), `npm run tauri android build -- --debug --target aarch64 --apk` lulus dan menghasilkan `app-universal-debug.apk` (207 MB). `adb devices` masih belum menampilkan perangkat.
-- **Next best action:** Sambungkan HP Android dengan kabel data, aktifkan USB debugging dan setujui dialog RSA, lalu jalankan APK/debug di perangkat dengan `npm run tauri android dev`.
+- **Verification run:** `npm run build` lulus. Setelah Windows Developer Mode aktif dan `JAVA_HOME` diarahkan ke Temurin JDK 17 (Android Studio JBR 25 tidak kompatibel dengan Gradle 8.14), `npm run tauri android build -- --debug --target aarch64 --apk` lulus dan menghasilkan `app-universal-debug.apk` (207 MB). Redmi Note 13 (`sapphiren_global`) terdeteksi melalui ADB; APK terpasang sukses sebagai `com.rakit.app.debug` dan `com.rakit.app.MainActivity` menjadi activity terdepan.
+- **Next best action:** Uji visual navigasi dan halaman utama pada Redmi Note 13, lalu sesuaikan layout serta fitur desktop yang belum cocok untuk sentuhan/mobile.
 
 ### Sesi 130 - Logo title bar mengikuti tema (2026-08-24)
 
