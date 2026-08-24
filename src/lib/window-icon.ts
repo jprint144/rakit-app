@@ -17,8 +17,19 @@ export async function syncWindowIcon(theme: Theme) {
   const context = canvas.getContext("2d");
   if (!context) throw new Error("Canvas tidak tersedia.");
 
-  context.filter = theme === "dark" ? "brightness(0) invert(1)" : "brightness(0)";
   context.drawImage(logo, 0, 0, canvas.width, canvas.height);
+
+  // WebView2 tidak selalu menerapkan CanvasRenderingContext2D.filter pada gambar
+  // yang akan dijadikan ikon native. Ubah pixel secara langsung supaya warnanya
+  // konsisten: hitam pada tema terang dan putih pada tema gelap.
+  const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+  const color = theme === "dark" ? 255 : 0;
+  for (let index = 0; index < pixels.data.length; index += 4) {
+    pixels.data[index] = color;
+    pixels.data[index + 1] = color;
+    pixels.data[index + 2] = color;
+  }
+  context.putImageData(pixels, 0, 0);
 
   const blob = await new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((next) => next ? resolve(next) : reject(new Error("Ikon Rakit tidak dapat dibuat.")), "image/png");
