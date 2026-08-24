@@ -33,8 +33,12 @@ pub fn run() {
         Migration { version: 7, description: "create_daily_tasks", sql: include_str!("../migrations/0007_daily_tasks.sql"), kind: MigrationKind::Up },
     ];
 
-    tauri::Builder::default()
-        .plugin(tauri_plugin_updater::Builder::new().build())
+    let builder = tauri::Builder::default();
+
+    #[cfg(desktop)]
+    let builder = builder.plugin(tauri_plugin_updater::Builder::new().build());
+
+    builder
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())

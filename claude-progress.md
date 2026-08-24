@@ -12,7 +12,7 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
 - **Highest priority unfinished feature:** `tugas-harian-crud` (priority 28, `in_progress`) untuk uji manual tugas mandiri.
-- **Current blocker:** Target Android belum dapat diinisialisasi karena Android SDK Command-line Tools belum terpasang; Android SDK, Platform-Tools, Build-Tools, dan Emulator sudah terdeteksi pada 2026-08-24.
+- **Current blocker:** Build Android menunggu Windows Developer Mode aktif agar Tauri dapat membuat symbolic link library native ke proyek Gradle. SDK, Command-line Tools, NDK, dan target Rust Android sudah terpasang pada 2026-08-24.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
 - **Perubahan UI terbaru:** Halaman Finance memakai FAB bulat di pojok kanan bawah untuk membuka popup input pengeluaran desktop; verifikasi visual runtime masih diperlukan.
@@ -37,9 +37,9 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ### Sesi 131 - Persiapan target Android (2026-08-24)
 
 - **Goal:** Menyiapkan Rakit untuk dijalankan pada Android.
-- **Completed:** Scope PRD diperluas dari desktop-only menjadi desktop + Android. Android Studio, Android SDK, Platform-Tools, Build-Tools, dan Java terdeteksi; `adb devices` berjalan, tetapi belum ada HP tersambung.
-- **Verification run:** `npm run tauri android -- --help` lulus. `npm run tauri android init` berhenti dengan jelas karena Android SDK Command-line Tools belum tersedia.
-- **Next best action:** Pasang Android SDK Command-line Tools (latest) dari SDK Manager, lalu jalankan `npm run tauri android init` dan sambungkan HP dengan USB debugging.
+- **Completed:** Scope PRD diperluas dari desktop-only menjadi desktop + Android. Android Studio, Android SDK, Platform-Tools, Build-Tools, Command-line Tools, NDK 28.2, dan Java terdeteksi. `tauri android init` berhasil memasang target Rust Android dan membuat proyek Gradle pada `src-tauri/gen/android`. Updater dibatasi ke desktop agar kompiler Android tidak memuat plugin khusus desktop.
+- **Verification run:** `npm run build` lulus. Build Android berhasil mengompilasi `libapp_lib.so` untuk `aarch64-linux-android`, lalu berhenti saat Windows menolak symbolic link ke folder `jniLibs`; `adb devices` berjalan tetapi belum ada HP tersambung.
+- **Next best action:** Aktifkan Windows Developer Mode, sambungkan HP dengan USB debugging, lalu ulang `npm run tauri android build -- --debug` dan `npm run tauri android dev`.
 
 ### Sesi 130 - Logo title bar mengikuti tema (2026-08-24)
 
