@@ -1,7 +1,7 @@
 {
     "$schema":  "../node_modules/@tauri-apps/cli/config.schema.json",
     "productName":  "Rakit",
-    "version": "0.1.9",
+    "version": "0.1.11",
     "identifier":  "com.rakit.app",
     "build":  {
                   "frontendDist":  "../dist",
@@ -18,7 +18,8 @@
                                     "minWidth":  1024,
                                     "minHeight":  700,
                                     "resizable":  true,
-                                    "fullscreen":  false
+                                    "fullscreen":  false,
+                                    "decorations": false
                                 }
                             ],
                 "security":  {
@@ -52,6 +53,17 @@
                    "createUpdaterArtifacts":  true
                },
     "plugins":  {
+                    "deep-link": {
+                                      "desktop": {
+                                                     "schemes": ["rakit"]
+                                                   },
+                                      "mobile": [
+                                                    {
+                                                      "scheme": ["rakit"],
+                                                      "appLink": false
+                                                    }
+                                                  ]
+                                  },
                     "updater":  {
                                     "pubkey":  "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU2NkU0QjI1RjFFMThEOEMKUldTTWplSHhKVXR1NXRBdE45dmtwVjlrT0hUSko0NDVTN0p6R0N6NTFPOHo5cHJOaVdzY1gzTk8K",
                                     "endpoints":  [

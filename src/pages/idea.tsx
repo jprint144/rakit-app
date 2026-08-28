@@ -5,6 +5,7 @@ import {
   FileText,
   Lightbulb,
   Link,
+  MoreHorizontal,
   Pencil,
   Plus,
   Trash2,
@@ -33,13 +34,23 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { MobilePullToRefresh } from "@/components/mobile-pull-to-refresh";
+import { scheduleRakitSync, syncRakitEditableData } from "@/features/sync/supabase-sync";
 import { IdeaForm } from "@/features/idea/idea-form";
 import { openIdeaText } from "@/features/idea/idea-text";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import {
   deleteIdea,
   listIdeas,
+  presetIdeaCategories,
   saveIdea,
 } from "@/features/idea/idea-repository";
 import type { Idea, IdeaInput } from "@/features/idea/idea-repository";
@@ -48,6 +59,7 @@ const openItem = (path: string, link = false) =>
   (link ? openUrl(path) : openPath(path)).catch(console.error);
 
 export default function IdeaPage() {
+  const isAndroid = /Android/i.test(navigator.userAgent);
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [editing, setEditing] = useState<Idea | null>(null);
   const [viewing, setViewing] = useState<Idea | null>(null);
@@ -60,6 +72,7 @@ export default function IdeaPage() {
   }, []);
   const save = async (input: IdeaInput) => {
     await saveIdea(input, editing?.id);
+    scheduleRakitSync();
     setFormOpen(false);
     setEditing(null);
     load();
@@ -70,18 +83,26 @@ export default function IdeaPage() {
   };
   const visibleIdeas = categoryFilter === "all" ? ideas : ideas.filter((idea) => idea.category === categoryFilter);
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
+    <MobilePullToRefresh onRefresh={() => syncRakitEditableData().then(load)}><div className="flex flex-1 flex-col gap-3 overflow-x-hidden px-4 pt-12 pb-28 md:gap-4 md:p-4">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">Idea</h1>
-          <p className="text-muted-foreground">
-            Simpan teks, dokumen, gambar, dan link dalam satu Idea.
-          </p>
+          <p className="mt-1 text-sm text-muted-foreground">Simpan dan kelola Idea Anda.</p>
         </div>
-        <ToggleGroup type="single" variant="outline" size="sm" value={categoryFilter} onValueChange={(value) => value && setCategoryFilter(value)} aria-label="Filter kategori Idea">
-          <ToggleGroupItem value="all">Semua</ToggleGroupItem>
-          {Array.from(new Set(ideas.map((idea) => idea.category))).map((category) => <ToggleGroupItem key={category} value={category}>{category}</ToggleGroupItem>)}
-        </ToggleGroup>
+        <div className="hidden items-center gap-1.5 md:flex">
+          <ToggleGroup type="single" variant="outline" size="sm" value={categoryFilter} onValueChange={(value) => value && setCategoryFilter(value)} aria-label="Filter kategori Idea">
+            <ToggleGroupItem value="all">Semua</ToggleGroupItem>
+            {presetIdeaCategories.map((category) => <ToggleGroupItem key={category} value={category}>{category}</ToggleGroupItem>)}
+          </ToggleGroup>
+          <Button size="sm" variant="ghost" onClick={() => setCategoryFilter("all")}>Reset</Button>
+        </div>
+      </div>
+      <div className="flex items-center gap-1 md:hidden">
+        <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto border-b">
+          <Button className="h-11 shrink-0 rounded-none border-b-2 border-transparent px-3 text-xs font-semibold data-[active=true]:border-primary data-[active=true]:text-primary" type="button" size="sm" variant="ghost" data-active={categoryFilter === "all"} onClick={() => setCategoryFilter("all")}>Semua</Button>
+          {presetIdeaCategories.map((category) => <Button className="h-11 shrink-0 rounded-none border-b-2 border-transparent px-3 text-xs font-semibold data-[active=true]:border-primary data-[active=true]:text-primary" key={category} type="button" size="sm" variant="ghost" data-active={categoryFilter === category} onClick={() => setCategoryFilter(category)}>{category}</Button>)}
+        </div>
+        <Button className="shrink-0 px-2 text-xs" size="sm" variant="ghost" onClick={() => setCategoryFilter("all")}>Reset</Button>
       </div>
       {visibleIdeas.length === 0 ? (
         <Card>
@@ -90,8 +111,30 @@ export default function IdeaPage() {
             <p className="text-muted-foreground">Belum ada Idea.</p>
           </CardContent>
         </Card>
-      ) : (
-        <div className="w-full overflow-x-auto rounded-2xl border bg-card px-4 shadow-sm">
+      ) : (<>
+        <div className="grid gap-3 md:hidden">
+          {visibleIdeas.map((idea) => (
+            <Card key={idea.id} className="rounded-2xl py-1">
+              <CardContent className="flex items-center gap-3 px-3 py-2">
+                <Lightbulb className="size-5 shrink-0 text-muted-foreground" />
+                <p className="min-w-0 flex-1 truncate font-medium">{idea.title}</p>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="icon" variant="ghost" aria-label={`Aksi ${idea.title}`}><MoreHorizontal /></Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem onSelect={() => setViewing(idea)}><Eye />View</DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => edit(idea)}><Pencil />Edit</DropdownMenuItem>
+                      <DropdownMenuItem variant="destructive" onSelect={() => setDeleting(idea)}><Trash2 />Hapus</DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <div className="hidden w-full overflow-x-auto rounded-2xl border bg-card px-4 shadow-sm md:block">
           <Table className="w-full text-sm [&_th]:px-3 [&_th]:py-3 [&_th]:text-center [&_th]:font-semibold [&_td]:px-3 [&_td]:py-3 [&_td]:align-middle">
             <TableHeader><TableRow><TableHead className="w-14 text-center">No.</TableHead><TableHead className="min-w-48 text-center">Judul</TableHead><TableHead className="min-w-28 text-center">Kategori</TableHead><TableHead className="min-w-44 text-center">Konten</TableHead><TableHead className="min-w-32 text-center">Diperbarui</TableHead><TableHead className="min-w-96 text-right">Aksi</TableHead></TableRow></TableHeader>
             <TableBody>
@@ -163,9 +206,9 @@ export default function IdeaPage() {
             </TableBody>
           </Table>
         </div>
-      )}
+      </>)}
       {!formOpen && !viewing && !deleting && <Button
-        className="fixed right-6 bottom-6 z-[60] size-12 rounded-full shadow-lg"
+        className="fixed right-4 bottom-24 z-[60] size-12 rounded-full shadow-lg md:right-6 md:bottom-6"
         size="icon"
         aria-label="Tambah Idea"
         onClick={() => {
@@ -223,7 +266,7 @@ export default function IdeaPage() {
           )}
         </SheetContent>
       </Sheet>
-      <Sheet open={formOpen} onOpenChange={setFormOpen}>
+      {!isAndroid && <Sheet open={formOpen} onOpenChange={setFormOpen}>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>{editing ? "Edit Idea" : "Tambah Idea"}</SheetTitle>
@@ -236,7 +279,22 @@ export default function IdeaPage() {
             />
           </div>
         </SheetContent>
-      </Sheet>
+      </Sheet>}
+      {isAndroid && <Dialog open={formOpen} onOpenChange={setFormOpen}>
+        <DialogContent className="max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] overflow-y-auto p-0 md:hidden">
+          <DialogHeader className="px-5 pt-5">
+            <DialogTitle>{editing ? "Edit Idea" : "Tambah Idea"}</DialogTitle>
+          </DialogHeader>
+          <div className="px-5 pb-5">
+            <IdeaForm
+              compact
+              idea={editing}
+              onSubmit={save}
+              onCancel={() => setFormOpen(false)}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>}
       <AlertDialog
         open={Boolean(deleting)}
         onOpenChange={(open) => !open && setDeleting(null)}
@@ -254,6 +312,7 @@ export default function IdeaPage() {
               onClick={() =>
                 deleting &&
                 deleteIdea(deleting.id).then(() => {
+                  scheduleRakitSync();
                   setDeleting(null);
                   load();
                 })
@@ -264,6 +323,6 @@ export default function IdeaPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </div></MobilePullToRefresh>
   );
 }

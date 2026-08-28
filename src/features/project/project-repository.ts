@@ -81,7 +81,22 @@ export async function saveProject(input: ProjectInput, id?: number) {
   await database.execute("INSERT INTO projects (code, name, client_name, client_whatsapp, brief, kanban_status, payment_status, deadline, started_at, folder_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", [code, input.name, input.client_name, input.client_whatsapp, input.brief, input.kanban_status, input.payment_status, deadline, input.started_at || new Date().toISOString(), folderPath]);
 }
 
-export async function deleteProject(project: Project) { await (await db()).execute("DELETE FROM projects WHERE id = $1", [project.id]); if (project.folder_path) { try { await remove(project.folder_path, { recursive: true }); } catch (error) { console.warn("Folder project tidak dapat dihapus", error); } } }
+export async function deleteProject(project: Project) {
+  const database = await db();
+  await database.execute("DELETE FROM invoices WHERE project_id = $1", [project.id]);
+  await database.execute("DELETE FROM transactions WHERE project_id = $1", [project.id]);
+  await database.execute("DELETE FROM order_items WHERE order_id IN (SELECT id FROM customer_orders WHERE project_id = $1)", [project.id]);
+  await database.execute("DELETE FROM customer_orders WHERE project_id = $1", [project.id]);
+  await database.execute("DELETE FROM projects WHERE id = $1", [project.id]);
+
+  if (project.folder_path) {
+    try {
+      await remove(project.folder_path, { recursive: true });
+    } catch (error) {
+      console.warn("Folder project tidak dapat dihapus", error);
+    }
+  }
+}
 export async function updateProjectStatus(id: number, status: string) { await (await db()).execute("UPDATE projects SET kanban_status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2", [status, id]); }
 
 export async function updateProjectPaymentStatus(id: number, status: string) { await (await db()).execute("UPDATE projects SET payment_status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2", [status, id]); }

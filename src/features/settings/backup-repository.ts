@@ -11,9 +11,13 @@ const tables = {
   order_items: ["id", "order_id", "description", "quantity", "unit_price", "created_at"],
   transactions: ["id", "project_id", "type", "installment_name", "amount", "transaction_date", "notes", "created_at", "order_id"],
   invoices: ["id", "project_id", "number", "issued_at", "items_json", "last_export_format", "created_at", "order_id", "document_type"],
-  ideas: ["id", "content_type", "category", "content", "created_at", "updated_at", "text_content", "document_path", "image_path", "link_url", "title"],
+  ideas: ["id", "sync_id", "content_type", "category", "content", "created_at", "updated_at", "deleted_at", "text_content", "document_path", "image_path", "link_url", "title"],
   reference_items: ["id", "url", "title", "category", "added_at", "sort_order"],
-  daily_tasks: ["id", "title", "notes", "task_date", "task_time", "priority", "category", "completed", "reminder_at", "created_at", "updated_at"],
+  daily_tasks: ["id", "sync_id", "title", "notes", "task_date", "task_time", "priority", "category", "completed", "reminder_at", "created_at", "updated_at", "deleted_at"],
+  habit_trackers: ["id", "name", "notes", "category", "color", "tracking_type", "target_monthly", "start_date", "end_date", "archived", "created_at", "updated_at", "deleted_at"],
+  habit_entries: ["id", "tracker_id", "entry_date", "completed", "value_number", "note", "created_at", "updated_at"],
+  personal_targets: ["id", "title", "type", "category", "target_value", "current_value", "unit", "deadline", "priority", "status", "notes", "created_at", "updated_at", "deleted_at"],
+  personal_target_steps: ["id", "target_id", "title", "completed", "sort_order", "created_at", "updated_at"],
   settings: ["key", "value", "updated_at"],
 } as const;
 
@@ -99,7 +103,7 @@ export async function restoreBackup(value: unknown) {
 
   await database.execute("BEGIN TRANSACTION");
   try {
-    for (const table of ["invoices", "transactions", "order_items", "customer_orders", "projects", "ideas", "reference_items", "daily_tasks", "settings"] as TableName[]) await database.execute(`DELETE FROM ${table}`);
+    for (const table of ["invoices", "transactions", "order_items", "customer_orders", "projects", "ideas", "reference_items", "daily_tasks", "habit_entries", "habit_trackers", "personal_target_steps", "personal_targets", "settings"] as TableName[]) await database.execute(`DELETE FROM ${table}`);
     for (const table of Object.keys(tables) as TableName[]) {
       const columns = tables[table];
       const placeholders = columns.map((_, index) => `$${index + 1}`).join(", ");

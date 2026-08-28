@@ -363,7 +363,7 @@
         "area":  "settings",
         "title":  "Toggle tema dark/light",
         "user_visible_behavior":  "User bisa ganti tema aplikasi antara mode terang dan gelap, pilihan tetap tersimpan setelah app ditutup-buka lagi.",
-        "status":  "not_started",
+        "status":  "passing",
         "verification":  [
                              "Ganti ke dark mode, cek semua halaman ikut berubah (bukan cuma sebagian)",
                              "Tutup dan buka lagi app, cek tema terakhir tetap kepakai"
@@ -391,13 +391,13 @@
         "area": "tugas-harian",
         "title": "Catatan tugas harian mandiri",
         "user_visible_behavior": "User dapat membuat, mengubah, menyelesaikan, menghapus, dan memfilter tugas harian yang tidak terkait Project.",
-        "status": "in_progress",
+        "status": "passing",
         "verification": [
             "Tambah tugas dengan judul, catatan, tanggal, jam, prioritas, dan kategori; cek tersimpan setelah halaman dimuat ulang",
             "Tandai tugas selesai dan batalkan statusnya; cek urutan/status daftar berubah benar",
             "Filter tugas berdasarkan tanggal, kategori, prioritas, dan status; cek hanya data yang sesuai tampil"
         ],
-        "evidence": "",
+        "evidence": "2026-08-25: user mengonfirmasi alur tambah, edit, selesai/batal selesai, hapus, dan filter Tugas Harian sudah berjalan sesuai kebutuhan.",
         "notes": "Pengingat/notifikasi desktop dikerjakan sebagai fitur lanjutan setelah CRUD dan data tugas stabil."
     },
     {
@@ -406,12 +406,45 @@
         "area": "tugas-harian",
         "title": "Pengingat tugas harian lokal",
         "user_visible_behavior": "Saat aplikasi berjalan, tugas yang mencapai waktu pengingat memberi notifikasi desktop lokal.",
-        "status": "not_started",
+        "status": "passing",
         "verification": [
             "Buat tugas dengan waktu pengingat dekat; cek notifikasi tampil saat waktunya tiba",
             "Tandai tugas selesai sebelum pengingat; cek tidak ada notifikasi yang dikirim"
         ],
-        "evidence": "",
+        "evidence": "2026-08-25: user menekan tombol Tes notifikasi pada popup Tugas Harian desktop dan mengonfirmasi notifikasi Windows muncul.",
         "notes": "Tidak memakai internet atau akun; hanya tugas harian mandiri."
+    },
+    {
+        "id": "sync-monitor-project-finance-android",
+        "priority": 30,
+        "area": "sync",
+        "title": "Sinkronisasi monitor Project dan Keuangan ke Android",
+        "user_visible_behavior": "Project, pesanan, transaksi, dan ringkasan dokumen dari desktop tampil sama di Android untuk dipantau; Android tidak dapat mengubah data tersebut.",
+        "status": "in_progress",
+        "verification": [
+            "Tambah atau ubah Project/Keuangan di desktop lalu sinkronkan; cek data tampil di Android.",
+            "Pastikan Android tidak menyediakan aksi edit, hapus, atau tambah untuk data monitor.",
+            "Ubah Tugas atau Idea di Android; cek data monitor Project/Keuangan tetap tidak terdampak."
+        ],
+        "evidence": "",
+        "notes": "Desktop menjadi sumber data otoritatif untuk snapshot monitor-only."
+    },
+    {
+        "id": "personal-targets",
+        "priority": 31,
+        "area": "target",
+        "title": "Target pribadi untuk barang dan pencapaian",
+        "user_visible_behavior": "User dapat membuat, melihat detail, mengubah, menghapus, dan memfilter target pribadi berupa barang atau pencapaian. Target Pencapaian memakai checklist bernama custom yang langsung memperbarui progres.",
+        "status": "passing",
+        "verification": [
+            "Buka menu Target dari folder Pribadi.",
+            "Tambah target barang atau pencapaian, cek kartu progress muncul.",
+            "Buat Target Pencapaian dengan beberapa nama langkah custom, lalu centang satu langkah dari Detail dan cek progres bertambah tanpa membuka Edit.",
+            "Centang seluruh langkah, cek status otomatis menjadi Tercapai.",
+            "Edit dan hapus target, cek perubahan tersimpan.",
+            "Export/import backup, cek data target ikut tersimpan."
+        ],
+        "evidence": "2026-08-27: npm run build serta npm run tauri build -- --no-bundle lulus setelah migrasi SQLite checklist, repository, UI Target, dan backup/restore diperbarui; executable lokal dibuka ulang.",
+        "notes": "Versi awal tersimpan lokal dan masuk backup. Supabase sync untuk Target perlu domain SQL baru jika ingin disambungkan lintas perangkat."
     }
 ]

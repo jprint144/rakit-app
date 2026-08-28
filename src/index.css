@@ -7,6 +7,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html,
+body,
+#root {
+  overflow-x: clip;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(0.985 0.008 250);
@@ -153,6 +170,202 @@
 .font-invoice {
   font-family: "Figtree", sans-serif;
 }
+
+@keyframes rakit-popup-enter {
+  from {
+    opacity: 0;
+    translate: -50% calc(-50% + 28dvh);
+    scale: 0.96;
+  }
+  to {
+    opacity: 1;
+    translate: -50% -50%;
+    scale: 1;
+  }
+}
+
+@keyframes rakit-popup-exit {
+  from {
+    opacity: 1;
+    translate: -50% -50%;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    translate: -50% calc(-50% + 22dvh);
+    scale: 0.97;
+  }
+}
+
+/* Ikon popup mengikuti mode gelap. */
+.dark [data-slot="dialog-content"] [data-slot="button"][data-variant="default"],
+.dark [data-slot="sheet-content"] [data-slot="button"][data-variant="default"],
+.dark [data-slot="alert-dialog-content"] [data-slot="button"][data-variant="default"] {
+  color: var(--foreground);
+}
+
+[data-slot="dialog-content"] [data-slot="button"] svg,
+[data-slot="sheet-content"] [data-slot="button"] svg,
+[data-slot="alert-dialog-content"] [data-slot="button"] svg,
+[data-slot="sheet-close"] svg,
+[data-slot="dialog-close"] svg {
+  stroke: currentColor;
+}
+
+.dark [data-slot="sheet-content"] svg,
+.dark [data-slot="dialog-content"] svg,
+.dark [data-slot="alert-dialog-content"] svg {
+  color: var(--foreground);
+  stroke: currentColor;
+}
+
+[data-slot="dialog-content"],
+[data-slot="sheet-content"] {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+[data-slot="dialog-content"]::-webkit-scrollbar,
+[data-slot="sheet-content"]::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  [data-slot="dialog-content"],
+  [data-slot="sheet-content"] {
+    gap: 0.75rem;
+    overflow: hidden !important;
+  }
+
+  [data-slot="dialog-content"][data-state="open"],
+  [data-slot="sheet-content"][data-state="open"],
+  [data-slot="alert-dialog-content"][data-state="open"] {
+    animation: rakit-popup-enter 130ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
+  }
+
+  [data-slot="dialog-content"][data-state="closed"],
+  [data-slot="sheet-content"][data-state="closed"],
+  [data-slot="alert-dialog-content"][data-state="closed"] {
+    animation: rakit-popup-exit 95ms cubic-bezier(0.4, 0, 1, 1) both !important;
+  }
+
+  [data-slot="dialog-content"]::before,
+  [data-slot="sheet-content"]::before {
+    content: "";
+    position: absolute;
+    inset-inline: 1.25rem;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  [data-slot="dialog-content"] [data-slot="dialog-header"],
+  [data-slot="sheet-content"] [data-slot="sheet-header"] {
+    gap: 0.25rem;
+    padding: 0;
+  }
+
+  [data-slot="dialog-content"] [data-slot="dialog-title"],
+  [data-slot="sheet-content"] [data-slot="sheet-title"] {
+    line-height: 1.2;
+  }
+
+  [data-slot="dialog-content"] [data-slot="dialog-footer"],
+  [data-slot="sheet-content"] [data-slot="sheet-footer"] {
+    margin-top: auto;
+    padding: 0;
+  }
+
+  [data-slot="dialog-content"] [data-slot="input"],
+  [data-slot="dialog-content"] [data-slot="select-trigger"],
+  [data-slot="sheet-content"] [data-slot="input"],
+  [data-slot="sheet-content"] [data-slot="select-trigger"] {
+    height: 2.25rem;
+    min-height: 2.25rem;
+  }
+
+  [data-slot="dialog-content"] [data-slot="textarea"],
+  [data-slot="sheet-content"] [data-slot="textarea"] {
+    min-height: 3.5rem;
+    max-height: 5rem;
+    resize: none;
+  }
+}
+
+/* Backdrop blur memaksa WebView Android menggambar ulang seluruh layar saat popup bergerak. */
+@media (max-width: 767px) {
+  [data-slot="dialog-overlay"],
+  [data-slot="alert-dialog-overlay"],
+  [data-slot="sheet-overlay"] {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  [data-slot="dialog-content"],
+  [data-slot="alert-dialog-content"],
+  [data-slot="sheet-content"] {
+    animation-duration: 140ms;
+    will-change: transform, opacity;
+  }
+}
+
+/* Ikon kalender native WebView mengikuti mode gelap. */
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0 !important;
+  cursor: pointer;
+}
+
+.dark input[type="date"],
+.dark input[type="datetime-local"] {
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f8fafc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4M16 2v4M3 10h18'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.dark input[type="time"] {
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f8fafc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.dark input[type="time"],
+.dark select {
+  color-scheme: dark;
+}
+
+/* Area ikon native tetap transparan agar klik membuka pemilih bawaan. */
+@media (min-width: 768px) {
+  .dark input[type="date"]::-webkit-calendar-picker-indicator,
+  .dark input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+  .dark input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0 !important;
+  }
+
+}
+
+.dark select {
+  appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f8fafc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.dark [data-slot="sheet-content"] input[type="date"],
+.dark [data-slot="dialog-content"] input[type="date"],
+.dark [data-slot="alert-dialog-content"] input[type="date"] {
+  color-scheme: dark;
+}
+
 
 .invoice-document {
   --background: rgb(255, 255, 255);

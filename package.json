@@ -1,7 +1,7 @@
 {
   "name": "rakit",
   "private": true,
-  "version": "0.1.9",
+  "version": "0.1.11",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,10 +17,13 @@
     "@fontsource/figtree": "^5.3.0",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-slot": "^1.3.3",
+    "@supabase/supabase-js": "^2.112.4",
     "@tailwindcss/vite": "^4.3.3",
     "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-deep-link": "^2.4.9",
     "@tauri-apps/plugin-dialog": "^2.7.2",
     "@tauri-apps/plugin-fs": "^2.5.1",
+    "@tauri-apps/plugin-notification": "^2.3.3",
     "@tauri-apps/plugin-opener": "^2.5.4",
     "@tauri-apps/plugin-process": "^2.3.1",
     "@tauri-apps/plugin-sql": "^2.4.0",

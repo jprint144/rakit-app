@@ -2,7 +2,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 
 type Theme = "light" | "dark";
 
-export async function syncWindowIcon(theme: Theme) {
+export async function syncWindowIcon(_theme: Theme) {
   const logo = new Image();
   logo.src = "/branding/rakit-logo.png";
 
@@ -20,10 +20,10 @@ export async function syncWindowIcon(theme: Theme) {
   context.drawImage(logo, 0, 0, canvas.width, canvas.height);
 
   // WebView2 tidak selalu menerapkan CanvasRenderingContext2D.filter pada gambar
-  // yang akan dijadikan ikon native. Ubah pixel secara langsung supaya warnanya
-  // konsisten: hitam pada tema terang dan putih pada tema gelap.
+  // yang akan dijadikan ikon native. Ubah pixel secara langsung supaya logo
+  // desktop tetap putih pada title bar/taskbar Windows.
   const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
-  const color = theme === "dark" ? 255 : 0;
+  const color = 255;
   for (let index = 0; index < pixels.data.length; index += 4) {
     pixels.data[index] = color;
     pixels.data[index + 1] = color;

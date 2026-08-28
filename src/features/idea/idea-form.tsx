@@ -34,10 +34,12 @@ export function IdeaForm({
   idea,
   onSubmit,
   onCancel,
+  compact = false,
 }: {
   idea?: Idea | null;
   onSubmit: (input: IdeaInput) => Promise<void>;
   onCancel: () => void;
+  compact?: boolean;
 }) {
   const [form, setForm] = useState<IdeaInput>(initial(idea));
   const [categories, setCategories] = useState<string[]>(presetIdeaCategories);
@@ -89,21 +91,37 @@ export function IdeaForm({
       </div>
       <div className="grid gap-2">
         <label>Kategori</label>
-        <Select
-          value={form.category}
-          onValueChange={(category) => setForm({ ...form, category })}
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
+        {compact ? (
+          <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
-              <SelectItem key={category} value={category}>
+              <Button
+                key={category}
+                type="button"
+                size="sm"
+                variant={form.category === category ? "default" : "outline"}
+                onClick={() => setForm({ ...form, category })}
+              >
                 {category}
-              </SelectItem>
+              </Button>
             ))}
-          </SelectContent>
-        </Select>
+          </div>
+        ) : (
+          <Select
+            value={form.category}
+            onValueChange={(category) => setForm({ ...form, category })}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category} value={category}>
+                  {category}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       </div>
       <div className="grid gap-2">
         <label>Teks</label>

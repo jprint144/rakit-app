@@ -7,6 +7,7 @@ import {
   ClipboardList,
   Columns3,
   Eye,
+  Ellipsis,
   Archive,
   FolderOpen,
   MessageCircle,
@@ -38,6 +39,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { MobilePullToRefresh } from "@/components/mobile-pull-to-refresh";
 import { OrderSheet } from "@/features/finance/order-sheet";
 import { openProjectBrief } from "@/features/project/project-brief";
 import { ProjectCalendar } from "@/features/project/project-calendar";
@@ -93,35 +95,7 @@ function ProjectActions({
     ? `https://wa.me/${whatsapp.startsWith("0") ? `62${whatsapp.slice(1)}` : whatsapp}`
     : null;
 
-  return (
-    <div className="flex flex-nowrap items-center justify-end gap-0.5 whitespace-nowrap [&>button]:gap-1 [&>button]:px-1.5">
-      <Button variant="ghost" size="sm" aria-label="Buka folder project" disabled={!project.folder_path} onClick={() => project.folder_path && openPath(project.folder_path).catch(console.error)}>
-        <FolderOpen data-icon="inline-start" />
-        Folder
-      </Button>
-      <Button variant="ghost" size="sm" aria-label="Tambah pesanan" onClick={() => onOrder(project)}>
-        <WalletCards data-icon="inline-start" />
-        Pesanan
-      </Button>
-      <Button variant="ghost" size="sm" aria-label="Buka brief project" onClick={() => onBrief(project)}>
-        <NotebookPen data-icon="inline-start" />
-        Brief
-      </Button>
-      <Button variant="ghost" size="sm" aria-label="Chat WhatsApp klien" disabled={!whatsappUrl} onClick={() => whatsappUrl && openUrl(whatsappUrl).catch(console.error)}>
-        <MessageCircle data-icon="inline-start" />
-        WhatsApp
-      </Button>
-      <Button variant="ghost" size="sm" aria-label="Lihat project" onClick={() => onView(project)}>
-        <Eye data-icon="inline-start" />
-        View
-      </Button>
-      {project.kanban_status === "done" && <Button variant="ghost" size="sm" aria-label="Arsipkan project" onClick={() => onArchive(project)}><Archive data-icon="inline-start" />Arsip</Button>}
-      <Button variant="ghost" size="sm" aria-label="Hapus project" onClick={() => onDelete(project)}>
-        <Trash2 data-icon="inline-start" />
-        Hapus
-      </Button>
-    </div>
-  );
+  return <div className="flex items-center justify-center gap-1 whitespace-nowrap"><Button variant="ghost" size="sm" aria-label="Buka folder project" onClick={() => project.folder_path && openPath(project.folder_path).catch(console.error)} disabled={!project.folder_path}><FolderOpen data-icon="inline-start" />Folder</Button><Button variant="ghost" size="sm" aria-label="Buka brief project" onClick={() => onBrief(project)}><NotebookPen data-icon="inline-start" />Brief</Button><Button variant="ghost" size="sm" aria-label="Lihat project" onClick={() => onView(project)}><Eye data-icon="inline-start" />View</Button><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label="Aksi project lainnya"><Ellipsis /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onSelect={() => onOrder(project)}><WalletCards data-icon="inline-start" />Tambah pesanan</DropdownMenuItem><DropdownMenuItem disabled={!whatsappUrl} onSelect={() => whatsappUrl && openUrl(whatsappUrl).catch(console.error)}><MessageCircle data-icon="inline-start" />WhatsApp klien</DropdownMenuItem><DropdownMenuItem disabled={project.kanban_status !== "done"} onSelect={() => onArchive(project)}><Archive data-icon="inline-start" />{project.kanban_status === "done" ? "Arsipkan" : "Arsipkan setelah selesai"}</DropdownMenuItem><DropdownMenuItem className="text-destructive" onSelect={() => onDelete(project)}><Trash2 data-icon="inline-start" />Hapus</DropdownMenuItem></DropdownMenuContent></DropdownMenu></div>;
 }
 
 export default function ProjectPage() {
@@ -176,17 +150,18 @@ export default function ProjectPage() {
   };
 
   return (
+    <MobilePullToRefresh onRefresh={load}>
     <>
-      <div className="flex flex-1 flex-col gap-5 overflow-x-hidden px-6 py-5 md:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-1 flex-col gap-3 overflow-x-hidden px-4 py-4 pb-20 md:gap-5 md:px-8 md:py-5 md:pb-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold">Project</h1>
-            <p className="text-muted-foreground">Kelola project aktif Anda.</p>
+            <h1 className="text-xl font-semibold">Project</h1>
+            <p className="text-xs text-muted-foreground md:text-sm">Kelola project aktif Anda.</p>
           </div>
-          <ToggleGroup type="single" variant="outline" size="sm" value={view} onValueChange={(value) => value && setView(value as ProjectView)} aria-label="Pilih tampilan Project">
-            <ToggleGroupItem value="table" aria-label="Tampilan tabel"><Table2 data-icon="inline-start" />Table</ToggleGroupItem>
-            <ToggleGroupItem value="kanban" aria-label="Tampilan Kanban"><Columns3 data-icon="inline-start" />Kanban</ToggleGroupItem>
-            <ToggleGroupItem value="calendar" aria-label="Tampilan kalender"><CalendarDays data-icon="inline-start" />Calendar</ToggleGroupItem>
+          <ToggleGroup className="grid w-full grid-cols-3 sm:flex sm:w-auto" type="single" variant="outline" size="sm" value={view} onValueChange={(value) => value && setView(value as ProjectView)} aria-label="Pilih tampilan Project">
+            <ToggleGroupItem className="text-xs" value="table" aria-label="Tampilan tabel"><Table2 data-icon="inline-start" />Table</ToggleGroupItem>
+            <ToggleGroupItem className="text-xs" value="kanban" aria-label="Tampilan Kanban"><Columns3 data-icon="inline-start" />Kanban</ToggleGroupItem>
+            <ToggleGroupItem className="text-xs" value="calendar" aria-label="Tampilan kalender"><CalendarDays data-icon="inline-start" />Calendar</ToggleGroupItem>
           </ToggleGroup>
         </div>
 
@@ -197,18 +172,18 @@ export default function ProjectPage() {
             setForm(newProjectForm());
           }
         }}>
-          {!hasOpenPopup && <Button size="icon" className="fixed right-6 bottom-6 z-[60] size-12 rounded-full shadow-lg" aria-label="Tambah Project" onClick={() => setOpen(true)}>
+          {!hasOpenPopup && <Button className="fixed right-4 bottom-24 z-[60] hidden size-12 rounded-full shadow-lg md:flex md:right-6 md:bottom-6" size="icon" aria-label="Tambah Project" onClick={() => setOpen(true)}>
             <Plus />
           </Button>}
           <SheetContent side="right" className="w-full sm:max-w-md">
-            <SheetHeader className="px-6 pt-6"><SheetTitle>{editing ? "Edit Project" : "Tambah Project"}</SheetTitle></SheetHeader>
-            <form onSubmit={submit} className="flex flex-col gap-4 px-6 pb-6">
+            <SheetHeader className="px-4 pt-5 md:px-6 md:pt-6"><SheetTitle>{editing ? "Edit Project" : "Tambah Project"}</SheetTitle></SheetHeader>
+            <form onSubmit={submit} className="flex flex-col gap-3 px-4 pb-5 md:gap-4 md:px-6 md:pb-6">
               <Input required placeholder="Nama project" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />
               <Input required placeholder="Nama klien" value={form.client_name} onChange={(event) => setForm({ ...form, client_name: event.target.value })} />
               <Input placeholder="Nomor WhatsApp" value={form.client_whatsapp ?? ""} onChange={(event) => setForm({ ...form, client_whatsapp: event.target.value })} />
               <div className="flex gap-4">
-                <Input className="scheme-light dark:scheme-dark" type="date" aria-label="Tanggal mulai" value={form.started_at ?? ""} onChange={(event) => setForm({ ...form, started_at: event.target.value })} />
-                <Input className="scheme-light dark:scheme-dark" type="date" aria-label="Deadline" value={form.deadline ?? ""} onChange={(event) => setForm({ ...form, deadline: event.target.value })} />
+                <Input className="scheme-light dark:scheme-dark" type="date" aria-label="Tanggal mulai" value={form.started_at ?? ""} onClick={(event) => event.currentTarget.showPicker?.()} onChange={(event) => setForm({ ...form, started_at: event.target.value })} />
+                <Input className="scheme-light dark:scheme-dark" type="date" aria-label="Deadline" value={form.deadline ?? ""} onClick={(event) => event.currentTarget.showPicker?.()} onChange={(event) => setForm({ ...form, deadline: event.target.value })} />
               </div>
               <div className="flex gap-4">
                 <Select value={form.kanban_status} onValueChange={(value) => setForm({ ...form, kanban_status: value })}>
@@ -230,16 +205,18 @@ export default function ProjectPage() {
         ) : view === "kanban" ? (
           <ProjectKanban projects={projects} onStatusChange={changeStatus} />
         ) : (
-          <div className="w-full overflow-x-hidden rounded-2xl border bg-card px-4 shadow-sm">
-            <Table className="w-auto table-auto text-sm [&_th]:px-2 [&_th]:py-3 [&_th]:text-center [&_th]:font-semibold [&_td]:px-2 [&_td]:py-3 [&_td]:text-center">
-              <TableHeader><TableRow><TableHead>No</TableHead><TableHead className="w-24">Kode</TableHead><TableHead className="w-40">Project</TableHead><TableHead className="w-[7.5rem]">Klien</TableHead><TableHead className="w-28">Progress</TableHead><TableHead className="w-36">Pembayaran</TableHead><TableHead className="w-28">Mulai</TableHead><TableHead className="w-28">Deadline</TableHead><TableHead className="w-[30rem]">Aksi</TableHead></TableRow></TableHeader>
+          <>
+            <div className="grid gap-2 md:hidden">
+              {projects.map((project) => <button className="grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-lg border bg-card px-3 py-2.5 text-left shadow-sm" key={project.id} onClick={() => setDetailProject(project)} type="button"><span className="text-sm font-semibold">{project.code}</span><span className="truncate text-xs text-muted-foreground">{project.client_name}</span><span className="text-xs text-muted-foreground">{project.deadline || "-"}</span></button>)}
+              {projects.length === 0 && <p className="rounded-lg border px-3 py-4 text-center text-xs text-muted-foreground">Belum ada project.</p>}
+            </div>
+            <div className="hidden w-full min-w-0 overflow-x-hidden rounded-2xl border bg-card px-4 shadow-sm md:block">
+            <Table className="w-full table-auto text-sm [&_th]:px-2 [&_th]:py-3 [&_th]:text-center [&_th]:font-semibold [&_td]:px-2 [&_td]:py-3 [&_td]:text-center">
+              <TableHeader><TableRow><TableHead className="w-12">No</TableHead><TableHead className="w-24">Kode</TableHead><TableHead className="w-40">Project</TableHead><TableHead className="w-32">Klien</TableHead><TableHead className="w-28">Progress</TableHead><TableHead className="w-32">Pembayaran</TableHead><TableHead className="w-28">Mulai</TableHead><TableHead className="w-28">Deadline</TableHead><TableHead className="w-[22rem]">Aksi</TableHead></TableRow></TableHeader>
               <TableBody>
                 {projects.map((project, index) => (
                   <TableRow key={project.id} className="transition-colors hover:bg-muted/40">
-                    <TableCell>{index + 1}</TableCell><TableCell>{project.code}</TableCell><TableCell>{project.name}</TableCell><TableCell>{project.client_name}</TableCell>
-                    <TableCell><DropdownMenu><DropdownMenuTrigger asChild><button type="button" className="cursor-pointer"><Badge variant="secondary"><ClipboardList data-icon="inline-start" />{projectStatusLabels[project.kanban_status] ?? project.kanban_status}</Badge></button></DropdownMenuTrigger><DropdownMenuContent align="start">{Object.entries(projectStatusLabels).map(([value, label]) => <DropdownMenuItem key={value} onSelect={() => changeStatus(project.id, value)}>{label}</DropdownMenuItem>)}</DropdownMenuContent></DropdownMenu></TableCell>
-                    <TableCell><DropdownMenu><DropdownMenuTrigger asChild><button type="button" className="cursor-pointer"><Badge variant="outline">{project.payment_status === "paid" ? <BadgeCheck data-icon="inline-start" /> : <CircleDollarSign data-icon="inline-start" />}{paymentStatusLabels[project.payment_status] ?? project.payment_status}</Badge></button></DropdownMenuTrigger><DropdownMenuContent align="start"><DropdownMenuItem onSelect={() => changePaymentStatus(project.id, "unpaid")}>Belum Lunas</DropdownMenuItem><DropdownMenuItem onSelect={() => changePaymentStatus(project.id, "deposit")}>DP</DropdownMenuItem><DropdownMenuItem onSelect={() => changePaymentStatus(project.id, "paid")}>Lunas</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell>
-                    <TableCell>{project.started_at?.slice(0, 10) || "-"}</TableCell>
+                    <TableCell>{index + 1}</TableCell><TableCell className="truncate">{project.code}</TableCell><TableCell className="truncate">{project.name}</TableCell><TableCell className="truncate">{project.client_name}</TableCell><TableCell><DropdownMenu><DropdownMenuTrigger asChild><button type="button" className="cursor-pointer"><Badge variant="secondary"><ClipboardList data-icon="inline-start" />{projectStatusLabels[project.kanban_status] ?? project.kanban_status}</Badge></button></DropdownMenuTrigger><DropdownMenuContent align="start">{Object.entries(projectStatusLabels).map(([value, label]) => <DropdownMenuItem key={value} onSelect={() => changeStatus(project.id, value)}>{label}</DropdownMenuItem>)}</DropdownMenuContent></DropdownMenu></TableCell><TableCell><DropdownMenu><DropdownMenuTrigger asChild><button type="button" className="cursor-pointer"><Badge variant="outline">{project.payment_status === "paid" ? <BadgeCheck data-icon="inline-start" /> : <CircleDollarSign data-icon="inline-start" />}{paymentStatusLabels[project.payment_status] ?? project.payment_status}</Badge></button></DropdownMenuTrigger><DropdownMenuContent align="start"><DropdownMenuItem onSelect={() => changePaymentStatus(project.id, "unpaid")}>Belum Lunas</DropdownMenuItem><DropdownMenuItem onSelect={() => changePaymentStatus(project.id, "deposit")}>DP</DropdownMenuItem><DropdownMenuItem onSelect={() => changePaymentStatus(project.id, "paid")}>Lunas</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell><TableCell>{project.started_at?.slice(0, 10) || "-"}</TableCell>
                     <TableCell><div className="flex items-center justify-center gap-2">{isProjectOverdue(project) && <TriangleAlert aria-label="Deadline lewat" />}<span>{project.deadline || "-"}</span></div></TableCell>
                     <TableCell><ProjectActions project={project} onView={setDetailProject} onDelete={setDeleting} onOrder={setOrderProject} onBrief={openBrief} onArchive={setArchiving} /></TableCell>
                   </TableRow>
@@ -247,18 +224,19 @@ export default function ProjectPage() {
                 {projects.length === 0 && <TableRow><TableCell colSpan={9} className="text-center text-muted-foreground">Belum ada project.</TableCell></TableRow>}
               </TableBody>
             </Table>
-          </div>
+            </div>
+          </>
         )}
       </div>
 
       <Sheet open={Boolean(detailProject)} onOpenChange={(value) => !value && setDetailProject(null)}>
-        <SheetContent className="overflow-y-auto px-8 py-7 sm:max-w-xl">
+          <SheetContent className="px-4 py-5 md:px-5 md:py-5 sm:max-w-xl">
           <SheetHeader><SheetTitle>Overview Project</SheetTitle></SheetHeader>
-          {detailProject && <div className="mt-6 grid gap-5">
-            <div className="rounded-xl border bg-muted/40 p-5"><div className="flex items-start justify-between gap-3"><div><p className="text-xs font-medium text-muted-foreground">{detailProject.code}</p><p className="mt-1 text-xl font-semibold">{detailProject.name}</p><p className="mt-1 text-sm text-muted-foreground">Klien: {detailProject.client_name}</p></div><div className="flex flex-col items-end gap-2"><Badge variant="secondary">{projectStatusLabels[detailProject.kanban_status] ?? detailProject.kanban_status}</Badge><Badge variant="outline">{paymentStatusLabels[detailProject.payment_status] ?? detailProject.payment_status}</Badge></div></div></div>
-            <div className="grid grid-cols-2 gap-3"><div className="rounded-lg border p-3"><p className="text-xs text-muted-foreground">Tanggal mulai</p><p className="mt-1 text-sm font-medium">{detailProject.started_at?.slice(0, 10) || "-"}</p></div><div className="rounded-lg border p-3"><p className="text-xs text-muted-foreground">Deadline</p><p className="mt-1 text-sm font-medium">{detailProject.deadline || "Belum ditentukan"}</p></div><div className="col-span-2 rounded-lg border p-3"><p className="text-xs text-muted-foreground">WhatsApp klien</p><p className="mt-1 text-sm font-medium">{detailProject.client_whatsapp || "Belum diisi"}</p></div><div className="col-span-2 rounded-lg border p-3"><p className="text-xs text-muted-foreground">Folder project</p><p className="mt-1 truncate text-sm font-medium">{detailProject.folder_path || "Belum tersedia"}</p></div></div>
-            <div className="rounded-lg border p-4"><p className="text-sm font-medium">Brief Project</p><p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-muted-foreground">{detailProject.brief ? detailProject.brief.replace(/<[^>]*>/g, "") : "Belum ada brief."}</p></div>
-            <div className="flex flex-wrap justify-between gap-2 border-t pt-4"><div className="flex gap-2"><Button variant="outline" size="sm" disabled={!detailProject.folder_path} onClick={() => detailProject.folder_path && openPath(detailProject.folder_path).catch(console.error)}><FolderOpen data-icon="inline-start" />Folder</Button><Button variant="outline" size="sm" disabled={!detailProject.client_whatsapp} onClick={() => { const number = detailProject.client_whatsapp?.replace(/\D/g, ""); if (number) openUrl(`https://wa.me/${number.startsWith("0") ? `62${number.slice(1)}` : number}`).catch(console.error); }}><MessageCircle data-icon="inline-start" />WhatsApp</Button></div><Button onClick={() => { setDetailProject(null); edit(detailProject); }}><Pencil data-icon="inline-start" />Edit Project</Button></div>
+          {detailProject && <div className="mt-4 grid gap-3">
+            <div className="rounded-lg border bg-muted/40 p-3"><div className="flex items-start justify-between gap-3"><div className="min-w-0"><p className="text-xs font-medium text-muted-foreground">{detailProject.code}</p><p className="mt-1 truncate text-lg font-semibold">{detailProject.name}</p><p className="mt-1 truncate text-xs text-muted-foreground">Klien: {detailProject.client_name}</p></div><div className="flex shrink-0 flex-col items-end gap-1.5"><Badge className="text-xs" variant="secondary">{projectStatusLabels[detailProject.kanban_status] ?? detailProject.kanban_status}</Badge><Badge className="text-xs" variant="outline">{paymentStatusLabels[detailProject.payment_status] ?? detailProject.payment_status}</Badge></div></div></div>
+            <div className="grid grid-cols-2 gap-2"><div className="rounded-md border p-2.5"><p className="text-xs text-muted-foreground">Tanggal mulai</p><p className="mt-1 text-xs font-medium">{detailProject.started_at?.slice(0, 10) || "-"}</p></div><div className="rounded-md border p-2.5"><p className="text-xs text-muted-foreground">Deadline</p><p className="mt-1 text-xs font-medium">{detailProject.deadline || "Belum ditentukan"}</p></div><div className="col-span-2 rounded-md border p-2.5"><p className="text-xs text-muted-foreground">WhatsApp klien</p><p className="mt-1 text-xs font-medium">{detailProject.client_whatsapp || "Belum diisi"}</p></div><div className="col-span-2 rounded-md border p-2.5"><p className="text-xs text-muted-foreground">Folder project</p><p className="mt-1 truncate text-xs font-medium">{detailProject.folder_path || "Belum tersedia"}</p></div></div>
+            <div className="rounded-md border p-3"><p className="text-sm font-medium">Brief Project</p><p className="mt-2 whitespace-pre-wrap text-xs leading-5 text-muted-foreground">{detailProject.brief ? detailProject.brief.replace(/<[^>]*>/g, "") : "Belum ada brief."}</p></div>
+            <div className="flex flex-wrap justify-between gap-2 border-t pt-3"><div className="flex gap-2"><Button variant="outline" size="sm" disabled={!detailProject.folder_path} onClick={() => detailProject.folder_path && openPath(detailProject.folder_path).catch(console.error)}><FolderOpen data-icon="inline-start" />Folder</Button><Button variant="outline" size="sm" disabled={!detailProject.client_whatsapp} onClick={() => { const number = detailProject.client_whatsapp?.replace(/\D/g, ""); if (number) openUrl(`https://wa.me/${number.startsWith("0") ? `62${number.slice(1)}` : number}`).catch(console.error); }}><MessageCircle data-icon="inline-start" />WhatsApp</Button></div><Button className="hidden md:inline-flex" size="sm" onClick={() => { setDetailProject(null); edit(detailProject); }}><Pencil data-icon="inline-start" />Edit Project</Button></div>
           </div>}
         </SheetContent>
       </Sheet>
@@ -267,7 +245,7 @@ export default function ProjectPage() {
 
       <AlertDialog open={Boolean(deleting)} onOpenChange={(value) => !value && setDeleting(null)}>
         <AlertDialogContent>
-          <AlertDialogHeader><AlertDialogTitle>Hapus project?</AlertDialogTitle><AlertDialogDescription>Project {deleting?.name} akan dihapus dari daftar beserta folder lokalnya. Tindakan ini tidak dapat dibatalkan.</AlertDialogDescription></AlertDialogHeader>
+          <AlertDialogHeader><AlertDialogTitle>Hapus project?</AlertDialogTitle><AlertDialogDescription>Project {deleting?.name}, pesanan, transaksi keuangan, Invoice/Nota, dan folder lokalnya akan ikut dihapus. Tindakan ini tidak dapat dibatalkan.</AlertDialogDescription></AlertDialogHeader>
           <AlertDialogFooter><AlertDialogCancel>Batal</AlertDialogCancel><AlertDialogAction variant="destructive" onClick={() => { if (!deleting) return; deleteProject(deleting).then(() => { setDeleting(null); load(); }).catch(console.error); }}>Hapus Project</AlertDialogAction></AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -278,5 +256,6 @@ export default function ProjectPage() {
         </AlertDialogContent>
       </AlertDialog>
     </>
+    </MobilePullToRefresh>
   );
 }

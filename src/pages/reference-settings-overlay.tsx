@@ -14,6 +14,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
+import { loadTheme } from "@/features/settings/settings-repository";
 import {
   deleteReference,
   listReferences,
@@ -37,7 +38,11 @@ export default function ReferenceSettingsOverlayPage() {
     await getCurrentWebview().close();
   };
 
-  useEffect(() => { load(); listReferenceCategories().then(setCategories).catch(console.error); }, []);
+  useEffect(() => {
+    loadTheme().then((theme) => document.documentElement.classList.toggle("dark", theme === "dark")).catch(console.error);
+    load();
+    listReferenceCategories().then(setCategories).catch(console.error);
+  }, []);
 
   const save = async () => {
     if (!url.trim()) return setError("URL wajib diisi.");

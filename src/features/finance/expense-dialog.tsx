@@ -85,7 +85,7 @@ export function ExpenseDialog({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="w-full px-6 py-6 sm:max-w-md">
+      <SheetContent side="right" className="w-full px-5 py-5 sm:max-w-md">
         <SheetHeader className="px-0 pt-0">
           <SheetTitle>Catat Pengeluaran Project</SheetTitle>
           <SheetDescription>
@@ -99,7 +99,7 @@ export function ExpenseDialog({
             </p>
           </div>
         ) : (
-          <div className="flex flex-1 flex-col gap-5 overflow-y-auto py-6">
+          <div className="flex flex-1 flex-col gap-3 py-3">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="expense-project">Project</label>
               <Select value={projectId} onValueChange={setProjectId}>
@@ -117,9 +117,9 @@ export function ExpenseDialog({
             </div>
             {selectedProject && (
               <div className="grid grid-cols-3 gap-3 rounded-md border bg-muted/40 p-3 text-sm">
-                <div className="flex flex-col gap-1"><p className="text-xs text-muted-foreground">Pesanan</p><p className="font-medium">{selectedProject.order_count}</p></div>
-                <div className="flex flex-col gap-1"><p className="text-xs text-muted-foreground">Omset</p><p className="font-medium">{rupiah(selectedProject.income_amount)}</p></div>
-                <div className="flex flex-col gap-1"><p className="text-xs text-muted-foreground">Margin</p><p className="font-medium">{rupiah(selectedProject.income_amount - selectedProject.expense_amount)}</p></div>
+                <div className="flex flex-col gap-0.5"><p className="text-xs text-muted-foreground">Pesanan</p><p className="font-medium">{selectedProject.order_count}</p></div>
+                <div className="flex flex-col gap-0.5"><p className="text-xs text-muted-foreground">Omset</p><p className="font-medium">{rupiah(selectedProject.income_amount)}</p></div>
+                <div className="flex flex-col gap-0.5"><p className="text-xs text-muted-foreground">Margin</p><p className="font-medium">{rupiah(selectedProject.income_amount - selectedProject.expense_amount)}</p></div>
               </div>
             )}
             <div className="flex flex-col gap-2">
@@ -128,11 +128,11 @@ export function ExpenseDialog({
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="expense-date">Tanggal</label>
-              <Input id="expense-date" type="date" value={transactionDate} onChange={(event) => setTransactionDate(event.target.value)} />
+              <Input id="expense-date" type="date" value={transactionDate} onClick={(event) => event.currentTarget.showPicker?.()} onChange={(event) => setTransactionDate(event.target.value)} />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="expense-notes">Catatan</label>
-              <Textarea id="expense-notes" rows={4} placeholder="Contoh: biaya cetak, vendor, atau transport" value={notes} onChange={(event) => setNotes(event.target.value)} />
+              <Textarea id="expense-notes" rows={2} placeholder="Contoh: biaya cetak, vendor, atau transport" value={notes} onChange={(event) => setNotes(event.target.value)} />
             </div>
             {error && <p role="alert" className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
           </div>

@@ -1,0 +1,6 @@
+@media (max-width: 767px) {
+  [data-slot="button"][aria-label="Tambah Project"],
+  [data-slot="button"][aria-label="Input pengeluaran"] {
+    display: none;
+  }
+}

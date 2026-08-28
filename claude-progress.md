@@ -11,11 +11,20 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Standard verification path:** `npm run build` â€” **SUDAH LOLOS** di mesin Windows (Sesi 2).
 - **Prasyarat mesin dev â€” SUDAH TERKONFIRMASI LENGKAP (Sesi 2):** Rust 1.97.1, MSVC Build Tools 2026, WebView2 Runtime 150.0.4078.105.
 - **`npm run tauri dev` SUDAH PERNAH JALAN (Sesi 2):** compile Rust pertama 2m 15s, `app.exe` kebuka, dev server Vite di port 1420 sehat.
-- **Highest priority unfinished feature:** `tugas-harian-crud` (priority 28, `in_progress`) untuk uji manual tugas mandiri.
-- **Current blocker:** Tidak ada blocker teknis untuk target Android. Verifikasi UI responsif dan fitur yang bergantung pada filesystem masih perlu dilakukan langsung di Redmi Note 13.
+- **Highest priority unfinished feature:** `sync-monitor-project-finance-android` sedang dalam verifikasi runtime.
+- **Current blocker:** Sinkronisasi monitor sudah dibangun dan dipasang; masih perlu uji manual bahwa snapshot desktop muncul di Android dengan akun Google yang sama.
+- **Pengingat Tugas Harian:** Plugin notifikasi Tauri memeriksa pengingat setiap 15 detik ketika aplikasi berjalan. Tombol Tes notifikasi desktop sudah diverifikasi user dan notifikasi Windows berhasil muncul pada 2026-08-25.
+- **Installer lokal terbaru:** v0.1.10 berhasil dibuat sebagai NSIS dan MSI pada 2026-08-25, tanpa signature updater dan tanpa publikasi GitHub.
+- **APK Android terbaru:** v0.1.10 `app-universal-debug.apk` berhasil dibangun dan dipasang ulang pada Redmi Note 13 (`9c5a038b`) pada 2026-08-25. Android menerima Project, pesanan, transaksi Keuangan, dan dokumen sebagai snapshot monitor-only; Tugas dan Idea tetap dapat diedit.
 - **Catatan verifikasi sesi terbaru:** `npm install` lulus dan `npm run build` lulus pada 2026-08-11 di lingkungan Windows penuh (3107 modul). Pemanggilan `init.sh` langsung tidak tersedia karena Git Bash tidak ada di `PATH` sesi ini; perintah install dan verifikasi skrip telah dijalankan setara.
 - **Catatan verifikasi sesi terbaru:** `./init.sh` lulus pada 2026-08-10: `npm install` bersih dan `npm run build` berhasil (3091 modul). Aplikasi Tauri dev juga berhasil terbuka; otomasi UI host tetap dapat diblokir dengan `spawn EPERM`.
 - **Perubahan UI terbaru:** Halaman Finance memakai FAB bulat di pojok kanan bawah untuk membuka popup input pengeluaran desktop; verifikasi visual runtime masih diperlukan.
+- **Perubahan icon desktop terbaru:** Asset icon Windows/Tauri top-level sudah dibuat ulang sebagai logo Rakit putih transparan pada 2026-08-25; `npm run build` dan `npm run tauri build -- --no-bundle` lulus, menghasilkan `src-tauri\target\release\app.exe`.
+- **Perubahan menu terbaru:** `Lamar Pekerjaan` sudah ditambahkan di folder `Pribadi` dengan CRUD lamaran, board status lengkap, dan follow-up jatuh tempo; build release lulus, tetapi exe install lokal belum tertimpa karena Rakit sedang terbuka.
+- **Perubahan menu terbaru:** `Habit Tracker` sudah ditambahkan di folder `Pribadi` sebagai tracker custom bulanan tipe Checklist/Angka. Build frontend dan Tauri release lulus pada 2026-08-26; `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` sudah ditimpa dengan hash yang sama seperti release.
+- **Perubahan UI terbaru:** Grid tanggal Habit Tracker sekarang memusatkan setiap lingkaran tanggal pada kolom hari yang sesuai (Sen-Min); card tracker tetap kiri-kanan pada desktop, dan executable lokal sudah ditimpa lalu dibuka ulang.
+- **Perubahan menu terbaru:** `Target` ditambahkan di folder `Pribadi` untuk target barang dan pencapaian pribadi. Data tersimpan di SQLite lokal dan ikut backup/export-import; build release lulus dan `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` sudah ditimpa dengan hash yang sama seperti release.
+- **Perubahan UI terbaru:** Daftar langkah pada form Target Pencapaian dibatasi tinggi dan dapat di-scroll sendiri; modal Target tetap dapat digulir pada layar pendek. Panah Pintasan kini bulat dan layar loading memakai animasi logo Rakit berputar.
 - **Perubahan Project terbaru:** Aksi Brief per-project kini membuka file `brief.txt` tetap di folder project menggunakan Notepad Windows. Brief HTML lama dipindahkan sebagai teks saat file pertama kali dibuat; verifikasi runtime masih diperlukan.
 - **Perilaku FAB Project:** Tombol tambah Project disembunyikan saat panel atau dialog Project apa pun terbuka (tambah/edit, Brief, Pesanan, Detail, atau konfirmasi hapus) agar tidak tertutup overlay.
 - **Build distribusi terbaru:** Windows x64 `app.exe`, installer NSIS, dan installer MSI versi `0.1.9` berhasil diverifikasi pada 2026-08-24. SHA-256 installer NSIS: `1C8BA4442AEF0E6D6F85F3CB7B551F73BA8DEC6BFE78F4A363078E0F3FFCC789`. Artefak updater bertanda tangan tidak dibuat karena private signing key tidak tersedia di environment.
@@ -33,6 +42,133 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 ---
 
 ## Session Record
+
+### Sesi 147 - Build Android ARM64 (2026-08-28)
+
+- **Goal:** Membangun dan memasang versi Android terbaru Rakit pada Redmi Note 13.
+- **Completed:** `npx tauri android build --debug --target aarch64 --apk --split-per-abi` menghasilkan APK khusus ARM64 di `src-tauri\gen\android\app\build\outputs\apk\arm64\debug\app-arm64-debug.apk` (211,434,281 byte).
+- **Verification run:** Perangkat `9c5a038b` terdeteksi melalui ADB. Instalasi diuji dengan `adb install -r`; Android mengembalikan `INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`.
+- **Known risks:** Perangkat menolak pemasangan sampai pengguna menyetujui prompt/izin instalasi USB pada Android.
+- **Next best action:** Di Redmi, setujui prompt instalasi USB (atau aktifkan izin yang diminta), lalu jalankan ulang `adb -s 9c5a038b install -r src-tauri\gen\android\app\build\outputs\apk\arm64\debug\app-arm64-debug.apk`.
+
+### Sesi 146 - Logo loading putih (2026-08-28)
+
+- **Goal:** Membuat logo Rakit pada layar loading tampil putih.
+- **Completed:** Menambahkan filter Tailwind `brightness-0 invert` pada logo loading yang berputar di `src/App.tsx`; asset sumber tetap sama dan berwarna asli di tempat lain yang membutuhkannya.
+- **Verification run:** `npm run build` lulus (3172 modul); `npx tauri build --no-bundle` menghasilkan executable release baru; `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` ditimpa dari build tersebut dengan SHA-256 yang sama (`805D1DA25B5F2B9FA4431CB45B8FB54FF8ED5BCD31B162A420C5EB924A2ACD6D`); `git diff --check` tidak melaporkan whitespace error.
+- **Known risks:** Banyak perubahan worktree yang sudah ada dari pekerjaan lain, termasuk `App.tsx`, sehingga perubahan ini tidak dikomit agar tidak mencampur pekerjaan pengguna.
+- **Next best action:** Buka ulang aplikasi dari build terbaru dan pastikan logo pada layar "Memuat Rakit…" putih.
+
+### Sesi 145 - Menu Target pribadi (2026-08-27)
+
+- **Goal:** Menambahkan menu `Target` di folder `Pribadi` untuk mencatat target barang atau harapan pencapaian.
+- **Completed:** Menambahkan migrasi SQLite `0014_personal_targets.sql`, repository `target`, route `/target`, halaman Target dengan ringkasan, filter, kartu progress, detail popup, form tambah/edit, hapus soft-delete, menu sidebar Pribadi, serta backup/export-import tabel `personal_targets`.
+- **Verification run:** `npm run build` lulus; `npm run tauri build -- --no-bundle` lulus dan menghasilkan `src-tauri/target/release/app.exe`; `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` berhasil ditimpa, hash sama, lalu aplikasi dibuka ulang.
+- **Known risks:** Target belum masuk Supabase sync, sehingga versi awal masih lokal per perangkat kecuali lewat backup.
+- **Next best action:** Buka menu Target di folder Pribadi, tambah satu target contoh, lalu cek kartu progress dan popup detail/edit.
+
+### Sesi 144 - Perapian grid kalender Habit Tracker (2026-08-26)
+
+- **Goal:** Merapikan posisi lingkaran tanggal agar tepat mengikuti label hari pada kalender Habit Tracker.
+- **Completed:** Menambahkan `place-items-center` pada grid tujuh kolom, sehingga header, tanggal aktif, dan sel kosong menggunakan titik tengah kolom yang sama.
+- **Verification run:** `npm install`, `npm run build`, dan `npm run tauri build -- --no-bundle` lulus (3170 modul). Binary baru tersedia di `src-tauri/target/release/app.exe`; setelah proses Rakit lama ditutup, `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` berhasil ditimpa dan dibuka ulang.
+- **Known risks:** Verifikasi visual manual di desktop masih diperlukan untuk memastikan hasil sesuai ukuran jendela pengguna.
+- **Next best action:** Buka Habit Tracker dan cek kalender; setiap tanggal harus berada tepat di bawah Sen-Min yang sesuai.
+
+### Sesi 143 - Habit Tracker periode fleksibel (2026-08-26)
+
+- **Goal:** Mengubah Habit Tracker agar periode satu bulan mengikuti tanggal mulai, bukan selalu tanggal 1 sampai akhir bulan kalender.
+- **Completed:** Menambahkan kolom `end_date` lewat migrasi SQLite `0013_habit_tracker_end_date.sql`, register migration Tauri v13, backup/export-import `habit_trackers` menyertakan `end_date`, form Habit Tracker memiliki opsi **Mulai tracking** dan **Akhir tracking**, default akhir otomatis satu bulan setelah tanggal mulai, grid tracker menghitung dari tanggal mulai sampai tanggal akhir, ringkasan/streak/konsistensi mengikuti periode tracker, dan kartu info kiri menampilkan tanggal akhir.
+- **Verification run:** `npm run build` lulus; `npm run tauri build -- --no-bundle` lulus dan menghasilkan `src-tauri/target/release/app.exe`. Hash release sama dengan `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` setelah copy, lalu aplikasi dijalankan ulang.
+- **Known risks:** Tampilan Android Habit Tracker masih perlu dicek manual setelah perubahan periode fleksibel karena layout tanggal sekarang mengikuti range tracker.
+- **Next best action:** User uji tambah tracker dengan tanggal mulai khusus, pastikan tanggal akhir default +1 bulan, lalu ubah tanggal akhir manual dan cek grid tanggal berubah sesuai.
+
+### Sesi 142 - Habit Tracker bulanan custom (2026-08-26)
+
+- **Goal:** Menambahkan menu `Habit Tracker` di folder `Pribadi` untuk tracking custom per bulan.
+- **Completed:** Menambahkan PRD scope Habit Tracker, migrasi SQLite `0011_habit_tracker.sql`, repository `habit-tracker`, halaman `/habit-tracker`, menu sidebar Pribadi, backup/export-import untuk tabel `habit_trackers` dan `habit_entries`, ringkasan bulanan, grid tanggal desktop, kartu horizontal Android, popup tambah/edit tracker, toggle checklist, dan input angka harian.
+- **Verification run:** `npm run build` lulus; `npm run tauri build -- --no-bundle` lulus dan menghasilkan `src-tauri/target/release/app.exe`. Hash release dan `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` sama setelah copy.
+- **Known risks:** Habit Tracker belum disambungkan ke Supabase sync; versi pertama tersimpan lokal per perangkat.
+- **Next best action:** User menguji tambah tracker Checklist dan Angka, klik beberapa tanggal, lalu cek apakah layout desktop/Android sudah enak dilihat sebelum sinkronisasi cloud ditambahkan.
+
+### Sesi 141 - Menu Lamar Pekerjaan dan polish monitor (2026-08-25)
+
+- **Goal:** Menambahkan menu `Lamar Pekerjaan` di dalam folder `Pribadi` sebagai tracker lamaran kerja yang rapi dan bisa dimonitor.
+- **Completed:** Route `/lamar-pekerjaan`, repository SQLite, migration `job_applications`, form tambah/edit, tabel desktop, kartu mobile, aksi status/link/edit/hapus, board status lengkap, dan panel follow-up jatuh tempo sudah dibuat. Menu default `Pribadi` sekarang otomatis punya item `Lamar Pekerjaan`.
+- **Verification run:** `npm run build` lulus; `npm run tauri build -- --no-bundle` lulus dan menghasilkan `src-tauri/target/release/app.exe`.
+- **Known risks:** `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` belum bisa ditimpa karena aplikasi Rakit sedang terbuka dan mengunci file.
+- **Next best action:** Tutup aplikasi Rakit yang sedang berjalan, lalu salin ulang `src-tauri/target/release/app.exe` ke `C:\Users\Jazzura\AppData\Local\Rakit\app.exe`.
+
+### Sesi 140 - Icon desktop putih (2026-08-25)
+
+- **Goal:** Membuat logo desktop Rakit tampil putih pada build Windows/dark desktop.
+- **Completed:** Membuat ulang asset icon desktop top-level di `src-tauri/icons` sebagai logo Rakit putih transparan, termasuk PNG ukuran Tauri/Windows, SquareLogo, StoreLogo, dan `icon.ico`. Asset Android tidak digenerate ulang.
+- **Verification run:** Cek pixel `32x32.png` memastikan seluruh pixel non-transparan berwarna putih; `npm run build` lulus (3166 modul); `npm run tauri build -- --no-bundle` lulus dan menghasilkan `src-tauri\target\release\app.exe`.
+- **Known risks:** Windows dapat menahan cache icon shortcut/taskbar lama; perubahan paling aman terlihat setelah menjalankan binary baru atau install ulang build berikutnya.
+- **Next best action:** Jika user ingin rilis installer dengan icon putih, jalankan bundle installer Windows ulang dan pasang ulang aplikasi.
+
+### Sesi 139 - Sinkronisasi monitor desktop ke Android (2026-08-25)
+
+- **Goal:** Menampilkan data Project dan Keuangan desktop pada Android sebagai monitor tanpa memberi akses perubahan di Android.
+- **Completed:** Menambahkan snapshot Supabase `monitor_snapshot` untuk Project, pesanan, item pesanan, transaksi, dan invoice. Desktop mengirim snapshot, Android menariknya setiap sinkronisasi 30 detik. Aksi tambah Project dan pengeluaran disembunyikan di Android; data tetap read-only. Tabel dan RLS `rakit_records` sudah dibuat oleh user di Supabase.
+- **Verification run:** `npm run build` lulus (3166 modul). APK universal debug v0.1.10 berhasil dibangun dan dipasang ke perangkat `9c5a038b`; paket terpasang terdeteksi sebagai `com.rakit.app.debug` versi 0.1.10.
+- **Known risks:** Snapshot perlu satu pengujian lintas perangkat dengan akun Google yang sama; desktop harus melakukan sinkronisasi lebih dulu agar Android menerima data awal.
+- **Next best action:** Dari desktop, buka Settings lalu klik Sinkronkan. Di Android buka Project dan Keuangan, tunggu maksimal 30 detik atau lakukan pull-to-refresh, lalu pastikan data tampil dan tidak ada tombol edit/tambah.
+
+### Sesi 138 - Validasi dan installer lokal v0.1.10 (2026-08-25)
+
+- **Goal:** Menjalankan regression check akhir dan menyiapkan installer desktop terbaru.
+- **Completed:** Frontend build dan `cargo check` lulus. Versi dinaikkan ke 0.1.10 pada package, Cargo, dan konfigurasi Tauri. Installer MSI serta NSIS berhasil dibuat tanpa signature updater; tidak ada publikasi GitHub.
+- **Verification run:** `npm run build`, `cargo check --manifest-path src-tauri/Cargo.toml`, dan `npm run tauri build -- --no-sign` lulus. NSIS dibangun ulang khusus setelah build semua target sebelumnya selesai sebelum artefak EXE tercetak.
+- **Known risks:** `npm install` melaporkan satu high-severity audit dependency; belum dijalankan `npm audit fix` agar tidak mengubah dependency tanpa review. `git diff --check` mendeteksi trailing whitespace pada berkas Android yang sudah berubah di worktree; tidak disentuh karena fokus sesi ini desktop.
+- **Next best action:** Uji pemasangan installer v0.1.10; jika siap dipublikasikan, siapkan signature updater dan rilis GitHub terpisah.
+
+### Sesi 137 - Pengingat lokal Tugas Harian (2026-08-25)
+
+- **Goal:** Menjalankan notifikasi desktop lokal saat waktu pengingat tugas tiba.
+- **Completed:** Menambahkan plugin resmi Tauri Notification, izin capability, dan scheduler aplikasi. Scheduler memeriksa tugas yang belum selesai setiap 15 detik dan mengirim satu notifikasi untuk pengingat yang jatuh tempo dalam satu menit terakhir; tugas selesai tidak diberi notifikasi.
+- **Verification run:** `npm run build` dan `cargo check --manifest-path src-tauri/Cargo.toml` lulus. Binary desktop dibangun ulang setelah proses `app.exe` lama ditutup, lalu versi baru dijalankan.
+- **Verification visual:** User mengonfirmasi notifikasi Windows muncul melalui tombol Tes notifikasi pada popup Tugas Harian.
+- **Next best action:** Tidak ada fitur roadmap aktif; lakukan regression check sebelum rilis installer berikutnya.
+
+### Sesi 136 - Login Google lintas Android dan desktop (2026-08-24)
+
+- **Goal:** Memperbaiki callback Google OAuth agar akun yang sama dapat dipakai di Android dan laptop.
+- **Completed:** Android sekarang membuka login Google pada browser sistem dan menerima callback `rakit://auth/callback` kembali ke aplikasi. Deep-link Tauri dikonfigurasi untuk Android dan Windows; desktop memakai browser sistem serta plugin single-instance agar callback kembali ke aplikasi Rakit yang sedang terbuka. Aplikasi desktop terbaru dijalankan dari source dan callback Windows diuji membuka aplikasi yang sama.
+- **Verification run:** `npx tsc -b`, `cargo check --manifest-path src-tauri/Cargo.toml`, Android debug build, serta `adb install -r` lulus. Resolver Android mengarah ke `com.rakit.app.debug/.MainActivity`; user mengonfirmasi login Google Android berhasil. Uji `rakit://auth/callback` di Windows selesai tanpa menyisakan instance aplikasi kedua.
+- **Next best action:** User masuk dengan Google yang sama pada desktop, lalu uji sinkronisasi Tugas/Idea setelah tabel `rakit_records` di Supabase tersedia.
+
+### Sesi 135 - Fondasi sinkronisasi Supabase untuk Tugas dan Idea (2026-08-24)
+
+- **Goal:** Menyambungkan data Tugas Harian dan Idea antara desktop serta Android dalam satu akun Supabase.
+- **Completed:** Ditambahkan migrasi SQLite v8 untuk `sync_id` dan hapus lunak pada Tugas/Idea, sinkronisasi dua arah per akun Supabase dengan kebijakan perubahan terakhir, sinkron otomatis setelah perubahan dan saat aplikasi dibuka, serta tombol **Sinkronkan sekarang** di Settings > Akun. Backup turut menyimpan metadata sinkronisasi. APK universal debug terbaru berhasil dipasang ulang ke Redmi Note 13 (`9c5a038b`).
+- **Verification run:** `npm install`, `npm run build`, `npx tsc -b`, `cargo check --manifest-path src-tauri/Cargo.toml`, `git diff --check`, dan Android build debug lulus. Instalasi APK dengan `adb install -r` serta peluncuran activity berhasil.
+- **Known risk:** Tabel dan RLS `rakit_records` masih harus dijalankan sekali lewat Supabase SQL Editor menggunakan `supabase/migrations/20260824_rakit_sync.sql`. Setelah itu, masuk dengan akun yang sama pada desktop dan Android lalu tekan **Sinkronkan sekarang** untuk uji pertama.
+- **Next best action:** Uji tambah/edit/hapus satu Tugas atau Idea pada satu perangkat, sinkronkan, lalu periksa perangkat lainnya. Lanjutkan sinkronisasi baca-saja Project dan Keuangan setelah alur ini tervalidasi.
+
+### Sesi 134 - Tombol aksi Android mudah disentuh (2026-08-24)
+
+- **Goal:** Memperjelas dan memindahkan tombol tambah agar tidak menimpa navigasi bawah Android.
+- **Completed:** Tombol tambah untuk Tugas, Project, Keuangan, dan Idea kini menjadi tombol pil berlabel pada Android, ditempatkan tepat di atas navigasi bawah. Pada desktop, tombolnya tetap bulat dan berada di pojok kanan bawah. Semua sheet, dialog, dan alert dialog Android juga sudah memakai pola panel bawah yang menghormati area sistem.
+- **Verification run:** `npx tsc -b`, `git diff --check`, dan build APK universal debug lulus. APK berhasil dipasang ulang (`adb install -r`) serta diluncurkan pada Redmi Note 13.
+- **Commits:** Belum dibuat; pekerjaan adaptasi Android dan diagnosis persistensi Tugas Harian masih aktif. Perubahan lokal user pada `src/index.css` dan `.rakit-cargo-check/` tidak disentuh.
+- **Next best action:** User memeriksa tombol berlabel pada halaman Android; berikutnya lanjut diagnosis penyimpanan Tugas Harian Android.
+
+### Sesi 133 - Fondasi tampilan Android (2026-08-24)
+
+- **Goal:** Memulai adaptasi Rakit menjadi pengalaman Android penuh untuk seluruh aplikasi.
+- **Completed:** Tugas Harian memiliki jalur daftar kartu khusus mobile (desktop tetap tabel); Dashboard sumber diperbarui menjadi grid metrik dua kolom yang lebih ringkas pada mobile; `Sheet` bersama diubah agar form Android menggunakan lebar penuh secara default. TypeScript (`npx tsc -b`) dan `git diff --check` lulus.
+- **Verification run:** Redmi terdeteksi dan aplikasi dapat memuat UI dari server Vite setelah waktu tunggu. Namun APK debug yang sedang terpasang dibuat sebelum perubahan source terbaru dan tidak menerima HMR yang diharapkan; screenshot Dashboard masih memperlihatkan layout bundle lama. `npm run build` tidak dapat berjalan ketika Vite aktif karena `dist/assets` terkunci (`EPERM`), bukan karena kesalahan TypeScript.
+- **Commits:** Belum dibuat; pekerjaan Android masih berada pada sub-langkah awal. Perubahan lokal milik user pada `src/index.css` dan `.rakit-cargo-check/` tidak disentuh.
+- **Next best action:** Jalankan ulang `npm run tauri android dev -- 9c5a038b` dengan Vite yang sudah aktif agar APK development terbaru dipasang, verifikasi Sheet dan Dashboard baru pada Redmi, lalu lanjutkan Project/Finance/Invoice dan halaman lain secara bertahap.
+
+### Sesi 132 - Verifikasi visual Android dan diagnosis awal Tugas Harian (2026-08-24)
+
+- **Goal:** Melanjutkan verifikasi UI Android pada Redmi Note 13 serta menguji fitur aktif Tugas Harian.
+- **Completed:** APK debug `com.rakit.app.debug` dibuka pada Redmi Note 13 (1080x2400). Sidebar mobile, navigasi ke Tugas Harian, filter tanggal/kategori/prioritas/status, FAB, dan sheet Tambah tugas tervalidasi secara visual dalam mode gelap. `npm run build` lulus (3111 modul) dan `git diff --check` lulus.
+- **Verification run:** Input tugas uji melalui sheet Android menutup sheet, namun tugas tidak kembali pada daftar; waktu modifikasi `rakit.db` tetap 12:24 sementara `rakit.db-wal` baru dibuat. Tidak ada error SQL eksplisit di log Android, sehingga persistensi harus ditelusuri dari pemanggilan plugin SQL/config path dan hasil `saveDailyTask`.
+- **Commits:** Tidak ada; perubahan lokal `src/index.css` dan direktori `.rakit-cargo-check/` sudah ada sebelum sesi ini dan tidak disentuh.
+- **Next best action:** Diagnosis mengapa `saveDailyTask` di APK Android tidak menulis ke `rakit.db`, lalu ulangi uji create/toggle/edit/delete/filter sebelum memperbarui evidence dan status fitur.
 
 ### Sesi 131 - Persiapan target Android (2026-08-24)
 
@@ -1270,3 +1406,51 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Verification run:** `npm run build` lulus (3107 modul). Artefak installer terbaru terdeteksi: `src-tauri/target/release/bundle/msi/Rakit_0.1.5_x64_en-US.msi` dan `src-tauri/target/release/bundle/nsis/Rakit_0.1.5_x64-setup.exe` dengan waktu build 2026-08-11.
 - **Known risks:** Ikon pada aplikasi Rakit yang sedang berjalan dan ikon shortcut Windows lama dapat tersimpan di cache Windows; aplikasi perlu ditutup lalu installer baru dijalankan agar shortcut memakai ikon baru.
 - **Next best action:** Tutup Rakit, jalankan installer versi baru, lalu pastikan ikon di desktop/Start serta logo sidebar berubah.
+
+### Sesi 146 - Perapian sidebar dan Target checklist (2026-08-27)
+
+- **Goal:** Menghilangkan batang scrollbar sidebar serta mempermudah akses dan pencatatan Target.
+- **Completed:** `SidebarContent` tetap dapat digulir dengan mouse wheel/trackpad, tetapi scrollbar kini disembunyikan di Firefox, WebKit, dan mesin Windows berbasis Chromium/WebView. Tombol Detail Target kini tampil langsung pada setiap kartu desktop; menu tiga titik hanya berisi Edit dan Hapus. Target Pencapaian kini memakai checklist tersimpan dengan nama langkah yang dapat ditambah, diubah, atau dihapus; setiap centang memperbarui progres serta status Tercapai secara otomatis. Target Pencapaian lama mendapat langkah bernomor sesuai jumlah target saat migrasi berjalan.
+- **Verification run:** `npm run build` lulus (3172 modul); `npm run tauri build -- --no-bundle` lulus dan menghasilkan executable produksi. Versi ini disalin ke `C:\\Users\\Jazzura\\AppData\\Local\\Rakit\\app.exe` dengan SHA-256 yang sama; aplikasi dibuka ulang dan proses `app` terdeteksi berjalan.
+- **Known risks:** Tidak ada; perubahan hanya memengaruhi tampilan scrollbar sidebar.
+- **Next best action:** Buka sidebar pada jendela desktop dengan daftar navigasi panjang dan pastikan scrollbar tidak lagi terlihat.
+
+### Sesi 147 - Scroll checklist Target (2026-08-27)
+
+- **Goal:** Membuat popup tambah/edit Target tetap dapat digunakan ketika checklist pencapaian berjumlah banyak.
+- **Completed:** Daftar langkah checklist kini mempunyai tinggi maksimum dan scroll vertikal mandiri. Modal Target juga dapat digulir bila tinggi layar terbatas, sehingga field serta tombol aksi tidak terpotong.
+- **Verification run:** `npm run build` lulus (3172 modul); `npm run tauri build -- --no-bundle` menghasilkan executable produksi, lalu disalin ke `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` dengan SHA-256 yang sama.
+- **Known risks:** Verifikasi visual runtime pada jumlah checklist yang banyak masih diperlukan.
+- **Next best action:** Tutup lalu buka ulang Rakit, tambahkan lebih dari tujuh langkah di Target Pencapaian, dan pastikan scroll berada di dalam daftar checklist serta tombol Simpan masih dapat dijangkau.
+
+### Sesi 148 - Panah Pintasan dan loading Rakit (2026-08-27)
+
+- **Goal:** Membulatkan indikator panah pada Pintasan dan mengganti tulisan loading startup dengan animasi logo Rakit berputar.
+- **Completed:** Panah shortcut kini berada dalam wadah bulat memakai token sidebar. Layar `Memuat Rakit…` menggunakan logo Rakit berukuran besar dengan animasi putar dan menghormati preferensi reduced motion. `npm run tauri build -- --no-bundle` selesai membuat executable produksi.
+- **Verification run:** Frontend build dalam proses Tauri lulus (3172 modul); executable `src-tauri\target\release\app.exe` diperbarui pada 2026-08-27 16:27, disalin ke `C:\Users\Jazzura\AppData\Local\Rakit\app.exe`, dan SHA-256 keduanya sama. Aplikasi versi baru dibuka sebagai proses PID 9976.
+- **Known risks:** Verifikasi visual manual masih diperlukan.
+- **Next best action:** Pastikan setiap panah Pintasan berbentuk bulat dan logo berputar tampil saat pembukaan aplikasi.
+
+### Sesi 149 - Ikon Pintasan lingkaran outline (2026-08-27)
+
+- **Goal:** Mengganti indikator panah pada Pintasan menjadi lingkaran outline kosong.
+- **Completed:** Ikon `ChevronRight` pada shortcut diganti menjadi `Circle` dari Lucide; navigasi folder tetap memakai panah. Executable release dibangun lalu disalin ke `C:\Users\Jazzura\AppData\Local\Rakit\app.exe` dengan SHA-256 yang sama, dan Rakit dibuka ulang.
+- **Verification run:** `npm run tauri build -- --no-bundle` lulus; frontend build 3172 modul lulus.
+- **Known risks:** Verifikasi visual manual masih diperlukan.
+- **Next best action:** Periksa area Pintasan: ikon paling kiri setiap shortcut harus berupa lingkaran outline kosong.
+
+### Sesi 150 - Ikon Pintasan kecil bertitik (2026-08-27)
+
+- **Goal:** Mengecilkan indikator Pintasan dan memberi titik terisi di tengahnya.
+- **Completed:** Indikator shortcut kini memakai ikon Lucide `CircleDot` berukuran `size-2.5`, sehingga tampil sebagai lingkaran outline kecil dengan titik isi di tengah. Executable release selesai dibangun.
+- **Verification run:** `npm run build` lulus (3172 modul) sebagai prebuild Tauri; `src-tauri\target\release\app.exe` diperbarui pada 2026-08-27 18:06.
+- **Known risks:** Aplikasi lokal masih menjalankan executable sebelumnya, sehingga binary baru belum bisa disalin sampai Rakit ditutup.
+- **Next best action:** Tutup Rakit, salin executable release ke `C:\Users\Jazzura\AppData\Local\Rakit\app.exe`, cek hash, lalu buka ulang untuk verifikasi visual.
+
+### Sesi 151 - Indikator Pintasan aktif terisi (2026-08-27)
+
+- **Goal:** Membuat indikator lingkaran Pintasan terisi penuh saat shortcut aktif.
+- **Completed:** Shortcut aktif memakai ikon `Circle` dengan `fill-current`; shortcut lain tetap memakai `CircleDot` kecil. Executable baru berhasil disalin ke aplikasi lokal dengan SHA-256 yang sama dan Rakit dibuka ulang.
+- **Verification run:** `npm run tauri build -- --no-bundle` lulus, termasuk frontend build 3172 modul.
+- **Known risks:** Verifikasi visual manual masih diperlukan.
+- **Next best action:** Klik beberapa Pintasan dan pastikan hanya shortcut halaman aktif yang indikatornya bulat penuh.

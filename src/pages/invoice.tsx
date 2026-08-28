@@ -570,14 +570,14 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
         </div>
       </div>
       <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <SheetContent side="right" className="w-full overflow-y-auto px-6 py-6 sm:max-w-md">
+        <SheetContent side="right" className="w-full px-5 py-5 sm:max-w-md">
           <SheetHeader className="px-0 pt-0">
             <SheetTitle>Pengaturan Invoice</SheetTitle>
             <SheetDescription>
               Atur identitas agency dan detail yang tampil di template invoice.
             </SheetDescription>
           </SheetHeader>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2">
             <Input
               placeholder="Nama agency"
               value={settings.agency_name}
@@ -618,7 +618,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
                 setSettings({ ...settings, agency_email: event.target.value })
               }
             />
-            <div className="flex flex-col gap-3 sm:col-span-2">
+            <div className="flex flex-col gap-2 sm:col-span-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-sm font-medium">Rekening Pembayaran</p>
@@ -647,7 +647,7 @@ const total = useMemo(() => items.reduce((sum, item) => sum + item.quantity * it
                 </Button>
               </div>
               {settings.payment_accounts.map((account, index) => (
-                <div key={account.id} className="grid gap-2 rounded-lg border p-3 sm:grid-cols-[1fr_1fr_1fr_auto]">
+                <div key={account.id} className="grid gap-2 rounded-lg border p-2.5 sm:grid-cols-[1fr_1fr_1fr_auto]">
                   <Input
                     placeholder="Nama bank"
                     value={account.bank_name}

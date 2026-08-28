@@ -88,11 +88,11 @@ export function OrderSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="overflow-y-auto px-7 py-6 sm:max-w-md">
+      <SheetContent className="px-5 py-5 sm:max-w-md">
         <SheetHeader>
           <SheetTitle>Tambah Pesanan</SheetTitle>
         </SheetHeader>
-        <div className="mt-6 flex flex-col gap-4">
+        <div className="mt-3 flex flex-col gap-3">
           <Select value={projectId} onValueChange={setProjectId}>
             <SelectTrigger>
               <SelectValue placeholder="Pilih project" />
@@ -138,7 +138,7 @@ export function OrderSheet({
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="flex items-center justify-between rounded-md border p-3 text-sm"
+                className="flex items-center justify-between rounded-md border p-2.5 text-sm"
               >
                 <div>
                   <p className="font-medium">{order.customer_name}</p>
