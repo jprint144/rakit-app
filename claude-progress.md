@@ -48,8 +48,9 @@ Log progress project. Baca bagian **Current Verified State** di awal tiap sesi. 
 - **Goal:** Membangun dan memasang versi Android terbaru Rakit pada Redmi Note 13.
 - **Completed:** `npx tauri android build --debug --target aarch64 --apk --split-per-abi` menghasilkan APK khusus ARM64 di `src-tauri\gen\android\app\build\outputs\apk\arm64\debug\app-arm64-debug.apk` (211,434,281 byte).
 - **Verification run:** Perangkat `9c5a038b` terdeteksi melalui ADB. Instalasi diuji dengan `adb install -r`; Android mengembalikan `INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`.
-- **Known risks:** Perangkat menolak pemasangan sampai pengguna menyetujui prompt/izin instalasi USB pada Android.
-- **Next best action:** Di Redmi, setujui prompt instalasi USB (atau aktifkan izin yang diminta), lalu jalankan ulang `adb -s 9c5a038b install -r src-tauri\gen\android\app\build\outputs\apk\arm64\debug\app-arm64-debug.apk`.
+- **Rilis GitHub:** Source `v0.1.11` dipush pada commit `835c9b9`; GitHub Release `Rakit v0.1.11` dipublikasikan dengan asset `app-arm64-debug.apk` ARM64 (211,434,281 byte) pada 2026-08-28.
+- **Known risks:** Asset Android adalah build debug untuk pengujian. Perangkat menolak pemasangan sampai pengguna menyetujui prompt/izin instalasi USB pada Android.
+- **Next best action:** Di Redmi, setujui prompt instalasi USB (atau aktifkan izin yang diminta), lalu pasang APK dari GitHub Release atau jalankan ulang perintah ADB lokal.
 
 ### Sesi 146 - Logo loading putih (2026-08-28)
 
